@@ -56,7 +56,7 @@
     header p { font-size: 0.78rem; color: var(--muted); }
     .header-spacer { flex: 1; }
 
-    .recap-btn {
+    .recap-btn, .speak-btn {
       background: none;
       border: 1.5px solid var(--primary);
       color: var(--primary);
@@ -68,8 +68,41 @@
       cursor: pointer;
       white-space: nowrap;
     }
-    .recap-btn:hover:not(:disabled) { background: var(--primary); color: white; }
+    .recap-btn:hover:not(:disabled), .speak-btn:hover { background: var(--primary); color: white; }
     .recap-btn:disabled { opacity: 0.4; cursor: default; }
+    .speak-btn.on { background: var(--primary); color: white; }
+
+    /* Exam mode bar */
+    .exam-bar {
+      display: none;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      align-items: center;
+      gap: 0.8rem;
+      background: var(--primary);
+      color: white;
+      border-radius: var(--radius);
+      padding: 0.55rem 0.9rem;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+    .exam-bar.active { display: flex; }
+    .exam-bar .time { font-variant-numeric: tabular-nums; font-size: 1.05rem; color: var(--accent); }
+    .exam-bar .spacer { flex: 1; }
+    .exam-bar button {
+      background: var(--accent);
+      color: var(--text);
+      border: none;
+      border-radius: 8px;
+      padding: 0.35rem 0.8rem;
+      font: inherit;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .exam-bar.warning { background: #8b1a1a; }
 
     main {
       flex: 1;
@@ -314,6 +347,7 @@
       <p>Yuh Socratic study buddy, from Common Entrance to CXC. I guide you to the answer, I never hand it over.</p>
     </div>
     <div class="header-spacer"></div>
+    <button id="speak" class="speak-btn" type="button" title="Read the tutor's replies aloud">🔈 Read aloud</button>
     <button id="recap" class="recap-btn" type="button" disabled title="Work through at least one problem first">Session recap</button>
   </header>
 
@@ -337,6 +371,22 @@
         <option>Trigonometry</option>
       </select>
       <button id="practice-btn" type="button">Gimme a problem</button>
+      <span style="color:#cbd5e1">|</span>
+      <label for="exam-duration">Exam:</label>
+      <select id="exam-duration">
+        <option value="30">30 min</option>
+        <option value="60" selected>60 min</option>
+        <option value="90">90 min</option>
+        <option value="160">2h 40m (P2)</option>
+      </select>
+      <button id="exam-btn" type="button">Start exam</button>
+    </div>
+
+    <div id="exam-bar" class="exam-bar" role="timer">
+      <span>⏱ Exam in progress</span>
+      <span id="exam-time" class="time">60:00</span>
+      <span class="spacer"></span>
+      <button id="exam-end" type="button">End exam</button>
     </div>
 
     <details class="papers">
@@ -359,6 +409,7 @@
       <div class="composer-row">
         <input id="file" type="file" accept="image/*" hidden />
         <button id="photo" class="photo-btn" type="button" aria-label="Attach a photo of your problem" title="Attach a photo">📷</button>
+        <button id="mic" class="photo-btn" type="button" aria-label="Speak your problem" title="Speak your problem">🎤</button>
         <textarea id="input" placeholder="e.g. Solve 2x + 6 = 18. I tried subtracting 2 but got stuck..."></textarea>
         <button id="send" class="send-btn" type="submit">Send</button>
       </div>
@@ -565,6 +616,7 @@
           bubble.textContent = data.reply;
           renderMath(bubble);
           history.push({ role: "assistant", content: data.reply });
+          speak(data.reply);
         } else {
           if (!res.ok) throw new Error(`Request failed (${res.status})`);
           // Streamed text
@@ -582,6 +634,7 @@
           }
           renderMath(bubble);
           history.push({ role: "assistant", content: full });
+          speak(full);
         }
         return true;
       } catch (err) {
@@ -616,6 +669,112 @@
         form.requestSubmit();
       }
     });
+
+    // ---- Voice input (Web Speech API; hidden where unsupported) ----
+
+    const micBtn = document.getElementById("mic");
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognizer = null;
+
+    if (!SR) {
+      micBtn.hidden = true;
+    } else {
+      micBtn.addEventListener("click", () => {
+        if (recognizer) {
+          recognizer.stop();
+          return;
+        }
+        recognizer = new SR();
+        recognizer.lang = "en-GB";
+        recognizer.interimResults = true;
+        recognizer.continuous = false;
+        const base = input.value ? input.value.trimEnd() + " " : "";
+        micBtn.textContent = "🔴";
+        recognizer.onresult = (e) => {
+          input.value = base + Array.from(e.results).map((r) => r[0].transcript).join("");
+        };
+        recognizer.onerror = () => {};
+        recognizer.onend = () => {
+          recognizer = null;
+          micBtn.textContent = "🎤";
+          input.focus();
+        };
+        recognizer.start();
+      });
+    }
+
+    // ---- Read aloud (speech synthesis, LaTeX stripped) ----
+
+    const speakBtn = document.getElementById("speak");
+    let speakOn = false;
+
+    speakBtn.addEventListener("click", () => {
+      speakOn = !speakOn;
+      speakBtn.classList.toggle("on", speakOn);
+      speakBtn.textContent = speakOn ? "🔊 Reading aloud" : "🔈 Read aloud";
+      if (!speakOn) speechSynthesis.cancel();
+    });
+
+    function speak(text) {
+      if (!speakOn || !("speechSynthesis" in window)) return;
+      const spoken = text
+        .replace(/\\\[[\s\S]*?\\\]/g, " (see the math on screen) ")
+        .replace(/\\\([\s\S]*?\\\)/g, " (see the math on screen) ")
+        .replace(/[#*_`]/g, "");
+      speechSynthesis.cancel();
+      speechSynthesis.speak(new SpeechSynthesisUtterance(spoken));
+    }
+
+    // ---- Exam mode ----
+
+    const examBtn = document.getElementById("exam-btn");
+    const examBar = document.getElementById("exam-bar");
+    const examTime = document.getElementById("exam-time");
+    const examEnd = document.getElementById("exam-end");
+    let examTimer = null;
+    let examRemaining = 0;
+
+    function fmt(secs) {
+      const m = Math.floor(secs / 60);
+      const s = secs % 60;
+      return `${m}:${String(s).padStart(2, "0")}`;
+    }
+
+    examBtn.addEventListener("click", async () => {
+      if (examTimer) return;
+      const minutes = Number(document.getElementById("exam-duration").value);
+      const ok = await converse(
+        `Exam mode has STARTED (${minutes} minutes). Act as a quiet invigilator: no hints, no teaching. Only tell me briefly whether each answer I submit is correct or incorrect, until I say the exam is over.`,
+        { displayText: `Starting a ${minutes}-minute exam ⏱` }
+      );
+      if (!ok) return;
+
+      examRemaining = minutes * 60;
+      examTime.textContent = fmt(examRemaining);
+      examBar.classList.add("active");
+      examBar.classList.remove("warning");
+      examBtn.disabled = true;
+
+      examTimer = setInterval(() => {
+        examRemaining -= 1;
+        examTime.textContent = fmt(Math.max(examRemaining, 0));
+        if (examRemaining === 300) examBar.classList.add("warning");
+        if (examRemaining <= 0) finishExam("Time is up!");
+      }, 1000);
+    });
+
+    examEnd.addEventListener("click", () => finishExam("Ending the exam early."));
+
+    async function finishExam(reason) {
+      clearInterval(examTimer);
+      examTimer = null;
+      examBar.classList.remove("active");
+      examBtn.disabled = false;
+      await converse(
+        `${reason} The exam is OVER. Please switch back to full Socratic tutoring and lead a review of everything I attempted, starting with anything I got wrong.`,
+        { displayText: `${reason} Exam over, leh we review 📝` }
+      );
+    }
 
     // ---- Practice mode ----
 
