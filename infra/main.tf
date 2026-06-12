@@ -62,7 +62,7 @@ resource "aws_lambda_function" "tutor" {
   handler          = "handler.handler"
   filename         = data.archive_file.handler.output_path
   source_code_hash = data.archive_file.handler.output_base64sha256
-  timeout          = 30
+  timeout          = 60
   memory_size      = 256
 
   environment {
@@ -75,6 +75,7 @@ resource "aws_lambda_function" "tutor" {
 resource "aws_lambda_function_url" "tutor" {
   function_name      = aws_lambda_function.tutor.function_name
   authorization_type = "NONE"
+  invoke_mode        = "RESPONSE_STREAM"
 
   cors {
     allow_origins  = var.allowed_origins

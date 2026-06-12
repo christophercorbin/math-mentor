@@ -36,7 +36,7 @@
     header {
       background: var(--card);
       border-bottom: 1px solid #e2e8f0;
-      padding: 1rem 1.5rem;
+      padding: 0.9rem 1.5rem;
       display: flex;
       align-items: center;
       gap: 0.75rem;
@@ -49,20 +49,77 @@
       color: var(--accent);
       display: flex; align-items: center; justify-content: center;
       font-weight: 800; font-size: 1.1rem;
+      flex-shrink: 0;
     }
 
     header h1 { font-size: 1.05rem; }
-    header p { font-size: 0.8rem; color: var(--muted); }
+    header p { font-size: 0.78rem; color: var(--muted); }
+    .header-spacer { flex: 1; }
+
+    .recap-btn {
+      background: none;
+      border: 1.5px solid var(--primary);
+      color: var(--primary);
+      border-radius: 10px;
+      padding: 0.45rem 0.9rem;
+      font: inherit;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .recap-btn:hover:not(:disabled) { background: var(--primary); color: white; }
+    .recap-btn:disabled { opacity: 0.4; cursor: default; }
 
     main {
       flex: 1;
       width: 100%;
       max-width: 760px;
       margin: 0 auto;
-      padding: 1.5rem 1rem 0;
+      padding: 1rem 1rem 0;
       display: flex;
       flex-direction: column;
     }
+
+    /* Practice panel */
+    .practice {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+      background: var(--card);
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius);
+      padding: 0.6rem 0.8rem;
+      margin-bottom: 1rem;
+      font-size: 0.85rem;
+    }
+
+    .practice label { font-weight: 600; color: var(--muted); }
+
+    .practice select {
+      font: inherit;
+      font-size: 0.85rem;
+      padding: 0.35rem 0.5rem;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      background: white;
+      color: var(--text);
+    }
+
+    .practice button {
+      background: var(--accent);
+      color: var(--text);
+      border: none;
+      border-radius: 8px;
+      padding: 0.45rem 0.9rem;
+      font: inherit;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .practice button:hover:not(:disabled) { filter: brightness(0.95); }
+    .practice button:disabled { opacity: 0.5; cursor: wait; }
 
     #chat {
       flex: 1;
@@ -80,6 +137,7 @@
       line-height: 1.55;
       font-size: 0.95rem;
       white-space: pre-wrap;
+      overflow-wrap: break-word;
     }
 
     .msg.user {
@@ -99,14 +157,55 @@
     .msg.thinking { color: var(--muted); font-style: italic; }
     .msg.error { background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c; }
 
+    .msg img.attached {
+      display: block;
+      max-width: 100%;
+      max-height: 220px;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Composer */
     form {
       position: sticky;
       bottom: 0;
       background: var(--bg);
-      padding: 0.75rem 0 1.25rem;
-      display: flex;
-      gap: 0.6rem;
+      padding: 0.6rem 0 1.1rem;
     }
+
+    .attachment-preview {
+      display: none;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--card);
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 0.4rem 0.6rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .attachment-preview.active { display: flex; }
+    .attachment-preview img { height: 44px; border-radius: 6px; }
+    .attachment-preview button {
+      margin-left: auto;
+      background: none; border: none;
+      color: #b91c1c; font-weight: 700; cursor: pointer; font-size: 0.95rem;
+    }
+
+    .composer-row { display: flex; gap: 0.6rem; }
+
+    .photo-btn {
+      align-self: flex-end;
+      background: var(--card);
+      border: 1.5px solid #cbd5e1;
+      border-radius: var(--radius);
+      padding: 0.8rem 0.9rem;
+      font-size: 1.1rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .photo-btn:hover { border-color: var(--primary); }
 
     textarea {
       flex: 1;
@@ -124,7 +223,7 @@
 
     textarea:focus { border-color: var(--primary); }
 
-    button {
+    .send-btn {
       align-self: flex-end;
       background: var(--primary);
       color: white;
@@ -136,8 +235,8 @@
       cursor: pointer;
     }
 
-    button:hover:not(:disabled) { background: var(--primary-dark); }
-    button:disabled { opacity: 0.5; cursor: wait; }
+    .send-btn:hover:not(:disabled) { background: var(--primary-dark); }
+    .send-btn:disabled { opacity: 0.5; cursor: wait; }
 
     footer {
       text-align: center;
@@ -154,18 +253,50 @@
     <div class="logo">M</div>
     <div>
       <h1>MathMentor Barbados</h1>
-      <p>Yuh Socratic study buddy, from Common Entrance to CXC. I help you find the answer, I don't hand it over.</p>
+      <p>Yuh Socratic study buddy, from Common Entrance to CXC. I guide you to the answer, I never hand it over.</p>
     </div>
+    <div class="header-spacer"></div>
+    <button id="recap" class="recap-btn" type="button" disabled title="Work through at least one problem first">Session recap</button>
   </header>
 
   <main>
+    <div class="practice" aria-label="Practice mode">
+      <label for="level">Practice:</label>
+      <select id="level">
+        <option>Common Entrance</option>
+        <option selected>CSEC</option>
+        <option>Additional Maths</option>
+        <option>CAPE</option>
+      </select>
+      <select id="topic">
+        <option>Fractions & Decimals</option>
+        <option>Percentages & Money</option>
+        <option selected>Algebra</option>
+        <option>Geometry & Mensuration</option>
+        <option>Ratio & Proportion</option>
+        <option>Statistics & Probability</option>
+        <option>Functions & Graphs</option>
+        <option>Trigonometry</option>
+      </select>
+      <button id="practice-btn" type="button">Gimme a problem</button>
+    </div>
+
     <div id="chat" aria-live="polite">
-      <div class="msg tutor">Hi! I'm MathMentor. Whether it's Common Entrance practice or CSEC Maths, paste in the problem you're working on, tell me what you've tried so far, and leh we work through it together, step by step.</div>
+      <div class="msg tutor">Hi! I'm MathMentor. Whether it's Common Entrance practice or CSEC Maths, type your problem, snap a photo of it 📷, or hit "Gimme a problem" above, and leh we work through it together, step by step.</div>
     </div>
 
     <form id="composer">
-      <textarea id="input" placeholder="e.g. Solve 2x + 6 = 18. I tried subtracting 2 but got stuck..." required></textarea>
-      <button id="send" type="submit">Send</button>
+      <div id="attachment" class="attachment-preview">
+        <img id="attachment-img" alt="Attached problem photo" />
+        <span>Photo attached</span>
+        <button id="attachment-remove" type="button" aria-label="Remove photo">✕</button>
+      </div>
+      <div class="composer-row">
+        <input id="file" type="file" accept="image/*" hidden />
+        <button id="photo" class="photo-btn" type="button" aria-label="Attach a photo of your problem" title="Attach a photo">📷</button>
+        <textarea id="input" placeholder="e.g. Solve 2x + 6 = 18. I tried subtracting 2 but got stuck..."></textarea>
+        <button id="send" class="send-btn" type="submit">Send</button>
+      </div>
     </form>
   </main>
 
@@ -181,7 +312,17 @@
     const form = document.getElementById("composer");
     const input = document.getElementById("input");
     const send = document.getElementById("send");
+    const photoBtn = document.getElementById("photo");
+    const fileInput = document.getElementById("file");
+    const attachment = document.getElementById("attachment");
+    const attachmentImg = document.getElementById("attachment-img");
+    const attachmentRemove = document.getElementById("attachment-remove");
+    const practiceBtn = document.getElementById("practice-btn");
+    const recapBtn = document.getElementById("recap");
+
     const history = [];
+    let pendingImage = null; // { format, data, previewUrl }
+    let busy = false;
 
     function renderMath(el) {
       if (window.renderMathInElement) {
@@ -195,26 +336,90 @@
       }
     }
 
-    function addMessage(role, text, extraClass) {
+    function addMessage(role, text, opts = {}) {
       const div = document.createElement("div");
-      div.className = `msg ${role}${extraClass ? " " + extraClass : ""}`;
-      div.textContent = text;
+      div.className = `msg ${role}${opts.extraClass ? " " + opts.extraClass : ""}`;
+      if (opts.imageUrl) {
+        const img = document.createElement("img");
+        img.src = opts.imageUrl;
+        img.className = "attached";
+        img.alt = "Attached problem photo";
+        div.appendChild(img);
+      }
+      if (text) div.appendChild(document.createTextNode(text));
       chat.appendChild(div);
       renderMath(div);
       chat.scrollTop = chat.scrollHeight;
       return div;
     }
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const text = input.value.trim();
-      if (!text) return;
+    function setBusy(state) {
+      busy = state;
+      send.disabled = state;
+      practiceBtn.disabled = state;
+      recapBtn.disabled = state || history.length < 2;
+    }
 
-      addMessage("user", text);
-      history.push({ role: "user", content: text });
-      input.value = "";
-      send.disabled = true;
-      const thinking = addMessage("tutor", "Thinking…", "thinking");
+    // ---- Photo attach (client-side downscale to keep payloads small) ----
+
+    photoBtn.addEventListener("click", () => fileInput.click());
+
+    fileInput.addEventListener("change", async () => {
+      const file = fileInput.files?.[0];
+      if (!file) return;
+      try {
+        pendingImage = await downscale(file);
+        attachmentImg.src = pendingImage.previewUrl;
+        attachment.classList.add("active");
+      } catch {
+        addMessage("tutor", "I couldn't read that image. Try a JPG or PNG photo.", { extraClass: "error" });
+      }
+      fileInput.value = "";
+    });
+
+    attachmentRemove.addEventListener("click", () => {
+      pendingImage = null;
+      attachment.classList.remove("active");
+    });
+
+    function downscale(file) {
+      return new Promise((resolve, reject) => {
+        const url = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = () => {
+          const MAX = 1280;
+          const scale = Math.min(1, MAX / Math.max(img.width, img.height));
+          const canvas = document.createElement("canvas");
+          canvas.width = Math.round(img.width * scale);
+          canvas.height = Math.round(img.height * scale);
+          canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+          const dataUrl = canvas.toDataURL("image/jpeg", 0.82);
+          URL.revokeObjectURL(url);
+          resolve({
+            format: "jpeg",
+            data: dataUrl.split(",")[1],
+            previewUrl: dataUrl,
+          });
+        };
+        img.onerror = reject;
+        img.src = url;
+      });
+    }
+
+    // ---- Conversation ----
+
+    async function converse(userText, options = {}) {
+      if (busy) return;
+      const image = options.image ?? null;
+      const displayText = options.displayText ?? userText;
+
+      addMessage("user", displayText, { imageUrl: image?.previewUrl });
+      const entry = { role: "user", content: userText };
+      if (image) entry.image = { format: image.format, data: image.data };
+      history.push(entry);
+
+      setBusy(true);
+      const bubble = addMessage("tutor", "Thinking…", { extraClass: "thinking" });
 
       try {
         const res = await fetch(API_URL, {
@@ -222,29 +427,106 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ messages: history }),
         });
-        const data = await res.json();
-        thinking.remove();
 
-        if (!res.ok) throw new Error(data.error || `Request failed (${res.status})`);
+        const contentType = res.headers.get("content-type") ?? "";
 
-        addMessage("tutor", data.reply);
-        history.push({ role: "assistant", content: data.reply });
+        if (contentType.includes("application/json")) {
+          // Error payload, or a buffered (non-streaming) backend
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.error || `Request failed (${res.status})`);
+          bubble.classList.remove("thinking");
+          bubble.textContent = data.reply;
+          renderMath(bubble);
+          history.push({ role: "assistant", content: data.reply });
+        } else {
+          if (!res.ok) throw new Error(`Request failed (${res.status})`);
+          // Streamed text
+          bubble.classList.remove("thinking");
+          bubble.textContent = "";
+          const reader = res.body.getReader();
+          const decoder = new TextDecoder();
+          let full = "";
+          for (;;) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            full += decoder.decode(value, { stream: true });
+            bubble.textContent = full;
+            chat.scrollTop = chat.scrollHeight;
+          }
+          renderMath(bubble);
+          history.push({ role: "assistant", content: full });
+        }
+        return true;
       } catch (err) {
-        thinking.remove();
-        addMessage("tutor", `Something went wrong: ${err.message}. Please try again.`, "error");
+        bubble.remove();
+        addMessage("tutor", `Something went wrong: ${err.message}. Please try again.`, { extraClass: "error" });
         history.pop();
+        return false;
       } finally {
-        send.disabled = false;
-        input.focus();
+        setBusy(false);
       }
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text && !pendingImage) return;
+
+      const image = pendingImage;
+      pendingImage = null;
+      attachment.classList.remove("active");
+      input.value = "";
+
+      await converse(
+        text || "Here is a photo of my problem. Please transcribe it and help me work through it.",
+        { image }
+      );
     });
 
-    // Submit on Enter, newline on Shift+Enter
     input.addEventListener("keydown", (e) => {
       if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
         form.requestSubmit();
       }
+    });
+
+    // ---- Practice mode ----
+
+    practiceBtn.addEventListener("click", async () => {
+      const level = document.getElementById("level").value;
+      const topic = document.getElementById("topic").value;
+      await converse(
+        `Practice mode: please give me ONE ${level} practice problem on ${topic}. Wait for my attempt before guiding me, and remember not to give me the answer.`,
+        { displayText: `Practice please: ${level}, ${topic} 📝` }
+      );
+    });
+
+    // ---- Session recap (printable) ----
+
+    recapBtn.addEventListener("click", async () => {
+      const ok = await converse(
+        "Please produce my session recap now, following your recap rules.",
+        { displayText: "Can I get a recap of this session? 📋" }
+      );
+      if (!ok) return;
+
+      const recapText = history[history.length - 1].content;
+      const win = window.open("", "_blank");
+      win.document.write(`<!doctype html><html><head><title>MathMentor Session Recap</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"><\/script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"><\/script>
+        <style>body{font-family:Georgia,serif;max-width:680px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#16213a}
+        h1{font-size:1.3rem;border-bottom:3px solid #ffc726;padding-bottom:.5rem}
+        pre{white-space:pre-wrap;font-family:inherit}</style></head>
+        <body><h1>MathMentor Barbados · Session Recap</h1>
+        <p><em>${new Date().toLocaleDateString("en-BB", { dateStyle: "long" })}</em></p>
+        <pre id="recap"></pre>
+        <script>document.getElementById("recap").textContent = ${JSON.stringify(recapText)};
+        window.addEventListener("load", () => renderMathInElement(document.body, {delimiters:[
+          {left:"\\\\(", right:"\\\\)", display:false},{left:"\\\\[", right:"\\\\]", display:true}], throwOnError:false}));<\/script>
+        </body></html>`);
+      win.document.close();
     });
   </script>
 </body>
