@@ -11,7 +11,7 @@ variable "region" {
 }
 
 variable "model_id" {
-  description = "Bedrock model or inference profile ID for Claude"
+  description = "Bedrock model or inference profile ID for Claude. Uses the us. cross-region inference profile (routes through us-east-1/us-east-2/us-west-2 — requires the RegionRestriction SCP's bedrock:* carve-out)."
   type        = string
   default     = "us.anthropic.claude-haiku-4-5-20251001-v1:0"
 }
@@ -19,5 +19,5 @@ variable "model_id" {
 variable "allowed_origins" {
   description = "CORS origins permitted to call the tutor API"
   type        = list(string)
-  default     = ["*"] # tighten to the CloudFront domain after first deploy
+  default     = ["https://d297i0l0pfbu7x.cloudfront.net"]
 }

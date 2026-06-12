@@ -48,8 +48,11 @@ resource "aws_iam_role_policy" "bedrock" {
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
-      Effect   = "Allow"
-      Action   = ["bedrock:InvokeModel"]
+      Effect = "Allow"
+      Action = [
+        "bedrock:InvokeModel",
+        "bedrock:InvokeModelWithResponseStream",
+      ]
       Resource = "*" # scope to specific model/inference-profile ARNs in production
     }]
   })
@@ -78,11 +81,32 @@ resource "aws_lambda_function_url" "tutor" {
   invoke_mode        = "RESPONSE_STREAM"
 
   cors {
-    allow_origins  = var.allowed_origins
-    allow_methods  = ["POST"]
-    allow_headers  = ["content-type"]
-    max_age        = 3600
+    allow_origins = var.allowed_origins
+    allow_methods = ["POST"]
+    allow_headers = ["content-type"]
+    max_age       = 3600
   }
+}
+
+resource "aws_lambda_permission" "public_url" {
+  statement_id           = "AllowPublicFunctionUrlInvoke"
+  action                 = "lambda:InvokeFunctionUrl"
+  function_name          = aws_lambda_function.tutor.function_name
+  principal              = "*"
+  function_url_auth_type = "NONE"
+}
+
+# Lambda Function URLs in RESPONSE_STREAM mode require an additional
+# lambda:InvokeFunction grant on the resource policy for the URL service to
+# stream from the function. Resource-scoped to this specific function ARN;
+# token budget per-call bounds blast radius. (Amplify CDK adds an extra
+# lambda:InvokedViaFunctionUrl=true condition that the Terraform AWS
+# provider doesn't expose; revisit when the provider supports that key.)
+resource "aws_lambda_permission" "public_url_invoke_function" {
+  statement_id  = "AllowPublicInvokeViaFunctionUrl"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.tutor.function_name
+  principal     = "*"
 }
 
 # ---------- Static site (S3 + CloudFront with OAC) ----------
