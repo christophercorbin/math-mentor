@@ -1,0 +1,7 @@
+.git
+.gitignore
+infra
+README.md
+backend/node_modules
+**/.terraform
+**/*.tfstate*

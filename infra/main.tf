@@ -20,7 +20,8 @@ provider "aws" {
 
 data "archive_file" "handler" {
   type        = "zip"
-  source_file = "${path.module}/../backend/handler.mjs"
+  source_dir  = "${path.module}/../backend"
+  excludes    = ["node_modules", "package.json"]
   output_path = "${path.module}/.build/handler.zip"
 }
 
