@@ -54,12 +54,19 @@ Outputs include `site_url` (the CloudFront URL) and `api_url`. The deploy inject
 
 Cost: serverless throughout; a few cents per study session with Claude Haiku.
 
+## Features
+
+- **Never gives the answer.** The golden rule: when a student is stuck, the tutor fully works a parallel example with different numbers, then lets them apply the method to their own problem.
+- **Photo homework input.** Snap the problem; images are downscaled client-side and sent to Claude's vision via Bedrock Converse image blocks.
+- **Practice mode.** Pick a level (Common Entrance through CAPE) and topic; the tutor generates one Bajan-context problem at a time.
+- **Streaming replies.** Tokens render as they arrive: ConverseStream in the container, Lambda response streaming (`RESPONSE_STREAM` Function URL) in AWS, with a buffered fallback.
+- **Session recap.** One click produces a printable, KaTeX-rendered study sheet of the session: methods used, mistakes to watch, fresh practice problems.
+
 ## Roadmap
 
-- Response streaming (Lambda response streaming + InvokeWithResponseStream)
-- Image input for photographed homework problems
-- Per-topic practice problem generator
+- Voice input for younger students
 - Optional session history with DynamoDB + TTL
+- Teacher/parent view with progress summaries
 
 ## License
 
