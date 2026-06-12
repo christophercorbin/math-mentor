@@ -7,11 +7,10 @@ services:
       # Bedrock model/inference profile (must be enabled in your account)
       MODEL_ID: ${MODEL_ID:-us.anthropic.claude-haiku-4-5-20251001-v1:0}
       AWS_REGION: ${AWS_REGION:-us-east-1}
-      # Pass through static creds or an assumed-role session if set
-      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-}
-      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-}
-      AWS_SESSION_TOKEN: ${AWS_SESSION_TOKEN:-}
-      AWS_PROFILE: ${AWS_PROFILE:-}
+      # Credentials come from the ~/.aws mount below by default.
+      # To use static/session creds or a named profile instead, export them
+      # in your shell before `docker compose up`; compose passes them through:
+      # AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_SESSION_TOKEN, AWS_PROFILE
     volumes:
       # Read-only AWS config/credentials for local development
       - ~/.aws:/home/node/.aws:ro
