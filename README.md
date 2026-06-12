@@ -1,6 +1,8 @@
-# MathMentor — Socratic AI Math Tutor
+# MathMentor Barbados 🇧🇧 — Socratic AI Math Tutor
 
-An AI math tutor that refuses to just give you the answer. MathMentor uses Claude on Amazon Bedrock with a Socratic system prompt: it asks what you've tried, points at where your work went wrong, and guides you to the solution one hint at a time. Math renders properly with KaTeX.
+A Bajan AI math tutor that refuses to just give you the answer. MathMentor uses Claude on Amazon Bedrock with a Socratic system prompt: it asks what you've tried, points at where your work went wrong, and guides you to the solution one hint at a time. Math renders properly with KaTeX.
+
+Built for Barbadian students: the tutor knows the local journey from Common Entrance (BSSEE) through CSEC/CXC Mathematics to CAPE, encourages in a warm Bajan voice while keeping every mathematical step in clear standard English, and uses everyday Barbadian contexts (BBD prices, bus fares, cricket) in its examples.
 
 **Stack:** Claude (Amazon Bedrock Converse API) · AWS Lambda (Function URL) · S3 + CloudFront (OAC) · OpenTofu
 
@@ -20,6 +22,10 @@ The frontend is a single dependency-free HTML page (KaTeX from CDN). The backend
 ## Why Socratic?
 
 Tutoring tools that hand out answers optimize for homework completion, not learning. The system prompt enforces pedagogy: never reveal the final answer, one hint per turn, locate the student's error and ask a question about it, confirm and recap only once the student gets there themselves. Prompt design is the core of this project; see `backend/handler.mjs`.
+
+## Why Bajan?
+
+Most AI tutors default to US curricula and contexts. MathMentor is syllabus-aware for the Caribbean (CXC methods for CSEC students, not whatever a generic model assumes) and meets students in a familiar voice. The persona rules are deliberate: dialect for warmth and encouragement only, standard English for every mathematical statement, and no caricature.
 
 ## Deploy
 

@@ -3,20 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MathMentor — Socratic AI Math Tutor</title>
-  <meta name="description" content="A Socratic AI math tutor that guides you to the answer instead of giving it away. Powered by Claude on Amazon Bedrock." />
+  <title>MathMentor Barbados | Yuh Socratic AI Math Tutor</title>
+  <meta name="description" content="A Bajan Socratic AI math tutor for Common Entrance, CSEC/CXC and beyond. Guides you to the answer instead of giving it away. Powered by Claude on Amazon Bedrock." />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" />
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
   <style>
     :root {
-      --primary: #2563eb;
-      --primary-dark: #1d4ed8;
-      --bg: #f1f5f9;
+      /* Barbados flag palette: ultramarine, gold, black */
+      --primary: #00267f;
+      --primary-dark: #001b5c;
+      --accent: #ffc726;
+      --bg: #f4f6fb;
       --card: #ffffff;
-      --text: #1e293b;
-      --muted: #64748b;
-      --tutor-bubble: #eef2ff;
+      --text: #16213a;
+      --muted: #5b6478;
+      --tutor-bubble: #fff7e0;
       --radius: 14px;
     }
 
@@ -43,8 +45,8 @@
     .logo {
       width: 36px; height: 36px;
       border-radius: 10px;
-      background: linear-gradient(135deg, var(--primary), #7c3aed);
-      color: white;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary) 55%, var(--accent) 55%);
+      color: var(--accent);
       display: flex; align-items: center; justify-content: center;
       font-weight: 800; font-size: 1.1rem;
     }
@@ -90,7 +92,7 @@
     .msg.tutor {
       align-self: flex-start;
       background: var(--tutor-bubble);
-      border: 1px solid #e0e7ff;
+      border: 1px solid #f3dfa0;
       border-bottom-left-radius: 4px;
     }
 
@@ -151,14 +153,14 @@
   <header>
     <div class="logo">M</div>
     <div>
-      <h1>MathMentor</h1>
-      <p>A Socratic tutor: I help you find the answer, I don't hand it over.</p>
+      <h1>MathMentor Barbados</h1>
+      <p>Yuh Socratic study buddy, from Common Entrance to CXC. I help you find the answer, I don't hand it over.</p>
     </div>
   </header>
 
   <main>
     <div id="chat" aria-live="polite">
-      <div class="msg tutor">Hi! I'm MathMentor. Paste in a math problem you're working on, tell me what you've tried so far, and we'll work through it together step by step.</div>
+      <div class="msg tutor">Hi! I'm MathMentor. Whether it's Common Entrance practice or CSEC Maths, paste in the problem you're working on, tell me what you've tried so far, and leh we work through it together, step by step.</div>
     </div>
 
     <form id="composer">
@@ -168,7 +170,7 @@
   </main>
 
   <footer>
-    Built with Claude on Amazon Bedrock · AWS Lambda · <a href="https://github.com/christophercorbin/math-mentor" rel="noopener">Source on GitHub</a>
+    Made in Barbados 🇧🇧 · Built with Claude on Amazon Bedrock · AWS Lambda · <a href="https://github.com/christophercorbin/math-mentor" rel="noopener">Source on GitHub</a>
   </footer>
 
   <script>
