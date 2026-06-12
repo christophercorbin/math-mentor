@@ -121,6 +121,64 @@
     .practice button:hover:not(:disabled) { filter: brightness(0.95); }
     .practice button:disabled { opacity: 0.5; cursor: wait; }
 
+    /* Past papers drawer */
+    .papers {
+      background: var(--card);
+      border: 1px solid #e2e8f0;
+      border-radius: var(--radius);
+      margin-bottom: 1rem;
+      font-size: 0.85rem;
+    }
+
+    .papers summary {
+      cursor: pointer;
+      padding: 0.6rem 0.8rem;
+      font-weight: 600;
+      color: var(--primary);
+      list-style: none;
+    }
+    .papers summary::-webkit-details-marker { display: none; }
+    .papers summary::before { content: "📚 "; }
+
+    .papers-tip {
+      padding: 0 0.8rem 0.6rem;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    .papers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 0.4rem;
+      padding: 0 0.8rem 0.8rem;
+    }
+
+    .papers-grid a {
+      display: block;
+      padding: 0.35rem 0.55rem;
+      background: var(--bg);
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.78rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .papers-grid a:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .papers-credit {
+      padding: 0 0.8rem 0.7rem;
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+    .papers-credit a { color: var(--primary); }
+
     #chat {
       flex: 1;
       display: flex;
@@ -281,8 +339,15 @@
       <button id="practice-btn" type="button">Gimme a problem</button>
     </div>
 
+    <details class="papers">
+      <summary>CSEC Past Papers (2004–2025)</summary>
+      <p class="papers-tip">Open a paper, screenshot a question, then send it to me with the 📷 button and we'll work it together.</p>
+      <div id="papers-grid" class="papers-grid"></div>
+      <p class="papers-credit">Papers hosted by <a href="https://www.csecmathtutor.com/past-papers.html" rel="noopener" target="_blank">CSEC Math Tutor</a>.</p>
+    </details>
+
     <div id="chat" aria-live="polite">
-      <div class="msg tutor">Hi! I'm MathMentor. Whether it's Common Entrance practice or CSEC Maths, type your problem, snap a photo of it 📷, or hit "Gimme a problem" above, and leh we work through it together, step by step.</div>
+      <div class="msg tutor">Hi! I'm MathMentor. Whether it's Common Entrance practice or CSEC Maths, type your problem, snap a photo of it 📷, grab a past paper from the drawer above, or hit "Gimme a problem", and leh we work through it together, step by step.</div>
     </div>
 
     <form id="composer">
@@ -323,6 +388,68 @@
     const history = [];
     let pendingImage = null; // { format, data, previewUrl }
     let busy = false;
+
+    // ---- CSEC past papers (hosted by csecmathtutor.com), newest first ----
+    const PAPERS_BASE = "https://www.csecmathtutor.com/uploads/1/1/4/4/11440199/";
+    const PAST_PAPERS = [
+      ["May/Jun 2025", "may_june_2025.pdf"],
+      ["Jan 2025", "jan_2025_math_csec.pdf"],
+      ["May 2024", "may_2024.pdf"],
+      ["Jan 2024", "csec_math_jan_2024.pdf"],
+      ["May/Jun 2023", "may_june_2023.pdf"],
+      ["Jan 2023 P2", "csec_mathematics_paper_2_january_2023.pdf"],
+      ["Jan 2023 P3", "csec_mathematics_january_2023_p3.pdf"],
+      ["Jun 2022 P2", "june_2022_mathematics_paper_2.pdf"],
+      ["Jan 2022 P2", "january_2022_mathematics_paper_2.pdf"],
+      ["Jul 2021 P2", "csec_maths_p2_july_2021.pdf"],
+      ["Jan 2021 P2", "csec_mathematics_january_2021_paper_2.pdf"],
+      ["Jan 2021 P3", "math_january_paper_3_2021.pdf"],
+      ["Jan 2020 P2", "january_2020_math_cxc_paper_2.pdf"],
+      ["Jan 2020 P3", "paper_3_jan_2020.pdf"],
+      ["May 2019", "mathematics_may_2019.pdf"],
+      ["May/Jun 2019 P3", "may_june_2019_032.pdf"],
+      ["Jan 2019 P2", "january_2019_paper_2.pdf"],
+      ["Jan 2019 P3", "january_2019_paper_3.pdf"],
+      ["May 2018 P2", "may_2018.pdf"],
+      ["May 2018 P3", "may_2018__paper_3.pdf"],
+      ["Jan 2018 P2", "csec_mathematics_january_2018_p2.pdf"],
+      ["May 2017", "may_2017.pdf"],
+      ["Jan 2017", "2017_jan.pdf"],
+      ["May 2016 P2", "may_2016_paper_2.pdf"],
+      ["Jan 2016 P2", "january_2016_paper_2.pdf"],
+      ["May/Jun 2015", "may_june_2015.pdf"],
+      ["Jan 2015", "2015_-_january.pdf"],
+      ["May 2014", "mathematics_may_2014.pdf"],
+      ["Jan 2014", "mathematics_january_2014.pdf"],
+      ["May 2013", "mathematics_may_2013.pdf"],
+      ["Jan 2013 P2", "csec_mathematics_january_2013_p2.pdf"],
+      ["May 2012", "mathematics_may_2012.pdf"],
+      ["Jan 2012 P2", "csec_mathematics_january_2012_p2.pdf"],
+      ["May 2011", "mathematics_paper_may_2011.pdf"],
+      ["Jan 2011 P2", "csec_mathematics_january_2011_p2.pdf"],
+      ["May 2010 P2", "may_2010_paper_02.pdf"],
+      ["Jan 2010 P2", "csec_mathematics_january_2010_p2.pdf"],
+      ["May 2009 P2", "mathematics__paper_2__may_2009.pdf"],
+      ["Jan 2009", "january_2009.pdf"],
+      ["May 2008 P2", "mathematics__paper_2__may_2008.pdf"],
+      ["Jan 2008", "january_2008.pdf"],
+      ["May 2007", "mathematics_paper_may_2007.pdf"],
+      ["Jan 2007 P2", "january_2007_paper_02.pdf"],
+      ["Jun 2006", "june_2006.pdf"],
+      ["Jan 2006", "january_2006.pdf"],
+      ["May 2005 P2", "mathematics_paper_2__may_2005.pdf"],
+      ["May 2004", "csec_mathematics_may_2004.pdf"],
+    ];
+
+    const papersGrid = document.getElementById("papers-grid");
+    for (const [label, file] of PAST_PAPERS) {
+      const a = document.createElement("a");
+      a.href = PAPERS_BASE + file;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.textContent = label;
+      papersGrid.appendChild(a);
+    }
 
     function renderMath(el) {
       if (window.renderMathInElement) {

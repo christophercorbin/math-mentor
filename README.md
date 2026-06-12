@@ -61,6 +61,7 @@ Cost: serverless throughout; a few cents per study session with Claude Haiku.
 - **Practice mode.** Pick a level (Common Entrance through CAPE) and topic; the tutor generates one Bajan-context problem at a time.
 - **Streaming replies.** Tokens render as they arrive: ConverseStream in the container, Lambda response streaming (`RESPONSE_STREAM` Function URL) in AWS, with a buffered fallback.
 - **Session recap.** One click produces a printable, KaTeX-rendered study sheet of the session: methods used, mistakes to watch, fresh practice problems.
+- **CSEC past papers.** A built-in drawer links to 47 real CSEC Mathematics papers (2004–2025, hosted by [CSEC Math Tutor](https://www.csecmathtutor.com/past-papers.html)). Open one, screenshot a question, send it with the photo button, and the tutor works it with you.
 
 ## Roadmap
 
