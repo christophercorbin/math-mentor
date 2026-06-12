@@ -1,0 +1,7 @@
+.terraform/
+*.tfstate
+*.tfstate.backup
+.tfplan
+infra/.build/
+.DS_Store
+node_modules/

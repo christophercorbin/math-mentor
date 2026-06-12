@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MathMentor — Socratic AI Math Tutor</title>
+  <meta name="description" content="A Socratic AI math tutor that guides you to the answer instead of giving it away. Powered by Claude on Amazon Bedrock." />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" />
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --tutor-bubble: #eef2ff;
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; margin: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: var(--card);
+      border-bottom: 1px solid #e2e8f0;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .logo {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--primary), #7c3aed);
+      color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 1.1rem;
+    }
+
+    header h1 { font-size: 1.05rem; }
+    header p { font-size: 0.8rem; color: var(--muted); }
+
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #chat {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      padding-bottom: 1rem;
+      overflow-y: auto;
+    }
+
+    .msg {
+      max-width: 85%;
+      padding: 0.8rem 1rem;
+      border-radius: var(--radius);
+      line-height: 1.55;
+      font-size: 0.95rem;
+      white-space: pre-wrap;
+    }
+
+    .msg.user {
+      align-self: flex-end;
+      background: var(--primary);
+      color: white;
+      border-bottom-right-radius: 4px;
+    }
+
+    .msg.tutor {
+      align-self: flex-start;
+      background: var(--tutor-bubble);
+      border: 1px solid #e0e7ff;
+      border-bottom-left-radius: 4px;
+    }
+
+    .msg.thinking { color: var(--muted); font-style: italic; }
+    .msg.error { background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c; }
+
+    form {
+      position: sticky;
+      bottom: 0;
+      background: var(--bg);
+      padding: 0.75rem 0 1.25rem;
+      display: flex;
+      gap: 0.6rem;
+    }
+
+    textarea {
+      flex: 1;
+      resize: none;
+      border: 1.5px solid #cbd5e1;
+      border-radius: var(--radius);
+      padding: 0.8rem 1rem;
+      font: inherit;
+      font-size: 0.95rem;
+      background: var(--card);
+      outline: none;
+      min-height: 52px;
+      max-height: 160px;
+    }
+
+    textarea:focus { border-color: var(--primary); }
+
+    button {
+      align-self: flex-end;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius);
+      padding: 0.85rem 1.4rem;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    button:hover:not(:disabled) { background: var(--primary-dark); }
+    button:disabled { opacity: 0.5; cursor: wait; }
+
+    footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+      padding: 0 1rem 1rem;
+    }
+
+    footer a { color: var(--primary); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">M</div>
+    <div>
+      <h1>MathMentor</h1>
+      <p>A Socratic tutor: I help you find the answer, I don't hand it over.</p>
+    </div>
+  </header>
+
+  <main>
+    <div id="chat" aria-live="polite">
+      <div class="msg tutor">Hi! I'm MathMentor. Paste in a math problem you're working on, tell me what you've tried so far, and we'll work through it together step by step.</div>
+    </div>
+
+    <form id="composer">
+      <textarea id="input" placeholder="e.g. Solve 2x + 6 = 18. I tried subtracting 2 but got stuck..." required></textarea>
+      <button id="send" type="submit">Send</button>
+    </form>
+  </main>
+
+  <footer>
+    Built with Claude on Amazon Bedrock · AWS Lambda · <a href="https://github.com/christophercorbin/math-mentor" rel="noopener">Source on GitHub</a>
+  </footer>
+
+  <script>
+    // Set at deploy time: the Lambda Function URL from the OpenTofu output.
+    const API_URL = window.MATHMENTOR_API_URL || "%%API_URL%%";
+
+    const chat = document.getElementById("chat");
+    const form = document.getElementById("composer");
+    const input = document.getElementById("input");
+    const send = document.getElementById("send");
+    const history = [];
+
+    function renderMath(el) {
+      if (window.renderMathInElement) {
+        renderMathInElement(el, {
+          delimiters: [
+            { left: "\\(", right: "\\)", display: false },
+            { left: "\\[", right: "\\]", display: true },
+          ],
+          throwOnError: false,
+        });
+      }
+    }
+
+    function addMessage(role, text, extraClass) {
+      const div = document.createElement("div");
+      div.className = `msg ${role}${extraClass ? " " + extraClass : ""}`;
+      div.textContent = text;
+      chat.appendChild(div);
+      renderMath(div);
+      chat.scrollTop = chat.scrollHeight;
+      return div;
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
+
+      addMessage("user", text);
+      history.push({ role: "user", content: text });
+      input.value = "";
+      send.disabled = true;
+      const thinking = addMessage("tutor", "Thinking…", "thinking");
+
+      try {
+        const res = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ messages: history }),
+        });
+        const data = await res.json();
+        thinking.remove();
+
+        if (!res.ok) throw new Error(data.error || `Request failed (${res.status})`);
+
+        addMessage("tutor", data.reply);
+        history.push({ role: "assistant", content: data.reply });
+      } catch (err) {
+        thinking.remove();
+        addMessage("tutor", `Something went wrong: ${err.message}. Please try again.`, "error");
+        history.pop();
+      } finally {
+        send.disabled = false;
+        input.focus();
+      }
+    });
+
+    // Submit on Enter, newline on Shift+Enter
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        form.requestSubmit();
+      }
+    });
+  </script>
+</body>
+</html>
