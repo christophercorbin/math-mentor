@@ -16,6 +16,17 @@ provider "aws" {
   region = var.region
 }
 
+# Cross-account provider: assumes Route53RecordWriter in the DNS management
+# account (438465156498) to write records in christophercorbin.cloud.
+provider "aws" {
+  alias  = "dns"
+  region = "us-east-1"
+  assume_role {
+    role_arn    = var.dns_role_arn
+    external_id = var.dns_external_id
+  }
+}
+
 # ---------- Lambda ----------
 
 data "archive_file" "handler" {
@@ -217,12 +228,12 @@ resource "aws_cloudfront_response_headers_policy" "security" {
 locals {
   # "https://abc123.lambda-url.us-east-1.on.aws/" -> "abc123.lambda-url.us-east-1.on.aws"
   api_origin_domain = trimsuffix(trimprefix(aws_lambda_function_url.tutor.function_url, "https://"), "/")
-  use_custom_domain = var.domain_ready && var.domain_name != ""
+  use_custom_domain = var.domain_name != ""
   # Canonical origin baked into the page's <head> (canonical/OG/Twitter URLs).
   site_origin = local.use_custom_domain ? "https://${var.domain_name}" : "https://d297i0l0pfbu7x.cloudfront.net"
 }
 
-# ---------- Custom domain (DNS lives in Cloudflare — see variables.tf) ----------
+# ---------- Custom domain (DNS managed in Route53 via aws.dns) ----------
 
 resource "aws_acm_certificate" "custom" {
   count             = var.domain_name != "" ? 1 : 0
@@ -234,12 +245,56 @@ resource "aws_acm_certificate" "custom" {
   }
 }
 
-# Waits until the validation CNAME has been added in Cloudflare and the cert
-# is ISSUED. Only instantiated once domain_ready=true, so the first apply
-# never hangs waiting on DNS.
+# DNS validation records written cross-account into the authoritative zone.
+resource "aws_route53_record" "acm_validation" {
+  for_each = local.use_custom_domain ? {
+    for o in aws_acm_certificate.custom[0].domain_validation_options : o.domain_name => {
+      name   = o.resource_record_name
+      type   = o.resource_record_type
+      record = o.resource_record_value
+    }
+  } : {}
+
+  provider        = aws.dns
+  zone_id         = var.dns_zone_id
+  name            = each.value.name
+  type            = each.value.type
+  records         = [each.value.record]
+  ttl             = 300
+  allow_overwrite = true
+}
+
 resource "aws_acm_certificate_validation" "custom" {
-  count           = local.use_custom_domain ? 1 : 0
-  certificate_arn = aws_acm_certificate.custom[0].arn
+  count                   = local.use_custom_domain ? 1 : 0
+  certificate_arn         = aws_acm_certificate.custom[0].arn
+  validation_record_fqdns = [for r in aws_route53_record.acm_validation : r.fqdn]
+}
+
+# Public alias records -> CloudFront.
+resource "aws_route53_record" "alias_a" {
+  count    = local.use_custom_domain ? 1 : 0
+  provider = aws.dns
+  zone_id  = var.dns_zone_id
+  name     = var.domain_name
+  type     = "A"
+  alias {
+    name                   = aws_cloudfront_distribution.web.domain_name
+    zone_id                = aws_cloudfront_distribution.web.hosted_zone_id
+    evaluate_target_health = false
+  }
+}
+
+resource "aws_route53_record" "alias_aaaa" {
+  count    = local.use_custom_domain ? 1 : 0
+  provider = aws.dns
+  zone_id  = var.dns_zone_id
+  name     = var.domain_name
+  type     = "AAAA"
+  alias {
+    name                   = aws_cloudfront_distribution.web.domain_name
+    zone_id                = aws_cloudfront_distribution.web.hosted_zone_id
+    evaluate_target_health = false
+  }
 }
 
 # CloudFront access logs (who is using the tutor, and what errors they see).
@@ -338,7 +393,7 @@ resource "aws_cloudfront_distribution" "web" {
     geo_restriction { restriction_type = "none" }
   }
 
-  # Default *.cloudfront.net cert until domain_ready=true; then the validated
+  # Default *.cloudfront.net cert when domain_name is empty; otherwise the
   # ACM cert with SNI and TLSv1.2_2021 minimum. Referencing the cert ARN
   # through the validation resource forces the wait-for-ISSUED ordering.
   viewer_certificate {
