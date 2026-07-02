@@ -1,0 +1,17 @@
+{
+  "name": "MathMentor Barbados",
+  "short_name": "MathMentor",
+  "description": "A Bajan Socratic AI math tutor for Common Entrance, CSEC/CXC and beyond.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4f6fb",
+  "theme_color": "#00267f",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
