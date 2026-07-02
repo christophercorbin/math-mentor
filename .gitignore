@@ -5,3 +5,6 @@
 infra/.build/
 .DS_Store
 node_modules/
+
+# FUSE deleted-but-open tempfiles
+.fuse_hidden*

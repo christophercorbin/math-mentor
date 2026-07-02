@@ -24,11 +24,12 @@
   <meta name="twitter:title" content="MathMentor Barbados | Yuh Socratic AI Math Tutor" />
   <meta name="twitter:description" content="A Bajan Socratic AI math tutor for Common Entrance, CSEC/CXC and beyond." />
   <meta name="twitter:image" content="https://d297i0l0pfbu7x.cloudfront.net/og-image.png" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.22/katex.min.css"
-        integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous" />
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.22/katex.min.js"
-          integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.22/contrib/auto-render.min.js"
+  <!-- KaTeX pinned to 0.16.21 — the newest version cdnjs actually hosts (0.16.22 returns 503 there). -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.21/katex.min.css"
+        integrity="sha384-zh0CIslj+VczCZtlzBcjt5ppRcsAmDnRem7ESsYwWwg3m/OaJ2l4x7YBZl9Kxxib" crossorigin="anonymous" />
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.21/katex.min.js"
+          integrity="sha384-Rma6DA2IPUwhNxmrB/7S3Tno0YY7sFu9WSYMCuulLhIqYSGZ2gKCJWIqhBWqMQfh" crossorigin="anonymous"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.21/contrib/auto-render.min.js"
           integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/marked/15.0.12/marked.min.js"
           integrity="sha384-948ahk4ZmxYVYOc+rxN1H2gM1EJ2Duhp7uHtZ4WSLkV4Vtx5MUqnV+l7u9B+jFv+" crossorigin="anonymous"></script>
@@ -225,7 +226,6 @@
       list-style: none;
     }
     .papers summary::-webkit-details-marker { display: none; }
-    .papers summary::before { content: "📚 "; }
 
     .papers-tip {
       padding: 0 0.8rem 0.6rem;
@@ -405,24 +405,59 @@
 
     footer a { color: var(--primary); }
 
+    /* Inline SVG icons (inherit text color) */
+    .icon {
+      width: 1.05em; height: 1.05em;
+      vertical-align: -0.18em;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+    .photo-btn .icon { width: 1.15em; height: 1.15em; vertical-align: -0.22em; }
+
+    /* Mic recording state */
+    .photo-btn.rec { color: #dc2626; border-color: #dc2626; animation: rec-pulse 1.2s ease-in-out infinite; }
+    @keyframes rec-pulse { 50% { opacity: 0.55; } }
+
     /* Progress strip (streak + topic mastery) */
     .mastery { width: 100%; font-size: 0.78rem; color: var(--muted); }
     .mastery b { color: var(--text); }
 
-    /* Math symbol toolbar */
-    .mathbar { display: flex; flex-wrap: wrap; gap: 0.3rem; padding-bottom: 0.4rem; }
+    /* Math symbol toolbar — quiet strip, one visual unit with the composer */
+    .mathbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0 0 0.45rem 0.15rem;
+    }
+    .mathbar .mathbar-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-right: 0.3rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
     .mathbar button {
-      background: var(--card);
-      border: 1px solid var(--input-border);
-      color: var(--text);
-      border-radius: 7px;
-      padding: 0.25rem 0.6rem;
+      background: none;
+      border: 1px solid transparent;
+      color: var(--muted);
+      border-radius: 6px;
+      padding: 0.18rem 0.5rem;
       font: inherit;
       font-size: 0.9rem;
       cursor: pointer;
       line-height: 1.3;
     }
-    .mathbar button:hover { border-color: var(--primary); color: var(--primary); }
+    .mathbar button:hover {
+      background: var(--card);
+      border-color: var(--input-border);
+      color: var(--primary);
+    }
 
     /* Copy-reply button on tutor bubbles */
     .msg { position: relative; }
@@ -439,6 +474,7 @@
 
     /* Quick-reply chips */
     .chips { display: flex; flex-wrap: wrap; gap: 0.45rem; padding-bottom: 0.5rem; }
+    .chips[hidden] { display: none; } /* display:flex would otherwise defeat the hidden attribute */
     .chips button {
       background: var(--card);
       border: 1.5px solid var(--input-border);
@@ -549,6 +585,22 @@
   </style>
 </head>
 <body>
+  <!-- Inline icon sprite (feather-style, stroke = currentColor) -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+    <symbol id="i-camera" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></symbol>
+    <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></symbol>
+    <symbol id="i-speaker" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></symbol>
+    <symbol id="i-speaker-on" viewBox="0 0 24 24"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></symbol>
+    <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.4 1 2.3h6c0-.9.4-1.8 1-2.3A7 7 0 0 0 12 2z"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10"/><path d="M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
+    <symbol id="i-clipboard" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  </svg>
+
   <header>
     <div class="logo">M</div>
     <div>
@@ -556,7 +608,7 @@
       <p>Yuh Socratic study buddy, from Common Entrance to CXC. I guide you to the answer, I never hand it over.</p>
     </div>
     <div class="header-spacer"></div>
-    <button id="speak" class="speak-btn" type="button" title="Read the tutor's replies aloud">🔈 Read aloud</button>
+    <button id="speak" class="speak-btn" type="button" title="Read the tutor's replies aloud" aria-pressed="false"><svg class="icon"><use href="#i-speaker"/></svg> <span id="speak-label">Read aloud</span></button>
     <button id="recap" class="recap-btn" type="button" disabled title="Work through at least one problem first">Session recap</button>
     <button id="new-session" class="recap-btn" type="button" title="Clear this conversation and start fresh">New session</button>
   </header>
@@ -594,27 +646,28 @@
     </div>
 
     <div id="exam-bar" class="exam-bar" role="timer">
-      <span>⏱ Exam in progress</span>
+      <span><svg class="icon"><use href="#i-clock"/></svg> Exam in progress</span>
       <span id="exam-time" class="time">60:00</span>
       <span class="spacer"></span>
       <button id="exam-end" type="button">End exam</button>
     </div>
 
     <details class="papers">
-      <summary>CSEC Past Papers (2004–2025)</summary>
-      <p class="papers-tip">Open a paper, screenshot a question, then send it to me with the 📷 button and we'll work it together.</p>
+      <summary><svg class="icon"><use href="#i-book"/></svg> CSEC Past Papers (2004–2025)</summary>
+      <p class="papers-tip">Open a paper, screenshot a question, then send it to me with the camera button and we'll work it together.</p>
       <div id="papers-grid" class="papers-grid"></div>
       <p class="papers-credit">Papers hosted by <a href="https://www.csecmathtutor.com/past-papers.html" rel="noopener" target="_blank">CSEC Math Tutor</a>.</p>
     </details>
 
     <div id="sr-live" class="sr-only" aria-live="polite" role="status"></div>
     <div id="chat">
-      <div class="msg tutor">Hi! I'm MathMentor. Whether it's Common Entrance practice or CSEC Maths, type your problem, snap a photo of it 📷, grab a past paper from the drawer above, or hit "Gimme a problem", and leh we work through it together, step by step.</div>
+      <div class="msg tutor">Hi! I'm MathMentor. Whether it's Common Entrance practice or CSEC Maths, type your problem, snap a photo of it with the camera button, grab a past paper from the drawer above, or hit "Gimme a problem", and leh we work through it together, step by step.</div>
     </div>
 
     <form id="composer">
       <div id="chips" class="chips" hidden></div>
       <div id="mathbar" class="mathbar" aria-label="Insert a math symbol">
+        <span class="mathbar-label" aria-hidden="true">Symbols</span>
         <button type="button" data-ins="²" title="Squared">x²</button>
         <button type="button" data-ins="³" title="Cubed">x³</button>
         <button type="button" data-ins="√" title="Square root">√</button>
@@ -632,9 +685,9 @@
       </div>
       <div class="composer-row">
         <input id="file" type="file" accept="image/*" hidden />
-        <button id="photo" class="photo-btn" type="button" aria-label="Attach a photo of your problem" title="Attach a photo">📷</button>
-        <button id="sketch" class="photo-btn" type="button" aria-label="Draw your working by hand" title="Draw your working">✏️</button>
-        <button id="mic" class="photo-btn" type="button" aria-label="Speak your problem" title="Speak your problem">🎤</button>
+        <button id="photo" class="photo-btn" type="button" aria-label="Attach a photo of your problem" title="Attach a photo"><svg class="icon"><use href="#i-camera"/></svg></button>
+        <button id="sketch" class="photo-btn" type="button" aria-label="Draw your working by hand" title="Draw your working"><svg class="icon"><use href="#i-pencil"/></svg></button>
+        <button id="mic" class="photo-btn" type="button" aria-label="Speak your problem" title="Speak your problem"><svg class="icon"><use href="#i-mic"/></svg></button>
         <textarea id="input" aria-label="Type your maths problem" placeholder="e.g. Solve 2x + 6 = 18. I tried subtracting 2 but got stuck..."></textarea>
         <button id="send" class="send-btn" type="submit">Send</button>
       </div>
@@ -644,9 +697,9 @@
   <div id="sketch-modal" class="sketch-modal" hidden role="dialog" aria-modal="true" aria-label="Draw your working">
     <div class="sketch-card">
       <div class="sketch-tools">
-        <button id="sk-pen" type="button" class="on">✏️ Pen</button>
-        <button id="sk-eraser" type="button">🧽 Eraser</button>
-        <button id="sk-clear" type="button">🗑 Clear</button>
+        <button id="sk-pen" type="button" class="on"><svg class="icon"><use href="#i-pencil"/></svg> Pen</button>
+        <button id="sk-eraser" type="button">Eraser</button>
+        <button id="sk-clear" type="button">Clear</button>
         <span class="spacer"></span>
         <button id="sk-cancel" type="button">Cancel</button>
         <button id="sk-send" type="button" class="primary">Attach drawing</button>
@@ -1043,12 +1096,12 @@
       b.className = "copy-btn";
       b.title = "Copy this reply";
       b.setAttribute("aria-label", "Copy this reply");
-      b.textContent = "📋";
+      b.appendChild(iconSvg("i-clipboard"));
       b.addEventListener("click", async () => {
         try {
           await navigator.clipboard.writeText(text);
-          b.textContent = "✓";
-          setTimeout(() => { b.textContent = "📋"; }, 1200);
+          b.replaceChildren(iconSvg("i-check"));
+          setTimeout(() => b.replaceChildren(iconSvg("i-clipboard")), 1200);
         } catch { /* clipboard unavailable */ }
       });
       bubble.appendChild(b);
@@ -1058,14 +1111,24 @@
 
     const chipsEl = document.getElementById("chips");
     const CHIPS = [
-      ["💡 Give me a hint", "Can I get a small hint for my next step? Just one nudge, not the answer."],
-      ["📝 Show a similar example", "I'm stuck — please fully work a similar example with different numbers, then let me try mine again."],
-      ["🔁 Explain it simpler", "Can you explain that last part again, more simply?"],
+      ["i-bulb", "Give me a hint", "Can I get a small hint for my next step? Just one nudge, not the answer."],
+      ["i-file", "Show a similar example", "I'm stuck — please fully work a similar example with different numbers, then let me try mine again."],
+      ["i-refresh", "Explain it simpler", "Can you explain that last part again, more simply?"],
     ];
-    for (const [label, msg] of CHIPS) {
+    function iconSvg(id) {
+      const NS = "http://www.w3.org/2000/svg";
+      const svg = document.createElementNS(NS, "svg");
+      svg.setAttribute("class", "icon");
+      const use = document.createElementNS(NS, "use");
+      use.setAttribute("href", "#" + id);
+      svg.appendChild(use);
+      return svg;
+    }
+    for (const [icon, label, msg] of CHIPS) {
       const b = document.createElement("button");
       b.type = "button";
-      b.textContent = label;
+      b.appendChild(iconSvg(icon));
+      b.appendChild(document.createTextNode(" " + label));
       b.addEventListener("click", () => {
         chipsEl.hidden = true;
         converse(msg, { displayText: label });
@@ -1233,7 +1296,7 @@
         recognizer.interimResults = true;
         recognizer.continuous = false;
         const base = input.value ? input.value.trimEnd() + " " : "";
-        micBtn.textContent = "🔴";
+        micBtn.classList.add("rec");
         recognizer.onresult = (e) => {
           input.value = base + Array.from(e.results).map((r) => r[0].transcript).join("");
         };
@@ -1248,7 +1311,7 @@
         };
         recognizer.onend = () => {
           recognizer = null;
-          micBtn.textContent = "🎤";
+          micBtn.classList.remove("rec");
           input.focus();
         };
         recognizer.start();
@@ -1264,7 +1327,8 @@
       speakOn = !speakOn;
       speakBtn.classList.toggle("on", speakOn);
       speakBtn.setAttribute("aria-pressed", String(speakOn));
-      speakBtn.textContent = speakOn ? "🔊 Reading aloud" : "🔈 Read aloud";
+      speakBtn.querySelector("use").setAttribute("href", speakOn ? "#i-speaker-on" : "#i-speaker");
+      document.getElementById("speak-label").textContent = speakOn ? "Reading aloud" : "Read aloud";
       if (!speakOn) {
         speechSynthesis.cancel();
         return;
@@ -1516,9 +1580,9 @@
         "\n\n— MathMentor Barbados · " + location.origin;
       const waHref = "https://wa.me/?text=" + encodeURIComponent(shareText);
       win.document.write(`<!doctype html><html><head><title>MathMentor Session Recap</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.22/katex.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.22/katex.min.js"><\/script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.22/contrib/auto-render.min.js"><\/script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.21/katex.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.21/katex.min.js"><\/script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.21/contrib/auto-render.min.js"><\/script>
         <style>body{font-family:Georgia,serif;max-width:680px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#16213a}
         h1{font-size:1.3rem;border-bottom:3px solid #ffc726;padding-bottom:.5rem}
         pre{white-space:pre-wrap;font-family:inherit}
