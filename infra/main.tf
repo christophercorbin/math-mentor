@@ -53,7 +53,12 @@ resource "aws_iam_role_policy" "bedrock" {
         "bedrock:InvokeModel",
         "bedrock:InvokeModelWithResponseStream",
       ]
-      Resource = "*" # scope to specific model/inference-profile ARNs in production
+      # Cross-region inference profile + the underlying foundation models it
+      # routes to (us-east-1 / us-east-2 / us-west-2).
+      Resource = [
+        "arn:aws:bedrock:${var.region}:${data.aws_caller_identity.current.account_id}:inference-profile/${var.model_id}",
+        "arn:aws:bedrock:*::foundation-model/${replace(var.model_id, "us.", "")}",
+      ]
     }]
   })
 }
@@ -68,6 +73,10 @@ resource "aws_lambda_function" "tutor" {
   timeout          = 60
   memory_size      = 256
 
+  # Caps parallel invocations so a scripted abuser can't run up the Bedrock
+  # bill; plenty for a classroom of concurrent students.
+  reserved_concurrent_executions = 10
+
   environment {
     variables = {
       MODEL_ID = var.model_id
@@ -75,38 +84,31 @@ resource "aws_lambda_function" "tutor" {
   }
 }
 
+# The Function URL is no longer public: it requires SigV4 (AWS_IAM) and only
+# CloudFront — via Origin Access Control — is granted invoke permission.
+# Browsers reach it same-origin at https://<distribution>/api.
 resource "aws_lambda_function_url" "tutor" {
   function_name      = aws_lambda_function.tutor.function_name
-  authorization_type = "NONE"
+  authorization_type = "AWS_IAM"
   invoke_mode        = "RESPONSE_STREAM"
-
-  cors {
-    allow_origins = var.allowed_origins
-    allow_methods = ["POST"]
-    allow_headers = ["content-type"]
-    max_age       = 3600
-  }
 }
 
-resource "aws_lambda_permission" "public_url" {
-  statement_id           = "AllowPublicFunctionUrlInvoke"
-  action                 = "lambda:InvokeFunctionUrl"
-  function_name          = aws_lambda_function.tutor.function_name
-  principal              = "*"
-  function_url_auth_type = "NONE"
+resource "aws_lambda_permission" "cloudfront_url" {
+  statement_id  = "AllowCloudFrontInvokeFunctionUrl"
+  action        = "lambda:InvokeFunctionUrl"
+  function_name = aws_lambda_function.tutor.function_name
+  principal     = "cloudfront.amazonaws.com"
+  source_arn    = aws_cloudfront_distribution.web.arn
 }
 
-# Lambda Function URLs in RESPONSE_STREAM mode require an additional
-# lambda:InvokeFunction grant on the resource policy for the URL service to
-# stream from the function. Resource-scoped to this specific function ARN;
-# token budget per-call bounds blast radius. (Amplify CDK adds an extra
-# lambda:InvokedViaFunctionUrl=true condition that the Terraform AWS
-# provider doesn't expose; revisit when the provider supports that key.)
-resource "aws_lambda_permission" "public_url_invoke_function" {
-  statement_id  = "AllowPublicInvokeViaFunctionUrl"
+# RESPONSE_STREAM URLs also need lambda:InvokeFunction on the resource policy;
+# scoped to this distribution instead of the old public ("*") grant.
+resource "aws_lambda_permission" "cloudfront_invoke_function" {
+  statement_id  = "AllowCloudFrontInvokeForStreaming"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.tutor.function_name
-  principal     = "*"
+  principal     = "cloudfront.amazonaws.com"
+  source_arn    = aws_cloudfront_distribution.web.arn
 }
 
 # ---------- Static site (S3 + CloudFront with OAC) ----------
@@ -125,20 +127,47 @@ resource "aws_s3_bucket_public_access_block" "web" {
   restrict_public_buckets = true
 }
 
+locals {
+  # Same-origin API path (CloudFront /api behavior) + canonical/OG URLs
+  # rewritten to the custom domain once it is live.
+  index_html = replace(
+    replace(file("${path.module}/../web/index.html"), "%%API_URL%%", "/api"),
+    "https://d297i0l0pfbu7x.cloudfront.net",
+    local.site_origin
+  )
+}
+
 resource "aws_s3_object" "index" {
   bucket       = aws_s3_bucket.web.id
   key          = "index.html"
   content_type = "text/html"
-  content = replace(
-    file("${path.module}/../web/index.html"),
-    "%%API_URL%%",
-    aws_lambda_function_url.tutor.function_url
-  )
-  etag = md5(replace(
-    file("${path.module}/../web/index.html"),
-    "%%API_URL%%",
-    aws_lambda_function_url.tutor.function_url
-  ))
+  content      = local.index_html
+  etag         = md5(local.index_html)
+}
+
+resource "aws_s3_object" "manifest" {
+  bucket       = aws_s3_bucket.web.id
+  key          = "manifest.webmanifest"
+  content_type = "application/manifest+json"
+  content      = file("${path.module}/../web/manifest.webmanifest")
+  etag         = md5(file("${path.module}/../web/manifest.webmanifest"))
+}
+
+# Social-share image (Open Graph / Twitter) and apple-touch icon, referenced from index.html <head>.
+resource "aws_s3_object" "og_image" {
+  bucket       = aws_s3_bucket.web.id
+  key          = "og-image.png"
+  content_type = "image/png"
+  source       = "${path.module}/../web/og-image.png"
+  etag         = filemd5("${path.module}/../web/og-image.png")
+}
+
+resource "aws_s3_object" "apple_touch_icon" {
+  bucket       = aws_s3_bucket.web.id
+  key          = "apple-touch-icon.png"
+  content_type = "image/png"
+  source       = "${path.module}/../web/apple-touch-icon.png"
+  etag         = filemd5("${path.module}/../web/apple-touch-icon.png")
 }
 
 resource "aws_cloudfront_origin_access_control" "web" {
@@ -148,10 +177,123 @@ resource "aws_cloudfront_origin_access_control" "web" {
   signing_protocol                  = "sigv4"
 }
 
+# OAC for the Lambda Function URL origin: CloudFront SigV4-signs requests so
+# the AWS_IAM-protected URL only accepts traffic from this distribution.
+resource "aws_cloudfront_origin_access_control" "api" {
+  name                              = "${var.project}-api-oac"
+  origin_access_control_origin_type = "lambda"
+  signing_behavior                  = "always"
+  signing_protocol                  = "sigv4"
+}
+
+# Security headers for the static site (CSP locked to self + cdnjs).
+resource "aws_cloudfront_response_headers_policy" "security" {
+  name = "${var.project}-security-headers"
+
+  security_headers_config {
+    content_type_options {
+      override = true
+    }
+    frame_options {
+      frame_option = "DENY"
+      override     = true
+    }
+    referrer_policy {
+      referrer_policy = "strict-origin-when-cross-origin"
+      override        = true
+    }
+    strict_transport_security {
+      access_control_max_age_sec = 31536000
+      include_subdomains         = true
+      override                   = true
+    }
+    content_security_policy {
+      content_security_policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; font-src https://cdnjs.cloudflare.com; img-src 'self' data: blob:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'; object-src 'none'"
+      override                = true
+    }
+  }
+}
+
+locals {
+  # "https://abc123.lambda-url.us-east-1.on.aws/" -> "abc123.lambda-url.us-east-1.on.aws"
+  api_origin_domain = trimsuffix(trimprefix(aws_lambda_function_url.tutor.function_url, "https://"), "/")
+  use_custom_domain = var.domain_ready && var.domain_name != ""
+  # Canonical origin baked into the page's <head> (canonical/OG/Twitter URLs).
+  site_origin = local.use_custom_domain ? "https://${var.domain_name}" : "https://d297i0l0pfbu7x.cloudfront.net"
+}
+
+# ---------- Custom domain (DNS lives in Cloudflare — see variables.tf) ----------
+
+resource "aws_acm_certificate" "custom" {
+  count             = var.domain_name != "" ? 1 : 0
+  domain_name       = var.domain_name
+  validation_method = "DNS"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+# Waits until the validation CNAME has been added in Cloudflare and the cert
+# is ISSUED. Only instantiated once domain_ready=true, so the first apply
+# never hangs waiting on DNS.
+resource "aws_acm_certificate_validation" "custom" {
+  count           = local.use_custom_domain ? 1 : 0
+  certificate_arn = aws_acm_certificate.custom[0].arn
+}
+
+# CloudFront access logs (who is using the tutor, and what errors they see).
+resource "aws_s3_bucket" "logs" {
+  bucket = "${var.project}-logs-${data.aws_caller_identity.current.account_id}"
+}
+
+resource "aws_s3_bucket_public_access_block" "logs" {
+  bucket                  = aws_s3_bucket.logs.id
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+# CloudFront standard logging writes via the S3 log-delivery group, which
+# requires ACLs to be enabled on the bucket.
+resource "aws_s3_bucket_ownership_controls" "logs" {
+  bucket = aws_s3_bucket.logs.id
+  rule {
+    object_ownership = "ObjectWriter"
+  }
+}
+
+resource "aws_s3_bucket_acl" "logs" {
+  depends_on = [aws_s3_bucket_ownership_controls.logs]
+  bucket     = aws_s3_bucket.logs.id
+  acl        = "log-delivery-write"
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "logs" {
+  bucket = aws_s3_bucket.logs.id
+  rule {
+    id     = "expire-old-logs"
+    status = "Enabled"
+    filter {}
+    expiration {
+      days = 90
+    }
+  }
+}
+
 resource "aws_cloudfront_distribution" "web" {
   enabled             = true
   default_root_object = "index.html"
   price_class         = "PriceClass_100"
+
+  aliases = local.use_custom_domain ? [var.domain_name] : []
+
+  logging_config {
+    bucket          = aws_s3_bucket.logs.bucket_domain_name
+    prefix          = "cloudfront/"
+    include_cookies = false
+  }
 
   origin {
     domain_name              = aws_s3_bucket.web.bucket_regional_domain_name
@@ -159,20 +301,125 @@ resource "aws_cloudfront_distribution" "web" {
     origin_access_control_id = aws_cloudfront_origin_access_control.web.id
   }
 
+  origin {
+    domain_name              = local.api_origin_domain
+    origin_id                = "lambda-api"
+    origin_access_control_id = aws_cloudfront_origin_access_control.api.id
+
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "https-only"
+      origin_ssl_protocols   = ["TLSv1.2"]
+    }
+  }
+
   default_cache_behavior {
-    allowed_methods        = ["GET", "HEAD"]
-    cached_methods         = ["GET", "HEAD"]
-    target_origin_id       = "s3-web"
-    viewer_protocol_policy = "redirect-to-https"
-    cache_policy_id        = "658327ea-f89d-4fab-a63d-7e88639e58f6" # Managed-CachingOptimized
+    allowed_methods            = ["GET", "HEAD"]
+    cached_methods             = ["GET", "HEAD"]
+    target_origin_id           = "s3-web"
+    viewer_protocol_policy     = "redirect-to-https"
+    cache_policy_id            = "658327ea-f89d-4fab-a63d-7e88639e58f6" # Managed-CachingOptimized
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.security.id
+  }
+
+  # Tutor API, same-origin for the browser (no CORS, no exposed function URL).
+  ordered_cache_behavior {
+    path_pattern             = "/api"
+    allowed_methods          = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+    cached_methods           = ["GET", "HEAD"]
+    target_origin_id         = "lambda-api"
+    viewer_protocol_policy   = "https-only"
+    cache_policy_id          = "4135ea2d-6df8-44a3-9df3-4b5a84be39ad" # Managed-CachingDisabled
+    origin_request_policy_id = "b689b0a8-53d0-40ab-baf2-68738e2966ac" # Managed-AllViewerExceptHostHeader
   }
 
   restrictions {
     geo_restriction { restriction_type = "none" }
   }
 
+  # Default *.cloudfront.net cert until domain_ready=true; then the validated
+  # ACM cert with SNI and TLSv1.2_2021 minimum. Referencing the cert ARN
+  # through the validation resource forces the wait-for-ISSUED ordering.
   viewer_certificate {
-    cloudfront_default_certificate = true
+    cloudfront_default_certificate = local.use_custom_domain ? null : true
+    acm_certificate_arn            = local.use_custom_domain ? aws_acm_certificate_validation.custom[0].certificate_arn : null
+    ssl_support_method             = local.use_custom_domain ? "sni-only" : null
+    minimum_protocol_version       = local.use_custom_domain ? "TLSv1.2_2021" : null
+  }
+}
+
+# ---------- Error monitoring ----------
+
+resource "aws_sns_topic" "alerts" {
+  name = "${var.project}-alerts"
+}
+
+resource "aws_sns_topic_subscription" "alerts_email" {
+  topic_arn = aws_sns_topic.alerts.arn
+  protocol  = "email"
+  endpoint  = var.alert_email
+}
+
+# Fires when the tutor Lambda throws (Bedrock failures, bugs) so problems are
+# noticed before a student reports them.
+resource "aws_cloudwatch_metric_alarm" "lambda_errors" {
+  alarm_name          = "${var.project}-lambda-errors"
+  alarm_description   = "MathMentor tutor Lambda reported errors"
+  namespace           = "AWS/Lambda"
+  metric_name         = "Errors"
+  dimensions          = { FunctionName = aws_lambda_function.tutor.function_name }
+  statistic           = "Sum"
+  period              = 300
+  evaluation_periods  = 1
+  threshold           = 1
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  treat_missing_data  = "notBreaching"
+  alarm_actions       = [aws_sns_topic.alerts.arn]
+  ok_actions          = [aws_sns_topic.alerts.arn]
+}
+
+# Throttles mean the reserved-concurrency cap (10) is being hit — either real
+# classroom load (raise it) or abuse (investigate the CloudFront logs).
+resource "aws_cloudwatch_metric_alarm" "lambda_throttles" {
+  alarm_name          = "${var.project}-lambda-throttles"
+  alarm_description   = "MathMentor tutor Lambda is being throttled (concurrency cap reached)"
+  namespace           = "AWS/Lambda"
+  metric_name         = "Throttles"
+  dimensions          = { FunctionName = aws_lambda_function.tutor.function_name }
+  statistic           = "Sum"
+  period              = 300
+  evaluation_periods  = 1
+  threshold           = 5
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  treat_missing_data  = "notBreaching"
+  alarm_actions       = [aws_sns_topic.alerts.arn]
+}
+
+# ---------- Cost guardrail ----------
+
+# Account-wide monthly cost alert (Bedrock abuse would show up here first).
+resource "aws_budgets_budget" "monthly" {
+  name         = "${var.project}-monthly-cost"
+  budget_type  = "COST"
+  limit_amount = var.monthly_budget_usd
+  limit_unit   = "USD"
+  time_unit    = "MONTHLY"
+
+  notification {
+    comparison_operator        = "GREATER_THAN"
+    threshold                  = 80
+    threshold_type             = "PERCENTAGE"
+    notification_type          = "ACTUAL"
+    subscriber_email_addresses = [var.alert_email]
+  }
+
+  notification {
+    comparison_operator        = "GREATER_THAN"
+    threshold                  = 100
+    threshold_type             = "PERCENTAGE"
+    notification_type          = "FORECASTED"
+    subscriber_email_addresses = [var.alert_email]
   }
 }
 

@@ -5,9 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MathMentor Barbados | Yuh Socratic AI Math Tutor</title>
   <meta name="description" content="A Bajan Socratic AI math tutor for Common Entrance, CSEC/CXC and beyond. Guides you to the answer instead of giving it away. Powered by Claude on Amazon Bedrock." />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css" />
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+  <link rel="canonical" href="https://d297i0l0pfbu7x.cloudfront.net/" />
+  <meta name="theme-color" content="#00267f" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0e1320" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='7'%20fill='%2300267f'/%3E%3Cpath%20d='M0%200h32v32z'%20fill='%23ffc726'%20opacity='0'/%3E%3Ctext%20x='16'%20y='23'%20font-family='Arial,Helvetica,sans-serif'%20font-size='20'%20font-weight='bold'%20text-anchor='middle'%20fill='%23ffc726'%3EM%3C/text%3E%3C/svg%3E" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <!-- Open Graph / social sharing (WhatsApp, Facebook, etc.) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="MathMentor Barbados" />
+  <meta property="og:title" content="MathMentor Barbados | Yuh Socratic AI Math Tutor" />
+  <meta property="og:description" content="A Bajan Socratic AI math tutor for Common Entrance, CSEC/CXC and beyond. Guides you to the answer instead of giving it away." />
+  <meta property="og:url" content="https://d297i0l0pfbu7x.cloudfront.net/" />
+  <meta property="og:image" content="https://d297i0l0pfbu7x.cloudfront.net/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="MathMentor Barbados | Yuh Socratic AI Math Tutor" />
+  <meta name="twitter:description" content="A Bajan Socratic AI math tutor for Common Entrance, CSEC/CXC and beyond." />
+  <meta name="twitter:image" content="https://d297i0l0pfbu7x.cloudfront.net/og-image.png" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.22/katex.min.css"
+        integrity="sha384-5TcZemv2l/9On385z///+d7MSYlvIEw9FuZTIdZ14vJLqWphw7e7ZPuOiCHJcFCP" crossorigin="anonymous" />
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.22/katex.min.js"
+          integrity="sha384-cMkvdD8LoxVzGF/RPUKAcvmm49FQ0oxwDF3BGKtDXcEc+T1b2N+teh/OJfpU0jr6" crossorigin="anonymous"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.22/contrib/auto-render.min.js"
+          integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/marked/15.0.12/marked.min.js"
+          integrity="sha384-948ahk4ZmxYVYOc+rxN1H2gM1EJ2Duhp7uHtZ4WSLkV4Vtx5MUqnV+l7u9B+jFv+" crossorigin="anonymous"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.6/purify.min.js"
+          integrity="sha384-JEyTNhjM6R1ElGoJns4U2Ln4ofPcqzSsynQkmEc/KGy6336qAZl70tDLufbkla+3" crossorigin="anonymous"></script>
   <style>
     :root {
       /* Barbados flag palette: ultramarine, gold, black */
@@ -19,7 +45,35 @@
       --text: #16213a;
       --muted: #5b6478;
       --tutor-bubble: #fff7e0;
+      --tutor-border: #f3dfa0;
+      --border: #e2e8f0;
+      --input-border: #cbd5e1;
       --radius: 14px;
+    }
+
+    /* Night studying: follow the phone/OS setting */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --primary: #7aa2ff;
+        --primary-dark: #5b8cff;
+        --bg: #0e1320;
+        --card: #1a2233;
+        --text: #e8ecf5;
+        --muted: #9aa8c0;
+        --tutor-bubble: #2b2514;
+        --tutor-border: #4a3f1d;
+        --border: #2a3550;
+        --input-border: #3a4663;
+      }
+      .msg.user { background: #2f4d8f; }
+      .send-btn { background: #2f4d8f; }
+      .send-btn:hover:not(:disabled) { background: #3a5da8; }
+      .exam-bar { background: #2f4d8f; }
+      .practice button, .exam-bar button { color: #16213a; }
+      .msg.error { background: #3a1616; border-color: #7a2e2e; color: #ffb4b4; }
+      .msg.notice { background: #1d2540; border-color: #39466f; color: #b3c0ff; }
+      .msg.rich code { background: rgba(255, 255, 255, 0.1); }
+      .msg.rich pre { background: rgba(255, 255, 255, 0.08); }
     }
 
     * { box-sizing: border-box; margin: 0; }
@@ -35,7 +89,7 @@
 
     header {
       background: var(--card);
-      border-bottom: 1px solid #e2e8f0;
+      border-bottom: 1px solid var(--border);
       padding: 0.9rem 1.5rem;
       display: flex;
       align-items: center;
@@ -121,7 +175,7 @@
       gap: 0.5rem;
       align-items: center;
       background: var(--card);
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 0.6rem 0.8rem;
       margin-bottom: 1rem;
@@ -134,9 +188,9 @@
       font: inherit;
       font-size: 0.85rem;
       padding: 0.35rem 0.5rem;
-      border: 1.5px solid #cbd5e1;
+      border: 1.5px solid var(--input-border);
       border-radius: 8px;
-      background: white;
+      background: var(--card);
       color: var(--text);
     }
 
@@ -157,7 +211,7 @@
     /* Past papers drawer */
     .papers {
       background: var(--card);
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--border);
       border-radius: var(--radius);
       margin-bottom: 1rem;
       font-size: 0.85rem;
@@ -190,7 +244,7 @@
       display: block;
       padding: 0.35rem 0.55rem;
       background: var(--bg);
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--border);
       border-radius: 8px;
       color: var(--text);
       text-decoration: none;
@@ -241,12 +295,25 @@
     .msg.tutor {
       align-self: flex-start;
       background: var(--tutor-bubble);
-      border: 1px solid #f3dfa0;
+      border: 1px solid var(--tutor-border);
       border-bottom-left-radius: 4px;
     }
 
     .msg.thinking { color: var(--muted); font-style: italic; }
     .msg.error { background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c; }
+    .msg.notice { align-self: center; background: #eef2ff; border: 1px solid #c7d2fe; color: #3730a3; font-size: 0.85rem; }
+
+    /* Rendered-markdown tutor bubbles */
+    .msg.rich { white-space: normal; }
+    .msg.rich p { margin: 0 0 0.55em; }
+    .msg.rich p:last-child { margin-bottom: 0; }
+    .msg.rich ul, .msg.rich ol { margin: 0.35em 0 0.55em 1.25em; padding: 0; }
+    .msg.rich li { margin: 0.2em 0; }
+    .msg.rich h1, .msg.rich h2, .msg.rich h3, .msg.rich h4 { font-size: 1.02em; margin: 0.6em 0 0.3em; }
+    .msg.rich code { background: rgba(0, 0, 0, 0.07); padding: 0.1em 0.35em; border-radius: 4px; font-size: 0.9em; }
+    .msg.rich pre { background: rgba(0, 0, 0, 0.06); padding: 0.6em 0.8em; border-radius: 8px; overflow-x: auto; }
+    .msg.rich blockquote { border-left: 3px solid var(--accent); margin: 0.4em 0; padding-left: 0.7em; color: var(--muted); }
+    .msg.rich .katex-display { overflow-x: auto; overflow-y: hidden; padding: 0.2em 0; }
 
     .msg img.attached {
       display: block;
@@ -269,7 +336,7 @@
       align-items: center;
       gap: 0.6rem;
       background: var(--card);
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--border);
       border-radius: 10px;
       padding: 0.4rem 0.6rem;
       margin-bottom: 0.5rem;
@@ -289,7 +356,7 @@
     .photo-btn {
       align-self: flex-end;
       background: var(--card);
-      border: 1.5px solid #cbd5e1;
+      border: 1.5px solid var(--input-border);
       border-radius: var(--radius);
       padding: 0.8rem 0.9rem;
       font-size: 1.1rem;
@@ -301,7 +368,7 @@
     textarea {
       flex: 1;
       resize: none;
-      border: 1.5px solid #cbd5e1;
+      border: 1.5px solid var(--input-border);
       border-radius: var(--radius);
       padding: 0.8rem 1rem;
       font: inherit;
@@ -337,6 +404,148 @@
     }
 
     footer a { color: var(--primary); }
+
+    /* Progress strip (streak + topic mastery) */
+    .mastery { width: 100%; font-size: 0.78rem; color: var(--muted); }
+    .mastery b { color: var(--text); }
+
+    /* Math symbol toolbar */
+    .mathbar { display: flex; flex-wrap: wrap; gap: 0.3rem; padding-bottom: 0.4rem; }
+    .mathbar button {
+      background: var(--card);
+      border: 1px solid var(--input-border);
+      color: var(--text);
+      border-radius: 7px;
+      padding: 0.25rem 0.6rem;
+      font: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+      line-height: 1.3;
+    }
+    .mathbar button:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* Copy-reply button on tutor bubbles */
+    .msg { position: relative; }
+    .msg .copy-btn {
+      position: absolute;
+      top: 0.25rem; right: 0.3rem;
+      background: none; border: none;
+      font-size: 0.78rem;
+      cursor: pointer;
+      opacity: 0.35;
+      padding: 0.15rem;
+    }
+    .msg .copy-btn:hover { opacity: 1; }
+
+    /* Quick-reply chips */
+    .chips { display: flex; flex-wrap: wrap; gap: 0.45rem; padding-bottom: 0.5rem; }
+    .chips button {
+      background: var(--card);
+      border: 1.5px solid var(--input-border);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 0.4rem 0.85rem;
+      font: inherit;
+      font-size: 0.82rem;
+      cursor: pointer;
+    }
+    .chips button:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* Handwriting canvas modal */
+    .sketch-modal {
+      position: fixed; inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 50; padding: 1rem;
+    }
+    .sketch-modal[hidden] { display: none; }
+    .sketch-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 0.7rem;
+      display: flex; flex-direction: column; gap: 0.6rem;
+      max-width: 720px; width: 100%;
+    }
+    .sketch-tools { display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center; }
+    .sketch-tools .spacer { flex: 1; }
+    .sketch-tools button {
+      font: inherit; font-size: 0.82rem;
+      padding: 0.4rem 0.7rem;
+      border-radius: 8px;
+      border: 1.5px solid var(--input-border);
+      background: var(--card); color: var(--text);
+      cursor: pointer;
+    }
+    .sketch-tools button.on { border-color: var(--primary); color: var(--primary); font-weight: 700; }
+    .sketch-tools button.primary { background: var(--primary); border-color: var(--primary); color: white; font-weight: 700; }
+    #sk-canvas {
+      width: 100%; height: 52vh;
+      background: #fff;
+      border: 1px solid var(--input-border);
+      border-radius: 8px;
+      touch-action: none;
+      cursor: crosshair;
+    }
+
+    /* Visually-hidden helper for screen-reader announcements */
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* ---- Phones (<=600px) ---- */
+    @media (max-width: 600px) {
+      /* Header: wrap so the two buttons drop to their own full-width row
+         instead of crushing the title. */
+      header {
+        flex-wrap: wrap;
+        row-gap: 0.5rem;
+        gap: 0.5rem;
+        padding: 0.6rem 0.9rem;
+      }
+      header h1 { font-size: 1rem; }
+      header p { font-size: 0.7rem; line-height: 1.3; }
+      .header-spacer { flex-basis: 100%; height: 0; }
+      .speak-btn, .recap-btn {
+        flex: 1;
+        padding: 0.55rem 0.5rem;
+        font-size: 0.8rem;
+        text-align: center;
+      }
+
+      main { padding: 0.7rem 0.7rem 0; }
+
+      /* Practice/exam controls: full-width, tappable, no cramped inline row.
+         Labels span the row; selects pair up (and a lone one fills the row);
+         action buttons go full width. */
+      .practice { gap: 0.5rem; padding: 0.7rem; }
+      .practice label { width: 100%; margin-bottom: -0.15rem; }
+      .practice select { flex: 1 1 40%; min-width: 0; padding: 0.55rem 0.5rem; }
+      .practice button { flex: 1 1 100%; padding: 0.7rem; font-size: 0.9rem; }
+      .practice > span { display: none; } /* hide the "|" divider */
+
+      /* Exam bar */
+      .exam-bar { padding: 0.55rem 0.7rem; font-size: 0.85rem; }
+
+      /* Past-papers grid: smaller min so 2 fit comfortably */
+      .papers-grid { grid-template-columns: repeat(auto-fill, minmax(115px, 1fr)); }
+
+      /* Chat bubbles a touch wider on a narrow screen */
+      .msg { max-width: 92%; font-size: 0.92rem; }
+
+      /* Composer: keep one row but make the icon buttons and send compact
+         so the textarea keeps usable width. */
+      .composer-row { gap: 0.4rem; }
+      .photo-btn { padding: 0.7rem 0.6rem; font-size: 1rem; }
+      textarea { padding: 0.7rem 0.75rem; min-height: 48px; }
+      .send-btn { padding: 0.8rem 0.85rem; }
+      footer { font-size: 0.7rem; }
+    }
   </style>
 </head>
 <body>
@@ -349,6 +558,7 @@
     <div class="header-spacer"></div>
     <button id="speak" class="speak-btn" type="button" title="Read the tutor's replies aloud">🔈 Read aloud</button>
     <button id="recap" class="recap-btn" type="button" disabled title="Work through at least one problem first">Session recap</button>
+    <button id="new-session" class="recap-btn" type="button" title="Clear this conversation and start fresh">New session</button>
   </header>
 
   <main>
@@ -380,6 +590,7 @@
         <option value="160">2h 40m (P2)</option>
       </select>
       <button id="exam-btn" type="button">Start exam</button>
+      <span id="mastery" class="mastery" hidden></span>
     </div>
 
     <div id="exam-bar" class="exam-bar" role="timer">
@@ -396,11 +607,24 @@
       <p class="papers-credit">Papers hosted by <a href="https://www.csecmathtutor.com/past-papers.html" rel="noopener" target="_blank">CSEC Math Tutor</a>.</p>
     </details>
 
-    <div id="chat" aria-live="polite">
+    <div id="sr-live" class="sr-only" aria-live="polite" role="status"></div>
+    <div id="chat">
       <div class="msg tutor">Hi! I'm MathMentor. Whether it's Common Entrance practice or CSEC Maths, type your problem, snap a photo of it 📷, grab a past paper from the drawer above, or hit "Gimme a problem", and leh we work through it together, step by step.</div>
     </div>
 
     <form id="composer">
+      <div id="chips" class="chips" hidden></div>
+      <div id="mathbar" class="mathbar" aria-label="Insert a math symbol">
+        <button type="button" data-ins="²" title="Squared">x²</button>
+        <button type="button" data-ins="³" title="Cubed">x³</button>
+        <button type="button" data-ins="√" title="Square root">√</button>
+        <button type="button" data-ins="÷" title="Divided by">÷</button>
+        <button type="button" data-ins="×" title="Times">×</button>
+        <button type="button" data-ins="π" title="Pi">π</button>
+        <button type="button" data-ins="°" title="Degrees">°</button>
+        <button type="button" data-ins="≤" title="Less than or equal">≤</button>
+        <button type="button" data-ins="≥" title="Greater than or equal">≥</button>
+      </div>
       <div id="attachment" class="attachment-preview">
         <img id="attachment-img" alt="Attached problem photo" />
         <span>Photo attached</span>
@@ -409,12 +633,27 @@
       <div class="composer-row">
         <input id="file" type="file" accept="image/*" hidden />
         <button id="photo" class="photo-btn" type="button" aria-label="Attach a photo of your problem" title="Attach a photo">📷</button>
+        <button id="sketch" class="photo-btn" type="button" aria-label="Draw your working by hand" title="Draw your working">✏️</button>
         <button id="mic" class="photo-btn" type="button" aria-label="Speak your problem" title="Speak your problem">🎤</button>
-        <textarea id="input" placeholder="e.g. Solve 2x + 6 = 18. I tried subtracting 2 but got stuck..."></textarea>
+        <textarea id="input" aria-label="Type your maths problem" placeholder="e.g. Solve 2x + 6 = 18. I tried subtracting 2 but got stuck..."></textarea>
         <button id="send" class="send-btn" type="submit">Send</button>
       </div>
     </form>
   </main>
+
+  <div id="sketch-modal" class="sketch-modal" hidden role="dialog" aria-modal="true" aria-label="Draw your working">
+    <div class="sketch-card">
+      <div class="sketch-tools">
+        <button id="sk-pen" type="button" class="on">✏️ Pen</button>
+        <button id="sk-eraser" type="button">🧽 Eraser</button>
+        <button id="sk-clear" type="button">🗑 Clear</button>
+        <span class="spacer"></span>
+        <button id="sk-cancel" type="button">Cancel</button>
+        <button id="sk-send" type="button" class="primary">Attach drawing</button>
+      </div>
+      <canvas id="sk-canvas"></canvas>
+    </div>
+  </div>
 
   <footer>
     Made in Barbados 🇧🇧 · Built with Claude on Amazon Bedrock · AWS Lambda · <a href="https://github.com/christophercorbin/math-mentor" rel="noopener">Source on GitHub</a>
@@ -435,10 +674,27 @@
     const attachmentRemove = document.getElementById("attachment-remove");
     const practiceBtn = document.getElementById("practice-btn");
     const recapBtn = document.getElementById("recap");
+    const srLive = document.getElementById("sr-live");
+
+    // Announce a completed reply once to screen readers (avoids re-announcing every
+    // streamed token, which a live region on the whole chat would do).
+    function announce(text) {
+      if (srLive) srLive.textContent = text;
+    }
 
     const history = [];
     let pendingImage = null; // { format, data, previewUrl }
     let busy = false;
+
+    // Keep the latest reply in view. The page itself scrolls (the body is min-height:100vh),
+    // so scroll the window; also nudge #chat in case it is the scroll container on some layouts.
+    function scrollToBottom(smooth) {
+      chat.scrollTop = chat.scrollHeight;
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: smooth ? "smooth" : "auto",
+      });
+    }
 
     // ---- CSEC past papers (hosted by csecmathtutor.com), newest first ----
     const PAPERS_BASE = "https://www.csecmathtutor.com/uploads/1/1/4/4/11440199/";
@@ -514,6 +770,36 @@
       }
     }
 
+    function escapeHtml(s) {
+      return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    }
+
+    // Render a completed tutor reply as sanitized markdown + KaTeX.
+    // LaTeX segments are masked before the markdown pass so marked doesn't
+    // mangle backslashes/underscores, then restored HTML-escaped for KaTeX.
+    function renderRich(el, text) {
+      if (!(window.marked && window.DOMPurify)) {
+        el.textContent = text;
+        renderMath(el);
+        return;
+      }
+      const holes = [];
+      const masked = text.replace(/\\\[[\s\S]*?\\\]|\\\([\s\S]*?\\\)/g,
+        (m) => `\uE000${holes.push(m) - 1}\uE001`);
+      let html = DOMPurify.sanitize(marked.parse(masked, { breaks: true }));
+      html = html.replace(/\uE000(\d+)\uE001/g, (_, i) => escapeHtml(holes[+i] ?? ""));
+      el.innerHTML = html;
+      el.classList.add("rich");
+      renderMath(el);
+    }
+
+    // Hex SHA-256 of the request body; CloudFront's Origin Access Control
+    // requires this header to SigV4-sign POSTs to the Lambda origin.
+    async function sha256Hex(str) {
+      const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
+      return [...new Uint8Array(digest)].map((b) => b.toString(16).padStart(2, "0")).join("");
+    }
+
     function addMessage(role, text, opts = {}) {
       const div = document.createElement("div");
       div.className = `msg ${role}${opts.extraClass ? " " + opts.extraClass : ""}`;
@@ -527,7 +813,7 @@
       if (text) div.appendChild(document.createTextNode(text));
       chat.appendChild(div);
       renderMath(div);
-      chat.scrollTop = chat.scrollHeight;
+      scrollToBottom(true);
       return div;
     }
 
@@ -535,7 +821,11 @@
       busy = state;
       send.disabled = state;
       practiceBtn.disabled = state;
-      recapBtn.disabled = state || history.length < 2;
+      const recapReady = !state && history.length >= 2;
+      recapBtn.disabled = !recapReady;
+      recapBtn.title = recapReady
+        ? "Get a printable recap of this session"
+        : "Work through at least one problem first";
     }
 
     // ---- Photo attach (client-side downscale to keep payloads small) ----
@@ -586,8 +876,44 @@
 
     // ---- Conversation ----
 
+    const CLIENT_MAX_TURNS = 40; // mirror of backend MAX_TURNS
+    const KEEP_IMAGES = 2; // only the most recent photos are re-sent each turn
+
+    // Build the wire payload:
+    // - Sliding window over the most recent turns, so long sessions never hit
+    //   the backend turn limit (the oldest messages simply age out).
+    // - Older photos are dropped (the tutor already transcribed them) so
+    //   sessions stay cheap and under body-size limits.
+    function buildPayload() {
+      let msgs = history.slice(-(CLIENT_MAX_TURNS - 2));
+      if (msgs[0]?.role === "assistant") msgs = msgs.slice(1); // must start with user
+      const imageIdx = msgs
+        .map((m, i) => (m.image ? i : -1))
+        .filter((i) => i >= 0)
+        .slice(-KEEP_IMAGES);
+      return msgs.map((m, i) => {
+        const msg = { role: m.role, content: m.content };
+        if (m.image && imageIdx.includes(i)) msg.image = m.image;
+        else if (m.image) msg.content = (m.content + " [photo sent earlier — you already transcribed it above]").slice(0, 4000);
+        return msg;
+      });
+    }
+
+    let longSessionNoticeShown = false;
+
     async function converse(userText, options = {}) {
       if (busy) return;
+      chipsEl.hidden = true;
+
+      if (!longSessionNoticeShown && history.length >= CLIENT_MAX_TURNS - 4) {
+        longSessionNoticeShown = true;
+        addMessage(
+          "tutor",
+          "Long session! I'll start forgetting the earliest messages soon — grab a Session recap to keep your notes, or press “New session” to start fresh.",
+          { extraClass: "notice" }
+        );
+      }
+
       const image = options.image ?? null;
       const displayText = options.displayText ?? userText;
 
@@ -600,10 +926,15 @@
       const bubble = addMessage("tutor", "Thinking…", { extraClass: "thinking" });
 
       try {
+        const body = JSON.stringify({ messages: buildPayload() });
         const res = await fetch(API_URL, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ messages: history }),
+          headers: {
+            "Content-Type": "application/json",
+            // Required by CloudFront OAC to SigV4-sign the POST to Lambda.
+            "x-amz-content-sha256": await sha256Hex(body),
+          },
+          body,
         });
 
         const contentType = res.headers.get("content-type") ?? "";
@@ -613,10 +944,13 @@
           const data = await res.json();
           if (!res.ok) throw new Error(data.error || `Request failed (${res.status})`);
           bubble.classList.remove("thinking");
-          bubble.textContent = data.reply;
-          renderMath(bubble);
+          renderRich(bubble, data.reply);
+          addCopy(bubble, data.reply);
           history.push({ role: "assistant", content: data.reply });
+          saveSession();
+          announce(data.reply);
           speak(data.reply);
+          afterReply(data.reply);
         } else {
           if (!res.ok) throw new Error(`Request failed (${res.status})`);
           // Streamed text
@@ -625,26 +959,175 @@
           const reader = res.body.getReader();
           const decoder = new TextDecoder();
           let full = "";
+          let lastRender = 0;
           for (;;) {
             const { done, value } = await reader.read();
             if (done) break;
             full += decoder.decode(value, { stream: true });
-            bubble.textContent = full;
-            chat.scrollTop = chat.scrollHeight;
+            // Live markdown: re-render at most ~6x/sec (skipping frames in
+            // between avoids flicker between formatted and plain text).
+            const now = Date.now();
+            if (now - lastRender > 160) {
+              renderRich(bubble, full);
+              lastRender = now;
+              scrollToBottom(false);
+            }
           }
-          renderMath(bubble);
+          renderRich(bubble, full);
+          addCopy(bubble, full);
+          scrollToBottom(false);
           history.push({ role: "assistant", content: full });
+          saveSession();
+          announce(full);
           speak(full);
+          afterReply(full);
         }
         return true;
       } catch (err) {
         bubble.remove();
         addMessage("tutor", `Something went wrong: ${err.message}. Please try again.`, { extraClass: "error" });
         history.pop();
+        // Give the student their message back instead of making them retype it.
+        if (options.restoreOnError) {
+          input.value = userText;
+          autogrow();
+          if (image) {
+            pendingImage = image;
+            attachmentImg.src = image.previewUrl || "";
+            attachment.classList.add("active");
+          }
+        }
         return false;
       } finally {
         setBusy(false);
       }
+    }
+
+    // ---- Math symbol toolbar (insert at cursor) ----
+
+    document.getElementById("mathbar").addEventListener("click", (e) => {
+      const ch = e.target.dataset?.ins;
+      if (!ch) return;
+      input.setRangeText(ch, input.selectionStart ?? input.value.length, input.selectionEnd ?? input.value.length, "end");
+      input.focus();
+    });
+
+    // ---- Remember practice level / topic / exam length ----
+
+    const PREFS_KEY = "mathmentor.prefs.v1";
+    const levelSel = document.getElementById("level");
+    const topicSel = document.getElementById("topic");
+    const durationSel = document.getElementById("exam-duration");
+    try {
+      const p = JSON.parse(localStorage.getItem(PREFS_KEY));
+      if (p?.level) levelSel.value = p.level;
+      if (p?.topic) topicSel.value = p.topic;
+      if (p?.duration) durationSel.value = p.duration;
+    } catch { /* ignore */ }
+    for (const sel of [levelSel, topicSel, durationSel]) {
+      sel.addEventListener("change", () => {
+        try {
+          localStorage.setItem(PREFS_KEY, JSON.stringify({
+            level: levelSel.value, topic: topicSel.value, duration: durationSel.value,
+          }));
+        } catch { /* ignore */ }
+      });
+    }
+
+    // ---- Copy a tutor reply ----
+
+    function addCopy(bubble, text) {
+      if (bubble.querySelector(".copy-btn")) return;
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "copy-btn";
+      b.title = "Copy this reply";
+      b.setAttribute("aria-label", "Copy this reply");
+      b.textContent = "📋";
+      b.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(text);
+          b.textContent = "✓";
+          setTimeout(() => { b.textContent = "📋"; }, 1200);
+        } catch { /* clipboard unavailable */ }
+      });
+      bubble.appendChild(b);
+    }
+
+    // ---- Quick-reply chips ----
+
+    const chipsEl = document.getElementById("chips");
+    const CHIPS = [
+      ["💡 Give me a hint", "Can I get a small hint for my next step? Just one nudge, not the answer."],
+      ["📝 Show a similar example", "I'm stuck — please fully work a similar example with different numbers, then let me try mine again."],
+      ["🔁 Explain it simpler", "Can you explain that last part again, more simply?"],
+    ];
+    for (const [label, msg] of CHIPS) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = label;
+      b.addEventListener("click", () => {
+        chipsEl.hidden = true;
+        converse(msg, { displayText: label });
+      });
+      chipsEl.appendChild(b);
+    }
+
+    function showChips() {
+      chipsEl.hidden = !!examTimer; // no shortcuts during an exam
+    }
+
+    // ---- Progress: streak + per-topic mastery (device-local, no server) ----
+
+    const MASTERY_KEY = "mathmentor.mastery.v1";
+    const masteryEl = document.getElementById("mastery");
+    let currentTopic = null;
+
+    function loadMastery() {
+      try {
+        return JSON.parse(localStorage.getItem(MASTERY_KEY)) || { topics: {}, streak: { count: 0, last: "" } };
+      } catch {
+        return { topics: {}, streak: { count: 0, last: "" } };
+      }
+    }
+    function saveMastery(m) {
+      try { localStorage.setItem(MASTERY_KEY, JSON.stringify(m)); } catch { /* ignore */ }
+    }
+    function bumpStreak(m) {
+      const today = new Date().toISOString().slice(0, 10);
+      if (m.streak.last === today) return;
+      const yesterday = new Date(Date.now() - 864e5).toISOString().slice(0, 10);
+      m.streak.count = m.streak.last === yesterday ? m.streak.count + 1 : 1;
+      m.streak.last = today;
+    }
+    function recordActivity(topic, solved) {
+      const m = loadMastery();
+      if (topic) {
+        const t = (m.topics[topic] ??= { attempted: 0, solved: 0 });
+        if (solved) t.solved += 1;
+        else t.attempted += 1;
+      }
+      bumpStreak(m);
+      saveMastery(m);
+      renderMastery();
+    }
+    function renderMastery() {
+      const m = loadMastery();
+      masteryEl.textContent = "";
+      const bits = [];
+      if (m.streak.count > 1) bits.push(`🔥 ${m.streak.count}-day streak`);
+      const t = currentTopic && m.topics[currentTopic];
+      if (t && t.attempted) bits.push(`${currentTopic}: ${t.solved} solved of ${t.attempted} tried`);
+      masteryEl.textContent = bits.join(" · ");
+      masteryEl.hidden = bits.length === 0;
+    }
+
+    // Runs after every completed tutor reply.
+    function afterReply(replyText) {
+      // The prompt asks the tutor to lead with ✅ only when a final answer is correct.
+      if (replyText.includes("✅")) recordActivity(currentTopic || "General", true);
+      else recordActivity(null, false); // streak only
+      showChips();
     }
 
     form.addEventListener("submit", async (e) => {
@@ -659,7 +1142,7 @@
 
       await converse(
         text || "Here is a photo of my problem. Please transcribe it and help me work through it.",
-        { image }
+        { image, restoreOnError: true }
       );
     });
 
@@ -668,6 +1151,67 @@
         e.preventDefault();
         form.requestSubmit();
       }
+    });
+
+    // Auto-grow the textarea as the student types (capped by CSS max-height).
+    function autogrow() {
+      input.style.height = "auto";
+      input.style.height = Math.min(input.scrollHeight, 160) + "px";
+    }
+    input.addEventListener("input", autogrow);
+    form.addEventListener("submit", () => requestAnimationFrame(autogrow));
+
+    // ---- Session persistence (survives refreshes; photos aren't stored) ----
+
+    const STORAGE_KEY = "mathmentor.session.v1";
+    const SESSION_TTL_MS = 24 * 60 * 60 * 1000;
+
+    function saveSession() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          t: Date.now(),
+          messages: history.map((m) => ({ role: m.role, content: m.content })),
+        }));
+      } catch { /* private mode / quota — session just won't persist */ }
+    }
+
+    function clearSession() {
+      try { localStorage.removeItem(STORAGE_KEY); } catch { /* ignore */ }
+    }
+
+    function restoreSession() {
+      let saved;
+      try { saved = JSON.parse(localStorage.getItem(STORAGE_KEY)); } catch { return; }
+      if (!saved?.messages?.length || Date.now() - saved.t > SESSION_TTL_MS) return;
+      for (const m of saved.messages) {
+        if (m.role === "user") {
+          addMessage("user", m.content);
+        } else {
+          const bubble = addMessage("tutor", "");
+          renderRich(bubble, m.content);
+          addCopy(bubble, m.content);
+        }
+        history.push({ role: m.role, content: m.content });
+      }
+      addMessage("tutor", "Continuing where yuh left off. Press “New session” any time to start fresh.", { extraClass: "notice" });
+      setBusy(false);
+      if (history[history.length - 1]?.role === "assistant") showChips();
+    }
+
+    document.getElementById("new-session").addEventListener("click", () => {
+      if (history.length && !confirm("Start a fresh session? This clears the current conversation.")) return;
+      clearSession();
+      history.length = 0;
+      speechSynthesis.cancel?.();
+      if (examTimer) { clearInterval(examTimer); examTimer = null; examBar.classList.remove("active"); examBtn.disabled = false; }
+      chat.querySelectorAll(".msg").forEach((el, i) => { if (i > 0) el.remove(); }); // keep the greeting
+      pendingImage = null;
+      attachment.classList.remove("active");
+      chipsEl.hidden = true;
+      input.value = "";
+      autogrow();
+      setBusy(false);
+      window.scrollTo({ top: 0 });
     });
 
     // ---- Voice input (Web Speech API; hidden where unsupported) ----
@@ -693,7 +1237,15 @@
         recognizer.onresult = (e) => {
           input.value = base + Array.from(e.results).map((r) => r[0].transcript).join("");
         };
-        recognizer.onerror = () => {};
+        recognizer.onerror = (e) => {
+          if (e.error === "not-allowed" || e.error === "service-not-allowed") {
+            addMessage(
+              "tutor",
+              "I couldn't reach the microphone. Check that your browser has mic permission for this site, then try again — or just type your problem.",
+              { extraClass: "error" }
+            );
+          }
+        };
         recognizer.onend = () => {
           recognizer = null;
           micBtn.textContent = "🎤";
@@ -711,19 +1263,160 @@
     speakBtn.addEventListener("click", () => {
       speakOn = !speakOn;
       speakBtn.classList.toggle("on", speakOn);
+      speakBtn.setAttribute("aria-pressed", String(speakOn));
       speakBtn.textContent = speakOn ? "🔊 Reading aloud" : "🔈 Read aloud";
-      if (!speakOn) speechSynthesis.cancel();
+      if (!speakOn) {
+        speechSynthesis.cancel();
+        return;
+      }
+      // Read the reply that is already on screen, so the student doesn't have to
+      // wait for the next message to hear anything.
+      const lastTutor = [...history].reverse().find((m) => m.role === "assistant");
+      if (lastTutor) speak(lastTutor.content);
     });
+
+    // Best-effort LaTeX → spoken English ("\\frac{x}{2} + 3^2" → "x over 2 plus 3 squared").
+    // Falls back to skipping anything it can't translate.
+    function mathToWords(latex) {
+      let s = latex.replace(/^\\[\[(]/, "").replace(/\\[\])]$/, "");
+      const rules = [
+        [/\\frac\s*\{([^{}]*)\}\s*\{([^{}]*)\}/g, " $1 over $2 "],
+        [/\\sqrt\s*\{([^{}]*)\}/g, " the square root of $1 "],
+        [/\\sqrt\s*(\w)/g, " the square root of $1 "],
+        [/\^\{?2\}?(?![\d\w])/g, " squared "],
+        [/\^\{?3\}?(?![\d\w])/g, " cubed "],
+        [/\^\{([^{}]*)\}/g, " to the power of $1 "],
+        [/\^(\w)/g, " to the power of $1 "],
+        [/_\{([^{}]*)\}/g, " sub $1 "],
+        [/_(\w)/g, " sub $1 "],
+        [/\\times|\\cdot/g, " times "],
+        [/\\div/g, " divided by "],
+        [/\\pm/g, " plus or minus "],
+        [/\\leq?\b/g, " is less than or equal to "],
+        [/\\geq?\b/g, " is greater than or equal to "],
+        [/\\neq?\b/g, " is not equal to "],
+        [/\\approx/g, " is approximately "],
+        [/\\pi\b/g, " pie "],
+        [/\\theta\b/g, " theta "],
+        [/\\alpha\b/g, " alpha "],
+        [/\\beta\b/g, " beta "],
+        [/\\degree|\\circ/g, " degrees "],
+        [/\\%|%/g, " percent "],
+        [/\\text\{([^{}]*)\}/g, " $1 "],
+        [/\\left|\\right/g, ""],
+        [/</g, " is less than "],
+        [/>/g, " is greater than "],
+        [/=/g, " equals "],
+        [/\+/g, " plus "],
+        [/([\w)\]])\s*-\s*(?=[\w(])/g, "$1 minus "],
+        [/\\[a-zA-Z]+/g, " "],
+        [/[{}()]/g, " "],
+        [/\s+/g, " "],
+      ];
+      // Two passes so simple nested expressions (e.g. fractions with powers) resolve.
+      for (let pass = 0; pass < 2; pass++) {
+        for (const [re, rep] of rules) s = s.replace(re, rep);
+      }
+      return s.trim();
+    }
 
     function speak(text) {
       if (!speakOn || !("speechSynthesis" in window)) return;
       const spoken = text
-        .replace(/\\\[[\s\S]*?\\\]/g, " (see the math on screen) ")
-        .replace(/\\\([\s\S]*?\\\)/g, " (see the math on screen) ")
+        .replace(/\\\[[\s\S]*?\\\]|\\\([\s\S]*?\\\)/g, (m) => ` ${mathToWords(m)} `)
         .replace(/[#*_`]/g, "");
       speechSynthesis.cancel();
       speechSynthesis.speak(new SpeechSynthesisUtterance(spoken));
     }
+
+    // ---- Handwriting canvas (draw working, attach as a photo) ----
+
+    const sketchModal = document.getElementById("sketch-modal");
+    const skCanvas = document.getElementById("sk-canvas");
+    const skPen = document.getElementById("sk-pen");
+    const skEraser = document.getElementById("sk-eraser");
+    let skCtx = null;
+    let skDrawing = false;
+    let skErasing = false;
+    let skDrawn = false;
+
+    document.getElementById("sketch").addEventListener("click", () => {
+      sketchModal.hidden = false;
+      requestAnimationFrame(() => {
+        const rect = skCanvas.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        skCanvas.width = Math.round(rect.width * dpr);
+        skCanvas.height = Math.round(rect.height * dpr);
+        skCtx = skCanvas.getContext("2d");
+        skCtx.scale(dpr, dpr);
+        skCtx.fillStyle = "#ffffff";
+        skCtx.fillRect(0, 0, rect.width, rect.height);
+        skCtx.lineCap = "round";
+        skCtx.lineJoin = "round";
+        skDrawn = false;
+      });
+    });
+
+    function skPos(e) {
+      const rect = skCanvas.getBoundingClientRect();
+      return [e.clientX - rect.left, e.clientY - rect.top];
+    }
+
+    skCanvas.addEventListener("pointerdown", (e) => {
+      if (!skCtx) return;
+      skCanvas.setPointerCapture(e.pointerId);
+      skDrawing = true;
+      skCtx.beginPath();
+      skCtx.moveTo(...skPos(e));
+    });
+    skCanvas.addEventListener("pointermove", (e) => {
+      if (!skDrawing || !skCtx) return;
+      skCtx.strokeStyle = skErasing ? "#ffffff" : "#16213a";
+      skCtx.lineWidth = skErasing ? 26 : 3;
+      skCtx.lineTo(...skPos(e));
+      skCtx.stroke();
+      skDrawn = true;
+    });
+    const skStop = () => { skDrawing = false; };
+    skCanvas.addEventListener("pointerup", skStop);
+    skCanvas.addEventListener("pointercancel", skStop);
+
+    function skSetTool(erase) {
+      skErasing = erase;
+      skPen.classList.toggle("on", !erase);
+      skEraser.classList.toggle("on", erase);
+    }
+    skPen.addEventListener("click", () => skSetTool(false));
+    skEraser.addEventListener("click", () => skSetTool(true));
+
+    document.getElementById("sk-clear").addEventListener("click", () => {
+      if (!skCtx) return;
+      const rect = skCanvas.getBoundingClientRect();
+      skCtx.fillStyle = "#ffffff";
+      skCtx.fillRect(0, 0, rect.width, rect.height);
+      skDrawn = false;
+    });
+
+    document.getElementById("sk-cancel").addEventListener("click", () => {
+      sketchModal.hidden = true;
+    });
+    sketchModal.addEventListener("click", (e) => {
+      if (e.target === sketchModal) sketchModal.hidden = true;
+    });
+
+    document.getElementById("sk-send").addEventListener("click", () => {
+      if (!skDrawn) { sketchModal.hidden = true; return; }
+      const dataUrl = skCanvas.toDataURL("image/jpeg", 0.85);
+      pendingImage = {
+        format: "jpeg",
+        data: dataUrl.split(",")[1],
+        previewUrl: dataUrl,
+      };
+      attachmentImg.src = dataUrl;
+      attachment.classList.add("active");
+      sketchModal.hidden = true;
+      input.focus();
+    });
 
     // ---- Exam mode ----
 
@@ -748,7 +1441,10 @@
         { displayText: `Starting a ${minutes}-minute exam ⏱` }
       );
       if (!ok) return;
+      chipsEl.hidden = true; // no hint shortcuts once the exam begins
 
+      // Deadline-based so the clock stays honest if the tab sleeps in the background.
+      const deadline = Date.now() + minutes * 60 * 1000;
       examRemaining = minutes * 60;
       examTime.textContent = fmt(examRemaining);
       examBar.classList.add("active");
@@ -756,9 +1452,9 @@
       examBtn.disabled = true;
 
       examTimer = setInterval(() => {
-        examRemaining -= 1;
+        examRemaining = Math.round((deadline - Date.now()) / 1000);
         examTime.textContent = fmt(Math.max(examRemaining, 0));
-        if (examRemaining === 300) examBar.classList.add("warning");
+        if (examRemaining <= 300) examBar.classList.add("warning");
         if (examRemaining <= 0) finishExam("Time is up!");
       }, 1000);
     });
@@ -781,38 +1477,76 @@
     practiceBtn.addEventListener("click", async () => {
       const level = document.getElementById("level").value;
       const topic = document.getElementById("topic").value;
-      await converse(
+      const ok = await converse(
         `Practice mode: please give me ONE ${level} practice problem on ${topic}. Wait for my attempt before guiding me, and remember not to give me the answer.`,
         { displayText: `Practice please: ${level}, ${topic} 📝` }
       );
+      if (ok) {
+        currentTopic = topic;
+        recordActivity(topic, false); // counts as attempted
+      }
     });
 
     // ---- Session recap (printable) ----
 
     recapBtn.addEventListener("click", async () => {
       const ok = await converse(
-        "Please produce my session recap now, following your recap rules.",
+        "Please produce my session recap now. Summarise what we have worked on so far — even if a problem is still in progress — including the key methods (with LaTeX), mistakes to watch out for, and two fresh practice problems at my level. Output the recap directly in markdown; do not ask me to finish first.",
         { displayText: "Can I get a recap of this session? 📋" }
       );
       if (!ok) return;
 
       const recapText = history[history.length - 1].content;
+      // Guard: if the reply is too short to be a real recap (e.g. the tutor still
+      // asked a question), keep it in the chat rather than opening a blank-looking window.
+      if (!recapText || recapText.trim().length < 80) return;
+
       const win = window.open("", "_blank");
+      if (!win) {
+        addMessage(
+          "tutor",
+          "Your browser blocked the recap pop-up. Allow pop-ups for this site and tap “Session recap” again — your recap is also in the chat above.",
+          { extraClass: "error" }
+        );
+        return;
+      }
+      const shareText =
+        recapText.slice(0, 1200) +
+        (recapText.length > 1200 ? "…" : "") +
+        "\n\n— MathMentor Barbados · " + location.origin;
+      const waHref = "https://wa.me/?text=" + encodeURIComponent(shareText);
       win.document.write(`<!doctype html><html><head><title>MathMentor Session Recap</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"><\/script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"><\/script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.22/katex.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.22/katex.min.js"><\/script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.22/contrib/auto-render.min.js"><\/script>
         <style>body{font-family:Georgia,serif;max-width:680px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#16213a}
         h1{font-size:1.3rem;border-bottom:3px solid #ffc726;padding-bottom:.5rem}
-        pre{white-space:pre-wrap;font-family:inherit}</style></head>
+        pre{white-space:pre-wrap;font-family:inherit}
+        .actions{display:flex;gap:.6rem;margin:1rem 0}
+        .actions a,.actions button{font-family:-apple-system,sans-serif;font-size:.85rem;font-weight:600;
+          padding:.5rem .9rem;border-radius:8px;border:1.5px solid #00267f;color:#00267f;background:none;
+          text-decoration:none;cursor:pointer}
+        .actions a.wa{background:#25d366;border-color:#25d366;color:#fff}
+        @media print{.actions{display:none}}</style></head>
         <body><h1>MathMentor Barbados · Session Recap</h1>
         <p><em>${new Date().toLocaleDateString("en-BB", { dateStyle: "long" })}</em></p>
+        <div class="actions">
+          <a class="wa" href="${waHref}" target="_blank" rel="noopener">Share on WhatsApp</a>
+          <button onclick="window.print()">Print / Save as PDF</button>
+        </div>
         <pre id="recap"></pre>
-        <script>document.getElementById("recap").textContent = ${JSON.stringify(recapText)};
+        <script>document.getElementById("recap").textContent = ${JSON.stringify(recapText).replace(/</g, "\\u003c")};
         window.addEventListener("load", () => renderMathInElement(document.body, {delimiters:[
           {left:"\\\\(", right:"\\\\)", display:false},{left:"\\\\[", right:"\\\\]", display:true}], throwOnError:false}));<\/script>
         </body></html>`);
       win.document.close();
+    });
+
+    // Restore any saved session once the deferred libraries (marked, DOMPurify,
+    // KaTeX) have executed, so restored replies render with full formatting.
+    window.addEventListener("DOMContentLoaded", () => {
+      restoreSession();
+      renderMastery();
     });
   </script>
 </body>

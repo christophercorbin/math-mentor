@@ -14,12 +14,12 @@ One codebase, two runtimes: `backend/tutor.mjs` powers both the serverless Lambd
 flowchart LR
     U[Student's browser] -->|HTTPS| CF[CloudFront]
     CF --> S3[(S3: static web app)]
-    U -->|POST /chat| FU[Lambda Function URL]
+    CF -->|POST /api · SigV4 via OAC| FU[Lambda Function URL · IAM auth]
     FU --> L[Lambda: tutor handler]
     L -->|Converse API| B[Claude on Amazon Bedrock]
 ```
 
-The frontend is a single dependency-free HTML page (KaTeX from CDN). The backend is one Node.js Lambda that validates the conversation, applies the Socratic tutoring prompt, and calls the Bedrock Converse API. No data is stored; the conversation lives only in the browser tab.
+The frontend is a single HTML page (KaTeX, marked and DOMPurify from CDN, SRI-pinned). The backend is one Node.js Lambda that validates the conversation, applies the Socratic tutoring prompt, and calls the Bedrock Converse API. Nothing is stored server-side; the conversation lives in the student's browser (localStorage, 24h) so a refresh doesn't lose their session.
 
 ## Why Socratic?
 
@@ -50,7 +50,7 @@ tofu init
 tofu apply
 ```
 
-Outputs include `site_url` (the CloudFront URL) and `api_url`. The deploy injects the API URL into the web page automatically. After the first apply, tighten `allowed_origins` to your CloudFront domain and re-apply.
+Outputs include `site_url` (the CloudFront URL) and `api_url` (the same-origin `/api` path). The Function URL itself requires IAM auth and only accepts SigV4-signed requests from this CloudFront distribution (Origin Access Control), so there is no public API endpoint to abuse. A monthly cost budget (`alert_email`, `monthly_budget_usd` in `infra/variables.tf`) emails you if spend runs hot.
 
 Cost: serverless throughout; a few cents per study session with Claude Haiku.
 
