@@ -85,8 +85,11 @@ resource "aws_lambda_function" "tutor" {
   memory_size      = 256
 
   # Caps parallel invocations so a scripted abuser can't run up the Bedrock
-  # bill; plenty for a classroom of concurrent students.
-  reserved_concurrent_executions = 10
+  # bill; plenty for a classroom of concurrent students. -1 = no reservation
+  # (default), which this account requires: its total concurrency limit is 10,
+  # so reserving any leaves <10 unreserved (not allowed). The account limit of
+  # 10 itself acts as the cap. Raise this after a Service Quotas limit increase.
+  reserved_concurrent_executions = var.reserved_concurrency
 
   environment {
     variables = {

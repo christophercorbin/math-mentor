@@ -51,3 +51,9 @@ variable "dns_external_id" {
   type        = string
   default     = "corbin-dns-delegation"
 }
+
+variable "reserved_concurrency" {
+  description = "Reserved concurrent executions for the tutor Lambda. -1 = no reservation. Requires account concurrency limit > this + 10; keep -1 until a Service Quotas increase is granted."
+  type        = number
+  default     = -1
+}
