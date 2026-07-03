@@ -184,6 +184,21 @@ resource "aws_s3_object" "apple_touch_icon" {
   etag         = filemd5("${path.module}/../web/apple-touch-icon.png")
 }
 
+# SumDeTing brand images referenced by index.html <head> and the manifest.
+resource "aws_s3_object" "brand_images" {
+  for_each = toset([
+    "sumdeting-favicon-app.png",
+    "sumdeting-icon-blue.png",
+    "sumdeting-icon-cream.png",
+    "sumdeting-app-light.png",
+  ])
+  bucket       = aws_s3_bucket.web.id
+  key          = each.value
+  content_type = "image/png"
+  source       = "${path.module}/../web/${each.value}"
+  etag         = filemd5("${path.module}/../web/${each.value}")
+}
+
 resource "aws_cloudfront_origin_access_control" "web" {
   name                              = "${var.project}-oac"
   origin_access_control_origin_type = "s3"

@@ -1,15 +1,21 @@
 {
-  "name": "MathMentor Barbados",
-  "short_name": "MathMentor",
-  "description": "A Bajan Socratic AI math tutor for Common Entrance, CSEC/CXC and beyond.",
+  "name": "SumDeTing",
+  "short_name": "SumDeTing",
+  "description": "A Barbadian Socratic AI math tutor for Common Entrance, CSEC/CXC and beyond.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#f4f6fb",
-  "theme_color": "#00267f",
+  "background_color": "#f8f4ea",
+  "theme_color": "#1c3ba8",
   "icons": [
     {
       "src": "/apple-touch-icon.png",
       "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/sumdeting-app-light.png",
+      "sizes": "1024x1024",
       "type": "image/png",
       "purpose": "any"
     }

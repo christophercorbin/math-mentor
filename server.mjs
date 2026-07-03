@@ -23,10 +23,31 @@ const json = (res, statusCode, body) => {
   res.end(JSON.stringify(body));
 };
 
+const STATIC_FILES = {
+  "/sumdeting-icon-blue.png": "image/png",
+  "/sumdeting-icon-cream.png": "image/png",
+  "/sumdeting-favicon-app.png": "image/png",
+  "/sumdeting-app-light.png": "image/png",
+  "/apple-touch-icon.png": "image/png",
+  "/og-image.png": "image/png",
+  "/manifest.webmanifest": "application/manifest+json",
+};
+
 const server = createServer(async (req, res) => {
   if (req.method === "GET" && (req.url === "/" || req.url === "/index.html")) {
     res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
     res.end(indexHtml);
+    return;
+  }
+
+  if (req.method === "GET" && STATIC_FILES[req.url]) {
+    try {
+      const body = readFileSync(path.join(root, "web", req.url));
+      res.writeHead(200, { "Content-Type": STATIC_FILES[req.url], "Cache-Control": "public, max-age=86400" });
+      res.end(body);
+    } catch {
+      json(res, 404, { error: "Not found" });
+    }
     return;
   }
 
@@ -64,7 +85,7 @@ const server = createServer(async (req, res) => {
         await askTutorStream(payload.messages, MODEL_ID, (text) => res.write(text));
       } catch (err) {
         console.error("Bedrock invocation failed", err);
-        res.write("\n\n[MathMentor hit a snag; please send that again.]");
+        res.write("\n\n[SumDeTing hit a snag; please send that again.]");
       }
       res.end();
     });
@@ -75,5 +96,5 @@ const server = createServer(async (req, res) => {
 });
 
 server.listen(PORT, () => {
-  console.log(`MathMentor listening on http://localhost:${PORT} (model: ${MODEL_ID})`);
+  console.log(`SumDeTing listening on http://localhost:${PORT} (model: ${MODEL_ID})`);
 });
