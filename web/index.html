@@ -3,84 +3,75 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MathMentor Barbados | Yuh Socratic AI Math Tutor</title>
-  <meta name="description" content="A Bajan Socratic AI math tutor for Common Entrance, CSEC/CXC and beyond. Guides you to the answer instead of giving it away. Powered by Claude on Amazon Bedrock." />
+  <title>SumDeTing | Barbados’ Socratic AI Math Tutor</title>
+  <meta name="description" content="SumDeTing is a Barbadian Socratic AI math tutor for Common Entrance, CSEC/CXC and beyond. It guides you to the answer instead of giving it away. Powered by Claude on Amazon Bedrock." />
   <link rel="canonical" href="https://d297i0l0pfbu7x.cloudfront.net/" />
-  <meta name="theme-color" content="#00267f" media="(prefers-color-scheme: light)" />
-  <meta name="theme-color" content="#0e1320" media="(prefers-color-scheme: dark)" />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2032%2032'%3E%3Crect%20width='32'%20height='32'%20rx='7'%20fill='%2300267f'/%3E%3Cpath%20d='M0%200h32v32z'%20fill='%23ffc726'%20opacity='0'/%3E%3Ctext%20x='16'%20y='23'%20font-family='Arial,Helvetica,sans-serif'%20font-size='20'%20font-weight='bold'%20text-anchor='middle'%20fill='%23ffc726'%3EM%3C/text%3E%3C/svg%3E" />
+  <meta id="meta-theme" name="theme-color" content="#f8f4ea" />
+  <link rel="icon" type="image/png" href="sumdeting-favicon-app.png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/manifest.webmanifest" />
   <!-- Open Graph / social sharing (WhatsApp, Facebook, etc.) -->
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="MathMentor Barbados" />
-  <meta property="og:title" content="MathMentor Barbados | Yuh Socratic AI Math Tutor" />
-  <meta property="og:description" content="A Bajan Socratic AI math tutor for Common Entrance, CSEC/CXC and beyond. Guides you to the answer instead of giving it away." />
+  <meta property="og:site_name" content="SumDeTing" />
+  <meta property="og:title" content="SumDeTing | Barbados’ Socratic AI Math Tutor" />
+  <meta property="og:description" content="A Barbadian Socratic AI math tutor for Common Entrance, CSEC/CXC and beyond. Guides you to the answer instead of giving it away." />
   <meta property="og:url" content="https://d297i0l0pfbu7x.cloudfront.net/" />
   <meta property="og:image" content="https://d297i0l0pfbu7x.cloudfront.net/og-image.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="MathMentor Barbados | Yuh Socratic AI Math Tutor" />
-  <meta name="twitter:description" content="A Bajan Socratic AI math tutor for Common Entrance, CSEC/CXC and beyond." />
+  <meta name="twitter:title" content="SumDeTing | Barbados’ Socratic AI Math Tutor" />
+  <meta name="twitter:description" content="A Barbadian Socratic AI math tutor for Common Entrance, CSEC/CXC and beyond." />
   <meta name="twitter:image" content="https://d297i0l0pfbu7x.cloudfront.net/og-image.png" />
+  <script>
+    // Set the theme before first paint: saved choice, else the OS setting.
+    try {
+      const t = localStorage.getItem("sumdeting.theme");
+      document.documentElement.dataset.theme =
+        t || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    } catch { document.documentElement.dataset.theme = "light"; }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet" />
   <!-- KaTeX pinned to 0.16.21 — the newest version cdnjs actually hosts (0.16.22 returns 503 there). -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.21/katex.min.css"
-        integrity="sha384-zh0CIslj+VczCZtlzBcjt5ppRcsAmDnRem7ESsYwWwg3m/OaJ2l4x7YBZl9Kxxib" crossorigin="anonymous" />
+        integrity="sha512-mMGlbQRufB3HPAPs+jt4wJQDblOCcuqLSuCdXYq6QWD9WC2R9zj2/uXkH9Q8KL3T1EwOg2ay6thwHZbhmG55PA==" crossorigin="anonymous" />
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.21/katex.min.js"
-          integrity="sha384-Rma6DA2IPUwhNxmrB/7S3Tno0YY7sFu9WSYMCuulLhIqYSGZ2gKCJWIqhBWqMQfh" crossorigin="anonymous"></script>
+          integrity="sha512-hlwhRcPu4ocjcxisn2/m+6F6K2OdhSG1FJ0wcDzsiCRGVwDRjwnqfhoXEz0f8u0ho0i0GjYkTQg4gnD0ERYW4Q==" crossorigin="anonymous"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.21/contrib/auto-render.min.js"
-          integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous"></script>
+          integrity="sha512-GUMBfhw5UQwsoB4eNVpHuHEwxA4IiVcLmfI75GCVI+VWtqKqS2S1mySPUrz8eaeZSYDXkjYsh6rwmF7NE0tODA==" crossorigin="anonymous"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/marked/15.0.12/marked.min.js"
           integrity="sha384-948ahk4ZmxYVYOc+rxN1H2gM1EJ2Duhp7uHtZ4WSLkV4Vtx5MUqnV+l7u9B+jFv+" crossorigin="anonymous"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.2.6/purify.min.js"
           integrity="sha384-JEyTNhjM6R1ElGoJns4U2Ln4ofPcqzSsynQkmEc/KGy6336qAZl70tDLufbkla+3" crossorigin="anonymous"></script>
   <style>
     :root {
-      /* Barbados flag palette: ultramarine, gold, black */
-      --primary: #00267f;
-      --primary-dark: #001b5c;
-      --accent: #ffc726;
-      --bg: #f4f6fb;
+      /* SumDeTing palette — pulled from the bead logo */
+      --blue: #1c3ba8;
+      --blue-deep: #142c85;
+      --blue-soft: #e4e9f9;
+      --gold: #ffb627;
+      --gold-deep: #e09a0e;
+      --gold-soft: #ffefcf;
+      --bg: #f8f4ea;
       --card: #ffffff;
-      --text: #16213a;
-      --muted: #5b6478;
-      --tutor-bubble: #fff7e0;
-      --tutor-border: #f3dfa0;
-      --border: #e2e8f0;
-      --input-border: #cbd5e1;
-      --radius: 14px;
+      --text: #1b2340;
+      --muted: #6b7290;
+      --tutor-bubble: #ffffff;
+      --tutor-border: #e9e3d4;
+      --border: #e9e3d4;
+      --input-border: #d9d2bf;
+      --radius: 18px;
     }
 
-    /* Night studying: follow the phone/OS setting */
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --primary: #7aa2ff;
-        --primary-dark: #5b8cff;
-        --bg: #0e1320;
-        --card: #1a2233;
-        --text: #e8ecf5;
-        --muted: #9aa8c0;
-        --tutor-bubble: #20242e;
-        --tutor-border: #8a6d2f;
-        --border: #2a3550;
-        --input-border: #3a4663;
-      }
-      .msg.user { background: #2f4d8f; }
-      .send-btn { background: #2f4d8f; }
-      .send-btn:hover:not(:disabled) { background: #3a5da8; }
-      .exam-bar { background: #2f4d8f; }
-      .practice button, .exam-bar button { color: #16213a; }
-      .msg.error { background: #3a1616; border-color: #7a2e2e; color: #ffb4b4; }
-      .msg.notice { background: #1d2540; border-color: #39466f; color: #b3c0ff; }
-      .msg.rich code { background: rgba(255, 255, 255, 0.1); }
-      .msg.rich pre { background: rgba(255, 255, 255, 0.08); }
-    }
+
 
     * { box-sizing: border-box; margin: 0; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-family: 'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-weight: 600;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
@@ -89,43 +80,43 @@
     }
 
     header {
-      background: var(--card);
-      border-bottom: 1px solid var(--border);
-      padding: 0.9rem 1.5rem;
+      background: var(--bg);
+      border-bottom: 2px dotted var(--input-border);
+      padding: 0.8rem 1.5rem;
       display: flex;
       align-items: center;
       gap: 0.75rem;
     }
 
-    .logo {
-      width: 36px; height: 36px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary) 55%, var(--accent) 55%);
-      color: var(--accent);
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: 1.1rem;
-      flex-shrink: 0;
-    }
+    .logo-img { width: 46px; height: 46px; object-fit: contain; flex-shrink: 0; }
+    .logo-dark { display: none; }
 
-    header h1 { font-size: 1.05rem; }
-    header p { font-size: 0.78rem; color: var(--muted); }
+    header h1 {
+      font-family: 'Baloo 2', 'Nunito', sans-serif;
+      font-size: 1.35rem;
+      color: var(--blue);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+    }
+    header h1 .dot { color: var(--gold); }
+    header p { font-size: 0.74rem; color: var(--muted); font-weight: 700; }
     .header-spacer { flex: 1; }
 
     .recap-btn, .speak-btn {
-      background: none;
-      border: 1.5px solid var(--primary);
-      color: var(--primary);
-      border-radius: 10px;
-      padding: 0.45rem 0.9rem;
+      background: var(--card);
+      border: 2px solid var(--blue);
+      color: var(--blue);
+      border-radius: 999px;
+      padding: 0.45rem 1rem;
       font: inherit;
-      font-size: 0.82rem;
-      font-weight: 600;
+      font-size: 0.8rem;
+      font-weight: 800;
       cursor: pointer;
       white-space: nowrap;
     }
-    .recap-btn:hover:not(:disabled), .speak-btn:hover { background: var(--primary); color: white; }
+    .recap-btn:hover:not(:disabled), .speak-btn:hover { background: var(--blue); color: #fff; }
     .recap-btn:disabled { opacity: 0.4; cursor: default; }
-    .speak-btn.on { background: var(--primary); color: white; }
+    .speak-btn.on { background: var(--blue); color: #fff; }
 
     /* Exam mode bar */
     .exam-bar {
@@ -135,29 +126,31 @@
       z-index: 10;
       align-items: center;
       gap: 0.8rem;
-      background: var(--primary);
-      color: white;
-      border-radius: var(--radius);
-      padding: 0.55rem 0.9rem;
+      background: var(--blue);
+      color: #fff;
+      border-radius: 999px;
+      padding: 0.55rem 1.1rem;
       margin-bottom: 1rem;
       font-size: 0.9rem;
-      font-weight: 600;
+      font-weight: 700;
+      box-shadow: 0 3px 0 var(--blue-deep);
     }
     .exam-bar.active { display: flex; }
-    .exam-bar .time { font-variant-numeric: tabular-nums; font-size: 1.05rem; color: var(--accent); }
+    .exam-bar .time { font-variant-numeric: tabular-nums; font-size: 1.05rem; color: var(--gold); }
     .exam-bar .spacer { flex: 1; }
     .exam-bar button {
-      background: var(--accent);
-      color: var(--text);
+      background: var(--gold);
+      color: #1b2340;
       border: none;
-      border-radius: 8px;
-      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      padding: 0.4rem 0.95rem;
       font: inherit;
       font-size: 0.8rem;
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
+      box-shadow: 0 2px 0 var(--gold-deep);
     }
-    .exam-bar.warning { background: #8b1a1a; }
+    .exam-bar.warning { background: #a02222; box-shadow: 0 3px 0 #701818; }
 
     main {
       flex: 1;
@@ -176,43 +169,46 @@
       gap: 0.5rem;
       align-items: center;
       background: var(--card);
-      border: 1px solid var(--border);
+      border: 2px solid var(--border);
       border-radius: var(--radius);
-      padding: 0.6rem 0.8rem;
+      padding: 0.65rem 0.85rem;
       margin-bottom: 1rem;
       font-size: 0.85rem;
     }
 
-    .practice label { font-weight: 600; color: var(--muted); }
+    .practice label { font-weight: 800; color: var(--muted); }
 
     .practice select {
       font: inherit;
       font-size: 0.85rem;
-      padding: 0.35rem 0.5rem;
-      border: 1.5px solid var(--input-border);
-      border-radius: 8px;
+      font-weight: 700;
+      padding: 0.4rem 0.6rem;
+      border: 2px solid var(--input-border);
+      border-radius: 999px;
       background: var(--card);
       color: var(--text);
     }
 
     .practice button {
-      background: var(--accent);
-      color: var(--text);
+      background: var(--gold);
+      color: #1b2340;
       border: none;
-      border-radius: 8px;
-      padding: 0.45rem 0.9rem;
-      font: inherit;
+      border-radius: 999px;
+      padding: 0.5rem 1rem;
+      font-family: 'Baloo 2', 'Nunito', sans-serif;
       font-size: 0.85rem;
       font-weight: 700;
       cursor: pointer;
+      box-shadow: 0 3px 0 var(--gold-deep);
     }
-    .practice button:hover:not(:disabled) { filter: brightness(0.95); }
+    .practice button:hover:not(:disabled) { filter: brightness(0.97); }
+    .practice button:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 1px 0 var(--gold-deep); }
     .practice button:disabled { opacity: 0.5; cursor: wait; }
 
     /* Past papers drawer */
     .papers {
       background: var(--card);
-      border: 1px solid var(--border);
+      border: 2px solid var(--border);
       border-radius: var(--radius);
       margin-bottom: 1rem;
       font-size: 0.85rem;
@@ -220,15 +216,15 @@
 
     .papers summary {
       cursor: pointer;
-      padding: 0.6rem 0.8rem;
-      font-weight: 600;
-      color: var(--primary);
+      padding: 0.65rem 0.9rem;
+      font-weight: 800;
+      color: var(--blue);
       list-style: none;
     }
     .papers summary::-webkit-details-marker { display: none; }
 
     .papers-tip {
-      padding: 0 0.8rem 0.6rem;
+      padding: 0 0.9rem 0.6rem;
       color: var(--muted);
       font-size: 0.8rem;
     }
@@ -237,34 +233,35 @@
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
       gap: 0.4rem;
-      padding: 0 0.8rem 0.8rem;
+      padding: 0 0.9rem 0.9rem;
     }
 
     .papers-grid a {
       display: block;
-      padding: 0.35rem 0.55rem;
+      padding: 0.4rem 0.65rem;
       background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      border: 2px solid var(--border);
+      border-radius: 999px;
       color: var(--text);
       text-decoration: none;
       font-size: 0.78rem;
+      font-weight: 700;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
     .papers-grid a:hover {
-      border-color: var(--primary);
-      color: var(--primary);
+      border-color: var(--blue);
+      color: var(--blue);
     }
 
     .papers-credit {
-      padding: 0 0.8rem 0.7rem;
+      padding: 0 0.9rem 0.8rem;
       font-size: 0.72rem;
       color: var(--muted);
     }
-    .papers-credit a { color: var(--primary); }
+    .papers-credit a { color: var(--blue); }
 
     #chat {
       flex: 1;
@@ -277,8 +274,8 @@
 
     .msg {
       max-width: 85%;
-      padding: 0.8rem 1rem;
-      border-radius: var(--radius);
+      padding: 0.85rem 1.05rem;
+      border-radius: 20px;
       line-height: 1.55;
       font-size: 0.95rem;
       white-space: pre-wrap;
@@ -287,21 +284,34 @@
 
     .msg.user {
       align-self: flex-end;
-      background: var(--primary);
+      background: var(--blue);
       color: white;
-      border-bottom-right-radius: 4px;
+      border-bottom-right-radius: 8px;
+      box-shadow: 0 3px 0 var(--blue-deep);
     }
 
     .msg.tutor {
       align-self: flex-start;
       background: var(--tutor-bubble);
-      border: 1px solid var(--tutor-border);
-      border-bottom-left-radius: 4px;
+      border: 2px solid var(--tutor-border);
+      border-bottom-left-radius: 8px;
     }
 
     .msg.thinking { color: var(--muted); font-style: italic; }
-    .msg.error { background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c; }
-    .msg.notice { align-self: center; background: #eef2ff; border: 1px solid #c7d2fe; color: #3730a3; font-size: 0.85rem; }
+    .msg.thinking::after {
+      content: "";
+      display: inline-block;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      margin-left: 6px;
+      animation: bead-pulse 1s ease-in-out infinite;
+      vertical-align: 1px;
+    }
+    @keyframes bead-pulse { 50% { opacity: 0.3; transform: translateY(-3px); } }
+
+    .msg.error { background: #fdf1f1; border: 2px solid #f0c9c9; color: #b91c1c; }
+    .msg.notice { align-self: center; background: var(--blue-soft); border: 2px solid var(--border); color: var(--blue); font-size: 0.85rem; font-weight: 700; }
 
     /* Rendered-markdown tutor bubbles */
     .msg.rich { white-space: normal; }
@@ -311,15 +321,15 @@
     .msg.rich li { margin: 0.2em 0; }
     .msg.rich h1, .msg.rich h2, .msg.rich h3, .msg.rich h4 { font-size: 1.02em; margin: 0.6em 0 0.3em; }
     .msg.rich code { background: rgba(0, 0, 0, 0.07); padding: 0.1em 0.35em; border-radius: 4px; font-size: 0.9em; }
-    .msg.rich pre { background: rgba(0, 0, 0, 0.06); padding: 0.6em 0.8em; border-radius: 8px; overflow-x: auto; }
-    .msg.rich blockquote { border-left: 3px solid var(--accent); margin: 0.4em 0; padding-left: 0.7em; color: var(--muted); }
+    .msg.rich pre { background: rgba(0, 0, 0, 0.06); padding: 0.6em 0.8em; border-radius: 10px; overflow-x: auto; }
+    .msg.rich blockquote { border-left: 3px solid var(--gold); margin: 0.4em 0; padding-left: 0.7em; color: var(--muted); }
     .msg.rich .katex-display { overflow-x: auto; overflow-y: hidden; padding: 0.2em 0; }
 
     .msg img.attached {
       display: block;
       max-width: 100%;
       max-height: 220px;
-      border-radius: 8px;
+      border-radius: 12px;
       margin-bottom: 0.5rem;
     }
 
@@ -336,74 +346,85 @@
       align-items: center;
       gap: 0.6rem;
       background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 10px;
+      border: 2px solid var(--border);
+      border-radius: 14px;
       padding: 0.4rem 0.6rem;
       margin-bottom: 0.5rem;
       font-size: 0.8rem;
       color: var(--muted);
     }
     .attachment-preview.active { display: flex; }
-    .attachment-preview img { height: 44px; border-radius: 6px; }
+    .attachment-preview img { height: 44px; border-radius: 8px; }
     .attachment-preview button {
       margin-left: auto;
       background: none; border: none;
-      color: #b91c1c; font-weight: 700; cursor: pointer; font-size: 0.95rem;
+      color: #b91c1c; font-weight: 800; cursor: pointer; font-size: 0.95rem;
     }
 
-    .composer-row { display: flex; gap: 0.6rem; }
+    .composer-row { display: flex; gap: 0.5rem; }
 
     .photo-btn {
       align-self: flex-end;
       background: var(--card);
-      border: 1.5px solid var(--input-border);
-      border-radius: var(--radius);
-      padding: 0.8rem 0.9rem;
+      border: 2px solid var(--input-border);
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      padding: 0;
       font-size: 1.1rem;
       cursor: pointer;
       line-height: 1;
+      color: var(--blue);
+      flex-shrink: 0;
     }
-    .photo-btn:hover { border-color: var(--primary); }
+    .photo-btn:hover { border-color: var(--blue); }
 
     textarea {
       flex: 1;
       resize: none;
-      border: 1.5px solid var(--input-border);
-      border-radius: var(--radius);
-      padding: 0.8rem 1rem;
+      border: 2px solid var(--input-border);
+      border-radius: 24px;
+      padding: 0.75rem 1.05rem;
       font: inherit;
       font-size: 0.95rem;
       background: var(--card);
+      color: var(--text);
       outline: none;
-      min-height: 52px;
+      min-height: 48px;
       max-height: 160px;
     }
 
-    textarea:focus { border-color: var(--primary); }
+    textarea:focus { border-color: var(--blue); }
 
     .send-btn {
       align-self: flex-end;
-      background: var(--primary);
+      background: var(--blue);
       color: white;
       border: none;
-      border-radius: var(--radius);
-      padding: 0.85rem 1.4rem;
-      font: inherit;
-      font-weight: 600;
+      border-radius: 999px;
+      padding: 0.8rem 1.4rem;
+      font-family: 'Baloo 2', 'Nunito', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
       cursor: pointer;
+      box-shadow: 0 3px 0 var(--blue-deep);
     }
 
-    .send-btn:hover:not(:disabled) { background: var(--primary-dark); }
+    .send-btn:hover:not(:disabled) { filter: brightness(1.06); }
+    .send-btn:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 1px 0 var(--blue-deep); }
     .send-btn:disabled { opacity: 0.5; cursor: wait; }
 
     footer {
       text-align: center;
       font-size: 0.75rem;
+      font-weight: 700;
       color: var(--muted);
       padding: 0 1rem 1rem;
     }
 
-    footer a { color: var(--primary); }
+    footer a { color: var(--blue); }
+    footer .bead { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--blue); vertical-align: 1px; margin: 0 2px; }
+    footer .bead.gold { background: var(--gold); }
 
     /* Inline SVG icons (inherit text color) */
     .icon {
@@ -416,7 +437,7 @@
       stroke-linejoin: round;
       flex-shrink: 0;
     }
-    .photo-btn .icon { width: 1.15em; height: 1.15em; vertical-align: -0.22em; }
+    .photo-btn .icon { width: 1.2em; height: 1.2em; vertical-align: -0.25em; }
 
     /* Mic recording state */
     .photo-btn.rec { color: #dc2626; border-color: #dc2626; animation: rec-pulse 1.2s ease-in-out infinite; }
@@ -425,47 +446,59 @@
     /* Progress strip (streak + topic mastery) */
     .mastery { width: 100%; font-size: 0.78rem; color: var(--muted); }
     .mastery b { color: var(--text); }
+    .mastery::before {
+      content: "";
+      display: inline-block;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      margin-right: 6px;
+      vertical-align: 0;
+    }
 
-    /* Math symbol toolbar — quiet strip, one visual unit with the composer */
+    /* Math symbol toolbar — round bead keys */
     .mathbar {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 0.25rem;
-      padding: 0 0 0.45rem 0.15rem;
+      gap: 0.3rem;
+      padding: 0 0 0.5rem 0.15rem;
     }
     .mathbar .mathbar-label {
       font-size: 0.72rem;
-      font-weight: 600;
+      font-weight: 800;
       color: var(--muted);
       margin-right: 0.3rem;
       text-transform: uppercase;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.06em;
     }
     .mathbar button {
-      background: none;
-      border: 1px solid transparent;
-      color: var(--muted);
-      border-radius: 6px;
-      padding: 0.18rem 0.5rem;
+      background: var(--card);
+      border: 2px solid var(--border);
+      color: var(--blue);
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      padding: 0;
       font: inherit;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
+      font-weight: 700;
       cursor: pointer;
-      line-height: 1.3;
+      line-height: 1;
     }
     .mathbar button:hover {
-      background: var(--card);
-      border-color: var(--input-border);
-      color: var(--primary);
+      border-color: var(--blue);
+      background: var(--blue-soft);
     }
 
     /* Copy-reply button on tutor bubbles */
     .msg { position: relative; }
     .msg .copy-btn {
       position: absolute;
-      top: 0.25rem; right: 0.3rem;
+      top: 0.3rem; right: 0.35rem;
       background: none; border: none;
       font-size: 0.78rem;
+      color: inherit;
       cursor: pointer;
       opacity: 0.35;
       padding: 0.15rem;
@@ -477,20 +510,21 @@
     .chips[hidden] { display: none; } /* display:flex would otherwise defeat the hidden attribute */
     .chips button {
       background: var(--card);
-      border: 1.5px solid var(--input-border);
-      color: var(--text);
+      border: 2px solid var(--border);
+      color: var(--blue);
       border-radius: 999px;
-      padding: 0.4rem 0.85rem;
+      padding: 0.42rem 0.9rem;
       font: inherit;
       font-size: 0.82rem;
+      font-weight: 800;
       cursor: pointer;
     }
-    .chips button:hover { border-color: var(--primary); color: var(--primary); }
+    .chips button:hover { border-color: var(--blue); background: var(--blue-soft); }
 
     /* Handwriting canvas modal */
     .sketch-modal {
       position: fixed; inset: 0;
-      background: rgba(0, 0, 0, 0.55);
+      background: rgba(16, 22, 43, 0.55);
       display: flex; align-items: center; justify-content: center;
       z-index: 50; padding: 1rem;
     }
@@ -505,20 +539,20 @@
     .sketch-tools { display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center; }
     .sketch-tools .spacer { flex: 1; }
     .sketch-tools button {
-      font: inherit; font-size: 0.82rem;
-      padding: 0.4rem 0.7rem;
-      border-radius: 8px;
-      border: 1.5px solid var(--input-border);
+      font: inherit; font-size: 0.82rem; font-weight: 700;
+      padding: 0.42rem 0.8rem;
+      border-radius: 999px;
+      border: 2px solid var(--input-border);
       background: var(--card); color: var(--text);
       cursor: pointer;
     }
-    .sketch-tools button.on { border-color: var(--primary); color: var(--primary); font-weight: 700; }
-    .sketch-tools button.primary { background: var(--primary); border-color: var(--primary); color: white; font-weight: 700; }
+    .sketch-tools button.on { border-color: var(--blue); color: var(--blue); font-weight: 800; }
+    .sketch-tools button.primary { background: var(--blue); border-color: var(--blue); color: white; font-weight: 800; box-shadow: 0 2px 0 var(--blue-deep); }
     #sk-canvas {
       width: 100%; height: 52vh;
       background: #fff;
-      border: 1px solid var(--input-border);
-      border-radius: 8px;
+      border: 2px solid var(--input-border);
+      border-radius: 12px;
       touch-action: none;
       cursor: crosshair;
     }
@@ -544,8 +578,9 @@
         gap: 0.5rem;
         padding: 0.6rem 0.9rem;
       }
-      header h1 { font-size: 1rem; }
+      header h1 { font-size: 1.15rem; }
       header p { font-size: 0.7rem; line-height: 1.3; }
+      .logo-img { width: 40px; height: 40px; }
       .header-spacer { flex-basis: 100%; height: 0; }
       .speak-btn, .recap-btn {
         flex: 1;
@@ -561,12 +596,12 @@
          action buttons go full width. */
       .practice { gap: 0.5rem; padding: 0.7rem; }
       .practice label { width: 100%; margin-bottom: -0.15rem; }
-      .practice select { flex: 1 1 40%; min-width: 0; padding: 0.55rem 0.5rem; }
+      .practice select { flex: 1 1 40%; min-width: 0; padding: 0.55rem 0.6rem; }
       .practice button { flex: 1 1 100%; padding: 0.7rem; font-size: 0.9rem; }
       .practice > span { display: none; } /* hide the "|" divider */
 
       /* Exam bar */
-      .exam-bar { padding: 0.55rem 0.7rem; font-size: 0.85rem; }
+      .exam-bar { padding: 0.55rem 0.8rem; font-size: 0.85rem; }
 
       /* Past-papers grid: smaller min so 2 fit comfortably */
       .papers-grid { grid-template-columns: repeat(auto-fill, minmax(115px, 1fr)); }
@@ -577,11 +612,218 @@
       /* Composer: keep one row but make the icon buttons and send compact
          so the textarea keeps usable width. */
       .composer-row { gap: 0.4rem; }
-      .photo-btn { padding: 0.7rem 0.6rem; font-size: 1rem; }
-      textarea { padding: 0.7rem 0.75rem; min-height: 48px; }
-      .send-btn { padding: 0.8rem 0.85rem; }
+      .photo-btn { width: 44px; height: 44px; }
+      textarea { padding: 0.7rem 0.85rem; min-height: 48px; }
+      .send-btn { padding: 0.8rem 0.95rem; }
       footer { font-size: 0.7rem; }
     }
+
+    /* ===== SumDeTing home: hero, bead strings, topic cards ===== */
+    .beads { display: flex; gap: 6px; align-items: center; }
+    .beads i {
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--blue); flex-shrink: 0;
+    }
+    .beads i.gold { background: var(--gold); }
+    .beads i.empty { background: transparent; border: 2px solid var(--input-border); width: 11px; height: 11px; }
+
+    .hero {
+      background: var(--blue);
+      border-radius: var(--radius);
+      color: #fff;
+      padding: 1.4rem 1.3rem;
+      display: flex; align-items: center; gap: 1.1rem;
+      position: relative; overflow: hidden;
+      margin-bottom: 1rem;
+    }
+    .hero::before, .hero::after { content: ""; position: absolute; border-radius: 50%; }
+    .hero::before { width: 120px; height: 120px; background: rgba(255,255,255,.06); right: -34px; top: -40px; }
+    .hero::after { width: 68px; height: 68px; background: rgba(255,182,39,.18); right: 46px; bottom: -26px; }
+    .hero img { width: 92px; height: 92px; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 4px 10px rgba(0,0,0,.25)); }
+    .hero h2 { font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: 1.45rem; line-height: 1.12; }
+    .hero h2 span { color: var(--gold); }
+    .hero p { font-size: .85rem; opacity: .87; margin-top: .35rem; font-weight: 600; max-width: 34ch; color: #fff; }
+    .hero-cta {
+      margin-top: .8rem; display: inline-block; position: relative; z-index: 1;
+      background: var(--gold); color: #1b2340;
+      font-family: 'Baloo 2', 'Nunito', sans-serif; font-weight: 700; font-size: .9rem;
+      padding: .55rem 1.25rem; border-radius: 999px; border: none; cursor: pointer;
+      box-shadow: 0 3px 0 var(--gold-deep);
+    }
+    .hero-cta:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 1px 0 var(--gold-deep); }
+    .hero-cta:disabled { opacity: .55; cursor: wait; }
+
+    .goal {
+      background: var(--card); border: 2px solid var(--border);
+      border-radius: var(--radius); padding: .9rem 1.15rem;
+      margin-bottom: .5rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .goal .txt h3 { font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: .95rem; color: var(--blue); }
+    .goal .txt p { font-size: .76rem; color: var(--muted); font-weight: 700; margin-top: .1rem; }
+    .goal .beads { margin-left: auto; }
+    .goal .mastery::before { display: none; }
+
+    .section-title {
+      font-family: 'Baloo 2', 'Nunito', sans-serif;
+      font-size: .74rem; font-weight: 700;
+      color: var(--muted); text-transform: uppercase; letter-spacing: .12em;
+      margin: 1rem 0 .6rem;
+      display: flex; align-items: center; gap: .7rem;
+    }
+    .section-title::after {
+      content: ""; flex: 1; height: 4px;
+      background-image: radial-gradient(circle, var(--input-border) 2px, transparent 2.5px);
+      background-size: 14px 4px; background-repeat: repeat-x; background-position: left center;
+    }
+
+    .level-tabs { display: flex; gap: .5rem; overflow-x: auto; padding-bottom: 2px; }
+    .ltab {
+      white-space: nowrap;
+      border: 2px solid var(--border); background: var(--card);
+      padding: .48rem 1.05rem; border-radius: 999px;
+      font: inherit; font-size: .8rem; font-weight: 800; cursor: pointer;
+      color: var(--muted);
+    }
+    .ltab.on { background: var(--blue); border-color: var(--blue); color: #fff; }
+
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
+    @media (min-width: 640px) { .grid { grid-template-columns: repeat(4, 1fr); } }
+    .topic {
+      background: var(--card); border: 2px solid var(--border);
+      border-radius: var(--radius); padding: .9rem .85rem .85rem;
+      cursor: pointer; text-align: left;
+      font: inherit; color: var(--text);
+      transition: transform .1s, border-color .15s;
+    }
+    .topic:hover { border-color: var(--blue); }
+    .topic:active { transform: scale(.97); }
+    .topic:disabled { opacity: .55; cursor: wait; }
+    .topic .t-ic {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--blue-soft); color: var(--blue);
+      display: grid; place-items: center; margin-bottom: .5rem;
+    }
+    .topic .t-ic .icon { width: 20px; height: 20px; }
+    .topic h4 { font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: .85rem; line-height: 1.15; color: var(--blue); }
+    .topic .t-sub { font-size: .68rem; color: var(--muted); margin-top: .2rem; font-weight: 700; display: block; }
+    .topic .beads { margin-top: .55rem; }
+    .topic .beads i { width: 8px; height: 8px; }
+    .topic .beads i.empty { width: 7px; height: 7px; }
+
+    .exam-strip {
+      margin-top: 1rem; margin-bottom: 1.25rem;
+      background: var(--card);
+      border: 2px solid var(--blue);
+      border-radius: var(--radius); padding: .85rem 1.05rem;
+      display: flex; align-items: center; gap: .8rem; flex-wrap: wrap;
+    }
+    .exam-strip .badge {
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--blue); color: var(--gold);
+      display: grid; place-items: center; flex-shrink: 0;
+    }
+    .exam-strip .badge .icon { width: 20px; height: 20px; }
+    .exam-strip .es-txt { flex: 1; min-width: 140px; }
+    .exam-strip h4 { font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: .95rem; color: var(--blue); }
+    .exam-strip p { font-size: .74rem; color: var(--muted); font-weight: 700; margin-top: .05rem; }
+    .exam-strip select {
+      font: inherit; font-size: .82rem; font-weight: 700;
+      padding: .42rem .6rem;
+      border: 2px solid var(--input-border);
+      border-radius: 999px;
+      background: var(--card); color: var(--text);
+    }
+    .exam-strip button {
+      background: var(--blue); color: #fff;
+      border: none; border-radius: 999px; padding: .5rem 1.1rem;
+      font-family: 'Baloo 2', 'Nunito', sans-serif; font-weight: 700; font-size: .82rem; cursor: pointer;
+      box-shadow: 0 3px 0 var(--blue-deep);
+    }
+    .exam-strip button:active:not(:disabled) { transform: translateY(2px); box-shadow: none; }
+    .exam-strip button:disabled { opacity: .5; cursor: default; }
+
+    .practice[hidden] { display: none; }
+
+    @media (max-width: 600px) {
+      .hero { padding: 1.1rem 1rem; gap: .8rem; }
+      .hero img { width: 72px; height: 72px; }
+      .hero h2 { font-size: 1.2rem; }
+      .goal { flex-wrap: wrap; }
+    }
+
+
+    /* ===== Views + bottom app nav ===== */
+    .view { display: none; }
+    .view.active { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+    #view-home.active, #view-practice.active { display: block; flex: none; }
+
+    body { padding-bottom: 72px; }
+
+    .appnav {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 30;
+      background: var(--card);
+      border-top: 2px solid var(--border);
+      display: flex; justify-content: space-around;
+      padding: 0.45rem 0 calc(0.45rem + env(safe-area-inset-bottom));
+    }
+    .appnav button {
+      background: none; border: none; cursor: pointer;
+      font: inherit; font-size: 0.66rem; font-weight: 800;
+      color: var(--muted);
+      display: flex; flex-direction: column; align-items: center; gap: 0.2rem;
+      padding: 0.25rem 1.6rem; position: relative; border-radius: 12px;
+    }
+    .appnav button .icon { width: 22px; height: 22px; }
+    .appnav button.on { color: var(--blue); }
+    .appnav button.on::after {
+      content: ""; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--gold); position: absolute; bottom: -2px;
+    }
+
+    /* The composer sticks above the nav, not behind it */
+    form { bottom: 72px; }
+
+    #exam-link { cursor: pointer; }
+    #exam-link:hover { border-color: var(--gold); }
+
+    /* Night studying: deep navy, true blues, gold beads.
+       Applied via data-theme (toggle in the header; defaults to the OS setting). */
+    :root[data-theme="dark"] {
+      --blue: #7fa3f0;        /* text/icon blue — reads blue, not purple */
+      --blue-deep: #24448f;
+      --blue-soft: #202b4d;
+      --gold: #ffb627;
+      --gold-deep: #c98f10;
+      --gold-soft: #3a3220;
+      --bg: #0f1526;
+      --card: #192138;
+      --text: #edf1fb;
+      --muted: #97a3c2;
+      --tutor-bubble: #192138;
+      --tutor-border: #2a3453;
+      --border: #2a3453;
+      --input-border: #39456b;
+    }
+    /* Solid-blue surfaces keep a deep royal blue so white text stays readable */
+    [data-theme="dark"] .msg.user, [data-theme="dark"] .send-btn, [data-theme="dark"] .exam-bar,
+    [data-theme="dark"] .ltab.on, [data-theme="dark"] .exam-strip button,
+    [data-theme="dark"] .exam-strip .badge, [data-theme="dark"] .sketch-tools button.primary {
+      background: #2f54c0;
+    }
+    [data-theme="dark"] .hero { background: #22337a; }
+    [data-theme="dark"] .recap-btn:hover:not(:disabled), [data-theme="dark"] .speak-btn:hover,
+    [data-theme="dark"] .speak-btn.on { background: #2f54c0; border-color: #2f54c0; }
+    [data-theme="dark"] .ltab.on { border-color: #2f54c0; color: #fff; }
+    [data-theme="dark"] .msg.error { background: #3a1616; border-color: #7a2e2e; color: #ffb4b4; }
+    [data-theme="dark"] .msg.notice { background: #1d2540; border-color: #39466f; color: #b3c0ff; }
+    [data-theme="dark"] .msg.rich code { background: rgba(255, 255, 255, 0.1); }
+    [data-theme="dark"] .msg.rich pre { background: rgba(255, 255, 255, 0.08); }
+    [data-theme="dark"] .exam-bar button, [data-theme="dark"] .practice button,
+    [data-theme="dark"] .hero-cta { color: #1b2340; }
+    [data-theme="dark"] .appnav { background: #141b30; }
+    [data-theme="dark"] .logo-light { display: none; }
+    [data-theme="dark"] .logo-dark { display: block; }
   </style>
 </head>
 <body>
@@ -599,30 +841,63 @@
     <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
     <symbol id="i-clipboard" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+    <symbol id="i-pie" viewBox="0 0 24 24"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></symbol>
+    <symbol id="i-coins" viewBox="0 0 24 24"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></symbol>
+    <symbol id="i-calcpad" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="16" y1="14" x2="16" y2="18"/><path d="M16 10h.01M12 10h.01M8 10h.01M12 14h.01M8 14h.01M12 18h.01M8 18h.01"/></symbol>
+    <symbol id="i-ruler" viewBox="0 0 24 24"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/><path d="m14.5 12.5 2-2"/><path d="m11.5 9.5 2-2"/><path d="m8.5 6.5 2-2"/><path d="m17.5 15.5 2-2"/></symbol>
+    <symbol id="i-scale" viewBox="0 0 24 24"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></symbol>
+    <symbol id="i-trend" viewBox="0 0 24 24"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></symbol>
+    <symbol id="i-triangle" viewBox="0 0 24 24"><path d="M13.73 4a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/></symbol>
   </svg>
 
   <header>
-    <div class="logo">M</div>
+    <img class="logo-img logo-light" src="sumdeting-icon-blue.png" alt="SumDeTing — Barbados traced in counting beads" />
+    <img class="logo-img logo-dark" src="sumdeting-icon-cream.png" alt="" aria-hidden="true" />
     <div>
-      <h1>MathMentor Barbados</h1>
-      <p>Yuh Socratic study buddy, from Common Entrance to CXC. I guide you to the answer, I never hand it over.</p>
+      <h1>SumDeTing<span class="dot">.</span></h1>
+      <p>Your Socratic study buddy, from Common Entrance to CXC. I guide you to the answer — I never hand it over.</p>
     </div>
     <div class="header-spacer"></div>
+    <button id="theme" class="speak-btn" type="button" title="Switch to dark mode" aria-label="Toggle light or dark mode"><svg class="icon"><use href="#i-moon"/></svg></button>
     <button id="speak" class="speak-btn" type="button" title="Read the tutor's replies aloud" aria-pressed="false"><svg class="icon"><use href="#i-speaker"/></svg> <span id="speak-label">Read aloud</span></button>
     <button id="recap" class="recap-btn" type="button" disabled title="Work through at least one problem first">Session recap</button>
     <button id="new-session" class="recap-btn" type="button" title="Clear this conversation and start fresh">New session</button>
   </header>
 
   <main>
-    <div class="practice" aria-label="Practice mode">
-      <label for="level">Practice:</label>
-      <select id="level">
+    <section id="view-home" class="view active" aria-label="Home">
+    <div class="hero">
+      <img src="sumdeting-icon-cream.png" alt="" aria-hidden="true" />
+      <div>
+        <h2>Every problem, <span>bead by bead</span></h2>
+        <p>I guide you to the answer step by step — I never just hand it over.</p>
+        <button id="practice-btn" type="button" class="hero-cta">Give me a problem</button>
+      </div>
+    </div>
+
+    <div class="goal">
+      <div class="txt">
+        <h3>Your string</h3>
+        <p id="goal-sub">Solve a problem today to start your string</p>
+        <span id="mastery" class="mastery" hidden></span>
+      </div>
+      <div id="goal-beads" class="beads" aria-hidden="true"></div>
+    </div>
+
+    <!-- Hidden selects: single source of truth for level/topic (kept for JS + saved prefs) -->
+    <div class="practice" aria-label="Practice mode" hidden>
+      <select id="level" aria-label="Level">
         <option>Common Entrance</option>
         <option selected>CSEC</option>
         <option>Additional Maths</option>
         <option>CAPE</option>
       </select>
-      <select id="topic">
+      <select id="topic" aria-label="Topic">
         <option>Fractions & Decimals</option>
         <option>Percentages & Money</option>
         <option selected>Algebra</option>
@@ -632,18 +907,23 @@
         <option>Functions & Graphs</option>
         <option>Trigonometry</option>
       </select>
-      <button id="practice-btn" type="button">Gimme a problem</button>
-      <span style="color:#cbd5e1">|</span>
-      <label for="exam-duration">Exam:</label>
-      <select id="exam-duration">
-        <option value="30">30 min</option>
-        <option value="60" selected>60 min</option>
-        <option value="90">90 min</option>
-        <option value="160">2h 40m (P2)</option>
-      </select>
-      <button id="exam-btn" type="button">Start exam</button>
-      <span id="mastery" class="mastery" hidden></span>
     </div>
+
+    <div class="section-title">Your level</div>
+    <div id="level-tabs" class="level-tabs" role="group" aria-label="Choose your level"></div>
+
+    <div class="section-title">Topics — tap one for a problem</div>
+    <div id="topic-grid" class="grid" role="group" aria-label="Choose a topic"></div>
+
+    <div class="exam-strip" id="exam-link" role="button" tabindex="0" aria-label="Open Exam Mode">
+      <div class="badge"><svg class="icon"><use href="#i-clock"/></svg></div>
+      <div class="es-txt">
+        <h4>Exam Mode</h4>
+        <p>Timed practice, real CSEC conditions — plus past papers</p>
+      </div>
+      <button type="button" tabindex="-1">Open</button>
+    </div>
+    </section><!-- /view-home -->
 
     <div id="exam-bar" class="exam-bar" role="timer">
       <span><svg class="icon"><use href="#i-clock"/></svg> Exam in progress</span>
@@ -652,16 +932,34 @@
       <button id="exam-end" type="button">End exam</button>
     </div>
 
-    <details class="papers">
+    <section id="view-practice" class="view" aria-label="Exam practice">
+    <div class="exam-strip">
+      <div class="badge"><svg class="icon"><use href="#i-clock"/></svg></div>
+      <div class="es-txt">
+        <h4>Exam Mode</h4>
+        <p>No hints while the clock runs — just like the real thing</p>
+      </div>
+      <select id="exam-duration" aria-label="Exam length">
+        <option value="30">30 min</option>
+        <option value="60" selected>60 min</option>
+        <option value="90">90 min</option>
+        <option value="160">2h 40m (P2)</option>
+      </select>
+      <button id="exam-btn" type="button">Start</button>
+    </div>
+
+    <details class="papers" open>
       <summary><svg class="icon"><use href="#i-book"/></svg> CSEC Past Papers (2004–2025)</summary>
       <p class="papers-tip">Open a paper, screenshot a question, then send it to me with the camera button and we'll work it together.</p>
       <div id="papers-grid" class="papers-grid"></div>
       <p class="papers-credit">Papers hosted by <a href="https://www.csecmathtutor.com/past-papers.html" rel="noopener" target="_blank">CSEC Math Tutor</a>.</p>
     </details>
+    </section><!-- /view-practice -->
 
     <div id="sr-live" class="sr-only" aria-live="polite" role="status"></div>
+    <section id="view-chat" class="view" aria-label="Tutor chat">
     <div id="chat">
-      <div class="msg tutor">Hi! I'm MathMentor. Whether it's Common Entrance practice or CSEC Maths, type your problem, snap a photo of it with the camera button, grab a past paper from the drawer above, or hit "Gimme a problem", and leh we work through it together, step by step.</div>
+      <div class="msg tutor">Hi! I'm SumDeTing. Whether it's Common Entrance practice or CSEC Maths, type your problem, snap a photo of it with the camera button, grab a past paper from the drawer above, or hit "Give me a problem", and we'll work through it together, bead by bead.</div>
     </div>
 
     <form id="composer">
@@ -692,6 +990,7 @@
         <button id="send" class="send-btn" type="submit">Send</button>
       </div>
     </form>
+    </section><!-- /view-chat -->
   </main>
 
   <div id="sketch-modal" class="sketch-modal" hidden role="dialog" aria-modal="true" aria-label="Draw your working">
@@ -708,8 +1007,14 @@
     </div>
   </div>
 
+  <nav class="appnav" aria-label="Main navigation">
+    <button id="nav-home" class="on" type="button"><svg class="icon"><use href="#i-home"/></svg><span>Home</span></button>
+    <button id="nav-practice" type="button"><svg class="icon"><use href="#i-clock"/></svg><span>Exam</span></button>
+    <button id="nav-chat" type="button"><svg class="icon"><use href="#i-chat"/></svg><span>Tutor</span></button>
+  </nav>
+
   <footer>
-    Made in Barbados 🇧🇧 · Built with Claude on Amazon Bedrock · AWS Lambda · <a href="https://github.com/christophercorbin/math-mentor" rel="noopener">Source on GitHub</a>
+    <span class="bead"></span><span class="bead gold"></span><span class="bead"></span> Made in Barbados · Built with Claude on Amazon Bedrock · AWS Lambda · <a href="https://github.com/christophercorbin/math-mentor" rel="noopener">Source on GitHub</a> <span class="bead"></span><span class="bead gold"></span><span class="bead"></span>
   </footer>
 
   <script>
@@ -956,6 +1261,7 @@
 
     async function converse(userText, options = {}) {
       if (busy) return;
+      goView("chat");
       chipsEl.hidden = true;
 
       if (!longSessionNoticeShown && history.length >= CLIENT_MAX_TURNS - 4) {
@@ -1178,7 +1484,7 @@
       const m = loadMastery();
       masteryEl.textContent = "";
       const bits = [];
-      if (m.streak.count > 1) bits.push(`🔥 ${m.streak.count}-day streak`);
+      if (m.streak.count > 1) bits.push(`${m.streak.count}-day streak`);
       const t = currentTopic && m.topics[currentTopic];
       if (t && t.attempted) bits.push(`${currentTopic}: ${t.solved} solved of ${t.attempted} tried`);
       masteryEl.textContent = bits.join(" · ");
@@ -1256,7 +1562,8 @@
         }
         history.push({ role: m.role, content: m.content });
       }
-      addMessage("tutor", "Continuing where yuh left off. Press “New session” any time to start fresh.", { extraClass: "notice" });
+      addMessage("tutor", "Continuing where you left off. Press “New session” any time to start fresh.", { extraClass: "notice" });
+      goView("chat");
       setBusy(false);
       if (history[history.length - 1]?.role === "assistant") showChips();
     }
@@ -1274,7 +1581,7 @@
       input.value = "";
       autogrow();
       setBusy(false);
-      window.scrollTo({ top: 0 });
+      goView("home");
     });
 
     // ---- Voice input (Web Speech API; hidden where unsupported) ----
@@ -1502,7 +1809,7 @@
       const minutes = Number(document.getElementById("exam-duration").value);
       const ok = await converse(
         `Exam mode has STARTED (${minutes} minutes). Act as a quiet invigilator: no hints, no teaching. Only tell me briefly whether each answer I submit is correct or incorrect, until I say the exam is over.`,
-        { displayText: `Starting a ${minutes}-minute exam ⏱` }
+        { displayText: `Starting a ${minutes}-minute exam` }
       );
       if (!ok) return;
       chipsEl.hidden = true; // no hint shortcuts once the exam begins
@@ -1532,7 +1839,7 @@
       examBtn.disabled = false;
       await converse(
         `${reason} The exam is OVER. Please switch back to full Socratic tutoring and lead a review of everything I attempted, starting with anything I got wrong.`,
-        { displayText: `${reason} Exam over, leh we review 📝` }
+        { displayText: `${reason} Exam over — let’s review.` }
       );
     }
 
@@ -1543,7 +1850,7 @@
       const topic = document.getElementById("topic").value;
       const ok = await converse(
         `Practice mode: please give me ONE ${level} practice problem on ${topic}. Wait for my attempt before guiding me, and remember not to give me the answer.`,
-        { displayText: `Practice please: ${level}, ${topic} 📝` }
+        { displayText: `Practice please: ${level}, ${topic}` }
       );
       if (ok) {
         currentTopic = topic;
@@ -1556,7 +1863,7 @@
     recapBtn.addEventListener("click", async () => {
       const ok = await converse(
         "Please produce my session recap now. Summarise what we have worked on so far — even if a problem is still in progress — including the key methods (with LaTeX), mistakes to watch out for, and two fresh practice problems at my level. Output the recap directly in markdown; do not ask me to finish first.",
-        { displayText: "Can I get a recap of this session? 📋" }
+        { displayText: "Can I get a recap of this session?" }
       );
       if (!ok) return;
 
@@ -1577,22 +1884,22 @@
       const shareText =
         recapText.slice(0, 1200) +
         (recapText.length > 1200 ? "…" : "") +
-        "\n\n— MathMentor Barbados · " + location.origin;
+        "\n\n— SumDeTing · " + location.origin;
       const waHref = "https://wa.me/?text=" + encodeURIComponent(shareText);
-      win.document.write(`<!doctype html><html><head><title>MathMentor Session Recap</title>
+      win.document.write(`<!doctype html><html><head><title>SumDeTing Session Recap</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.21/katex.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.21/katex.min.js"><\/script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.21/contrib/auto-render.min.js"><\/script>
-        <style>body{font-family:Georgia,serif;max-width:680px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#16213a}
-        h1{font-size:1.3rem;border-bottom:3px solid #ffc726;padding-bottom:.5rem}
+        <style>body{font-family:Georgia,serif;max-width:680px;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#1b2340}
+        h1{font-size:1.3rem;border-bottom:3px solid #ffb627;padding-bottom:.5rem}
         pre{white-space:pre-wrap;font-family:inherit}
         .actions{display:flex;gap:.6rem;margin:1rem 0}
         .actions a,.actions button{font-family:-apple-system,sans-serif;font-size:.85rem;font-weight:600;
-          padding:.5rem .9rem;border-radius:8px;border:1.5px solid #00267f;color:#00267f;background:none;
+          padding:.5rem .9rem;border-radius:8px;border:1.5px solid #1c3ba8;color:#1c3ba8;background:none;
           text-decoration:none;cursor:pointer}
         .actions a.wa{background:#25d366;border-color:#25d366;color:#fff}
         @media print{.actions{display:none}}</style></head>
-        <body><h1>MathMentor Barbados · Session Recap</h1>
+        <body><h1>SumDeTing · Session Recap</h1>
         <p><em>${new Date().toLocaleDateString("en-BB", { dateStyle: "long" })}</em></p>
         <div class="actions">
           <a class="wa" href="${waHref}" target="_blank" rel="noopener">Share on WhatsApp</a>
@@ -1604,6 +1911,154 @@
           {left:"\\\\(", right:"\\\\)", display:false},{left:"\\\\[", right:"\\\\]", display:true}], throwOnError:false}));<\/script>
         </body></html>`);
       win.document.close();
+    });
+
+
+    // ---- SumDeTing home: level tabs, topic cards, bead strings ----
+
+    const LEVELS = ["Common Entrance", "CSEC", "Additional Maths", "CAPE"];
+    const TOPIC_ICONS = {
+      "Fractions & Decimals": "i-pie",
+      "Percentages & Money": "i-coins",
+      "Algebra": "i-calcpad",
+      "Geometry & Mensuration": "i-ruler",
+      "Ratio & Proportion": "i-scale",
+      "Statistics & Probability": "i-chart",
+      "Functions & Graphs": "i-trend",
+      "Trigonometry": "i-triangle",
+    };
+    const levelTabs = document.getElementById("level-tabs");
+    const topicGrid = document.getElementById("topic-grid");
+    const goalBeads = document.getElementById("goal-beads");
+    const goalSub = document.getElementById("goal-sub");
+
+    function beadString(el, filled, total) {
+      el.textContent = "";
+      for (let i = 0; i < total; i++) {
+        const dot = document.createElement("i");
+        if (i >= filled) dot.className = "empty";
+        else if (i === filled - 1) dot.className = "gold";
+        el.appendChild(dot);
+      }
+    }
+
+    for (const lv of LEVELS) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "ltab" + (levelSel.value === lv ? " on" : "");
+      b.textContent = lv;
+      b.addEventListener("click", () => {
+        levelSel.value = lv;
+        levelSel.dispatchEvent(new Event("change")); // persists prefs
+        levelTabs.querySelectorAll(".ltab").forEach((x) => x.classList.toggle("on", x === b));
+      });
+      levelTabs.appendChild(b);
+    }
+
+    function renderTopics() {
+      const m = loadMastery();
+      topicGrid.textContent = "";
+      for (const opt of topicSel.options) {
+        const topic = opt.value;
+        const t = m.topics[topic];
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className = "topic";
+        card.disabled = busy;
+        const ic = document.createElement("span");
+        ic.className = "t-ic";
+        ic.appendChild(iconSvg(TOPIC_ICONS[topic] || "i-calcpad"));
+        const h = document.createElement("h4");
+        h.textContent = topic;
+        const sub = document.createElement("span");
+        sub.className = "t-sub";
+        sub.textContent = t?.solved ? `${t.solved} solved` : t?.attempted ? "in progress" : "not started";
+        const beads = document.createElement("span");
+        beads.className = "beads";
+        beadString(beads, Math.min(t?.solved ?? 0, 5), 5);
+        card.append(ic, h, sub, beads);
+        card.addEventListener("click", () => {
+          topicSel.value = topic;
+          topicSel.dispatchEvent(new Event("change")); // persists prefs
+          practiceBtn.click();
+        });
+        topicGrid.appendChild(card);
+      }
+    }
+
+    function renderGoal() {
+      const m = loadMastery();
+      const n = m.streak.count;
+      beadString(goalBeads, Math.min(n, 7), 7);
+      goalSub.textContent =
+        n > 1 ? `${n}-day streak — keep the string going` :
+        n === 1 ? "Day 1 — come back tomorrow to grow the string" :
+        "Solve a problem today to start your string";
+    }
+
+    // Re-render the bead strings whenever mastery updates.
+    const baseRenderMastery = renderMastery;
+    renderMastery = function () {
+      baseRenderMastery();
+      renderGoal();
+      renderTopics();
+    };
+
+    renderGoal();
+    renderTopics();
+
+
+
+    // ---- Views (Home / Exam / Tutor) ----
+
+    const VIEWS = ["home", "practice", "chat"];
+    function goView(v) {
+      for (const name of VIEWS) {
+        document.getElementById("view-" + name).classList.toggle("active", name === v);
+        document.getElementById("nav-" + name).classList.toggle("on", name === v);
+      }
+      if (v === "chat") scrollToBottom(false);
+      else window.scrollTo({ top: 0 });
+    }
+    for (const name of VIEWS) {
+      document.getElementById("nav-" + name).addEventListener("click", () => goView(name));
+    }
+
+    // Home's Exam Mode card opens the Exam view.
+    const examLink = document.getElementById("exam-link");
+    examLink.addEventListener("click", () => goView("practice"));
+    examLink.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); goView("practice"); }
+    });
+
+    // ---- Theme toggle (light / dark, remembered on this device) ----
+
+    const THEME_KEY = "sumdeting.theme";
+    const themeBtn = document.getElementById("theme");
+    const themeMedia = window.matchMedia("(prefers-color-scheme: dark)");
+
+    function applyTheme(t) {
+      document.documentElement.dataset.theme = t;
+      themeBtn.querySelector("use").setAttribute("href", t === "dark" ? "#i-sun" : "#i-moon");
+      themeBtn.title = t === "dark" ? "Switch to light mode" : "Switch to dark mode";
+      document.getElementById("meta-theme")?.setAttribute("content", t === "dark" ? "#0f1526" : "#f8f4ea");
+    }
+
+    let storedTheme = null;
+    try { storedTheme = localStorage.getItem(THEME_KEY); } catch { /* ignore */ }
+    applyTheme(storedTheme || (themeMedia.matches ? "dark" : "light"));
+
+    // Follow the OS if the student hasn't chosen explicitly.
+    themeMedia.addEventListener("change", (e) => {
+      let s = null;
+      try { s = localStorage.getItem(THEME_KEY); } catch { /* ignore */ }
+      if (!s) applyTheme(e.matches ? "dark" : "light");
+    });
+
+    themeBtn.addEventListener("click", () => {
+      const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+      try { localStorage.setItem(THEME_KEY, next); } catch { /* ignore */ }
+      applyTheme(next);
     });
 
     // Restore any saved session once the deferred libraries (marked, DOMPurify,
