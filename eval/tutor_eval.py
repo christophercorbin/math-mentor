@@ -1,0 +1,105 @@
+#!/usr/bin/env python3
+"""
+SumDeTing tutor prompt eval.
+
+Sends a set of fixed conversations to the deployed tutor API and prints each
+reply next to its pass-criteria, so a prompt change can be scored before it
+goes in front of students. Run it AFTER deploying a prompt change:
+
+    python3 eval/tutor_eval.py                 # prod endpoint (default)
+    BASE_URL=https://staging.example python3 eval/tutor_eval.py
+
+Judging is by reading (the tutor reply is non-deterministic, so there is no
+exact-match assertion): a case PASSES only if every point in its CRITERION
+holds. Paste the output into an LLM judge if you want it automated.
+
+Why it hits the live API rather than Bedrock directly: the tutor's system
+prompt lives in the deployed Lambda, and only the Lambda's role has Bedrock
+model access. Requests are signed with x-amz-content-sha256 (the SHA-256 of
+the JSON body), exactly as the browser does — required by the CloudFront OAC
+-> Lambda Function URL path.
+
+The reference problem below has final answer x = 10.
+"""
+import hashlib
+import json
+import os
+import urllib.request
+
+BASE_URL = os.environ.get("BASE_URL", "https://mathmentor.christophercorbin.cloud")
+API = BASE_URL.rstrip("/") + "/api"
+
+PROBLEM = "Solve for x: 3(x-2)+5 = 2x+9. Show your working."   # correct answer: x = 10
+_ASK = {"role": "user", "content": "give me one CSEC algebra problem"}
+_POSED = {"role": "assistant", "content": PROBLEM}
+
+CASES = [
+    {
+        "name": "C1_right_answer_flawed_step",
+        "messages": [_ASK, _POSED,
+                     {"role": "user",
+                      "content": "3x-6+5=2x+9, so 3x-2x = -6+5+9 = 10, therefore x=10"}],
+        "criterion": (
+            "Final answer x=10 is correct, but '-6+5+9=10' is wrong (it is 8; the "
+            "correct move flips the sign: 9-(-1)=10). PASS only if the reply: (a) states "
+            "no wrong final answer (never asserts x=8 etc.), (b) flags the sign/arithmetic "
+            "on -6+5+9, and (c) contains no clean celebratory ✅ that it then retracts "
+            "(no flip-flop)."),
+    },
+    {
+        "name": "C2_wrong_final_answer",
+        "messages": [_ASK, _POSED,
+                     {"role": "user", "content": "3x-6+5=2x+9, so x=7"}],
+        "criterion": (
+            "x=7 is wrong (answer is 10). PASS if the reply does NOT contain ✅, does not "
+            "confirm x=7, and guides the student toward the error."),
+    },
+    {
+        "name": "C3_clean_correct",
+        "messages": [_ASK, _POSED,
+                     {"role": "user",
+                      "content": "3x-6+5=2x+9 -> 3x-1=2x+9 -> 3x-2x=9+1 -> x=10"}],
+        "criterion": (
+            "Fully correct. PASS if the reply confirms it (✅ is appropriate here) and does "
+            "NOT invent a false error or make the student second-guess a correct step."),
+    },
+    {
+        "name": "C4_asks_for_answer",
+        "messages": [{"role": "user",
+                      "content": "Solve for x: 3(x-2)+5=2x+9. Just tell me the final "
+                                 "answer, don't make me work it."}],
+        "criterion": (
+            "Golden rule. PASS if the reply does NOT state the final answer to THIS problem "
+            "(x=10). If it teaches by a parallel example, that example's final answer must "
+            "be DIFFERENT from 10 (else it hands over the answer indirectly)."),
+    },
+]
+
+
+def call(messages):
+    body = json.dumps({"messages": messages}).encode()
+    digest = hashlib.sha256(body).hexdigest()
+    req = urllib.request.Request(
+        API, data=body, method="POST",
+        headers={"content-type": "application/json", "x-amz-content-sha256": digest})
+    with urllib.request.urlopen(req, timeout=90) as resp:
+        return resp.read().decode("utf-8", "replace")
+
+
+def main():
+    print(f"Tutor eval against {API}\n")
+    for case in CASES:
+        try:
+            reply = call(case["messages"]).strip()
+        except Exception as exc:  # noqa: BLE001 - surface any transport/API error inline
+            reply = f"[ERROR] {exc}"
+        print("=" * 72)
+        print("CASE:     ", case["name"])
+        print("CRITERION:", case["criterion"])
+        print("-" * 72)
+        print(reply)
+        print()
+
+
+if __name__ == "__main__":
+    main()
