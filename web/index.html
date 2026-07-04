@@ -6,7 +6,7 @@
   <title>SumDeTing | Barbados’ Socratic AI Math Tutor</title>
   <meta name="description" content="SumDeTing is a Barbadian Socratic AI math tutor for Common Entrance, CSEC/CXC and beyond. It guides you to the answer instead of giving it away. Powered by Claude on Amazon Bedrock." />
   <link rel="canonical" href="https://d297i0l0pfbu7x.cloudfront.net/" />
-  <meta id="meta-theme" name="theme-color" content="#f8f4ea" />
+  <meta id="meta-theme" name="theme-color" content="#F4EEE0" />
   <link rel="icon" type="image/png" href="sumdeting-favicon-app.png" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/manifest.webmanifest" />
@@ -33,7 +33,7 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Space+Grotesk:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet" />
   <!-- KaTeX pinned to 0.16.21 — the newest version cdnjs actually hosts (0.16.22 returns 503 there). -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.21/katex.min.css"
         integrity="sha512-mMGlbQRufB3HPAPs+jt4wJQDblOCcuqLSuCdXYq6QWD9WC2R9zj2/uXkH9Q8KL3T1EwOg2ay6thwHZbhmG55PA==" crossorigin="anonymous" />
@@ -47,783 +47,570 @@
           integrity="sha384-JEyTNhjM6R1ElGoJns4U2Ln4ofPcqzSsynQkmEc/KGy6336qAZl70tDLufbkla+3" crossorigin="anonymous"></script>
   <style>
     :root {
-      /* SumDeTing palette — pulled from the bead logo */
-      --blue: #1c3ba8;
-      --blue-deep: #142c85;
-      --blue-soft: #e4e9f9;
-      --gold: #ffb627;
-      --gold-deep: #e09a0e;
-      --gold-soft: #ffefcf;
-      --bg: #f8f4ea;
-      --card: #ffffff;
-      --text: #1b2340;
-      --muted: #6b7290;
-      --tutor-bubble: #ffffff;
-      --tutor-border: #e9e3d4;
-      --border: #e9e3d4;
-      --input-border: #d9d2bf;
-      --radius: 18px;
+      /* Chalk & Cream (design sheet 2a) */
+      --bg: #F4EEE0;
+      --card: #FBF7EC;
+      --card-border: #E7DFC9;
+      --line: #E1D8C1;
+      --wash: #EAE2CF;
+      --strip: #EFE8D6;
+      --ink: #15181E;
+      --body: #3a3a34;
+      --muted: #6a6658;
+      --faint: #a8a496;
+      --blue: #0B39A8;
+      --gold: #F4A900;
+      --gold-soft: #F4C143;
+      --bead-off: #C9BE9f;
+      --danger: #B4462E;
+      --danger-line: #E0BDB0;
+      --on-primary: #ffffff;
+      --primary: var(--blue);
+      --text: var(--ink);
+      --border: var(--line);
+      --input-border: var(--line);
+      --tutor-bubble: var(--card);
+      --tutor-border: var(--card-border);
+      --radius: 15px;
     }
 
-
+    /* Espresso dark (design sheet 2b) — gold becomes the primary */
+    :root[data-theme="dark"] {
+      --bg: #211D16;
+      --card: #2A251B;
+      --card-border: #3A3327;
+      --line: #3A3327;
+      --wash: #2E2820;
+      --strip: #1B1810;
+      --ink: #EFE9DA;
+      --body: #CFC7B4;
+      --muted: #A79F8B;
+      --faint: #8a8168;
+      --blue: #F4C143;          /* primary accent flips to gold */
+      --gold: #F4C143;
+      --gold-soft: #F4C143;
+      --bead-off: #4a4234;
+      --danger: #E88A6E;
+      --danger-line: #6a3a2e;
+      --on-primary: #211D16;
+      --primary: #F4C143;
+      --text: #EFE9DA;
+      --border: #3A3327;
+      --input-border: #3A3327;
+      --tutor-bubble: #2A251B;
+      --tutor-border: #3A3327;
+    }
+    [data-theme="dark"] .logo-light { display: none !important; }
+    [data-theme="dark"] .logo-dark { display: inline-block !important; }
+    .logo-dark { display: none !important; }
 
     * { box-sizing: border-box; margin: 0; }
 
+    @keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+
     body {
-      font-family: 'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      font-weight: 600;
+      font-family: 'Space Grotesk', system-ui, sans-serif;
       background: var(--bg);
-      color: var(--text);
+      color: var(--ink);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      padding-bottom: 76px;
+      -webkit-font-smoothing: antialiased;
     }
 
+    /* ===== Header: mark + wordmark + menu ===== */
     header {
-      background: var(--bg);
-      border-bottom: 2px dotted var(--input-border);
-      padding: 0.8rem 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.8rem 1.25rem 0.7rem;
+      max-width: 560px; width: 100%; margin: 0 auto;
     }
+    .brand { display: flex; align-items: center; gap: 9px; }
+    .brand img { width: 30px; height: 30px; object-fit: contain; }
+    /* Small-size brand mark: the coastline collapses to a crisp 2×2 operator grid. */
+    .mark2x2 {
+      display: grid; grid-template-columns: 1fr 1fr; place-items: center;
+      width: 26px; height: 26px; flex: none; line-height: 1;
+      color: var(--primary);
+    }
+    [data-theme="dark"] .mark2x2 { color: var(--ink); }
+    .mark2x2 .op { font: 800 12px/1 'Space Grotesk', system-ui, sans-serif; color: currentColor; }
+    .mark2x2 .op.plus { color: var(--gold); }
+    .wordmark { font: 600 1.15rem 'Space Grotesk'; letter-spacing: -0.02em; color: var(--ink); }
+    .wordmark b { color: var(--primary); font-weight: 600; }
 
-    .logo-img { width: 46px; height: 46px; object-fit: contain; flex-shrink: 0; }
-    .logo-dark { display: none; }
-
-    header h1 {
-      font-family: 'Baloo 2', 'Nunito', sans-serif;
-      font-size: 1.35rem;
-      color: var(--blue);
-      line-height: 1.1;
-      letter-spacing: -0.01em;
+    .menu-wrap { position: relative; }
+    #menu-btn {
+      width: 36px; height: 36px; border: 0; border-radius: 10px;
+      background: var(--wash); color: var(--primary);
+      font-size: 16px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
     }
-    header h1 .dot { color: var(--gold); }
-    header p { font-size: 0.74rem; color: var(--muted); font-weight: 700; }
-    .header-spacer { flex: 1; }
-
-    .recap-btn, .speak-btn {
-      background: var(--card);
-      border: 2px solid var(--blue);
-      color: var(--blue);
-      border-radius: 999px;
-      padding: 0.45rem 1rem;
-      font: inherit;
-      font-size: 0.8rem;
-      font-weight: 800;
-      cursor: pointer;
-      white-space: nowrap;
+    #menu {
+      position: absolute; right: 0; top: 44px; z-index: 40;
+      width: 200px; background: var(--card);
+      border: 1px solid var(--line); border-radius: 14px;
+      box-shadow: 0 14px 30px -8px rgba(0, 0, 0, 0.22);
+      overflow: hidden;
     }
-    .recap-btn:hover:not(:disabled), .speak-btn:hover { background: var(--blue); color: #fff; }
-    .recap-btn:disabled { opacity: 0.4; cursor: default; }
-    .speak-btn.on { background: var(--blue); color: #fff; }
-
-    /* Exam mode bar */
-    .exam-bar {
-      display: none;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      align-items: center;
-      gap: 0.8rem;
-      background: var(--blue);
-      color: #fff;
-      border-radius: 999px;
-      padding: 0.55rem 1.1rem;
-      margin-bottom: 1rem;
-      font-size: 0.9rem;
-      font-weight: 700;
-      box-shadow: 0 3px 0 var(--blue-deep);
+    #menu button {
+      width: 100%; text-align: left;
+      padding: 0.8rem 1rem;
+      border: 0; border-bottom: 1px solid var(--card-border);
+      background: none; cursor: pointer;
+      font: 500 0.82rem 'Space Grotesk';
+      color: var(--ink);
+      display: flex; align-items: center; gap: 0.55rem;
     }
-    .exam-bar.active { display: flex; }
-    .exam-bar .time { font-variant-numeric: tabular-nums; font-size: 1.05rem; color: var(--gold); }
-    .exam-bar .spacer { flex: 1; }
-    .exam-bar button {
-      background: var(--gold);
-      color: #1b2340;
-      border: none;
-      border-radius: 999px;
-      padding: 0.4rem 0.95rem;
-      font: inherit;
-      font-size: 0.8rem;
-      font-weight: 800;
-      cursor: pointer;
-      box-shadow: 0 2px 0 var(--gold-deep);
-    }
-    .exam-bar.warning { background: #a02222; box-shadow: 0 3px 0 #701818; }
+    #menu button:last-child { border-bottom: 0; }
+    #menu button:disabled { opacity: 0.4; cursor: default; }
+    #menu button .icon { color: var(--primary); }
+    .speak-btn.on { color: var(--primary); font-weight: 600; }
 
     main {
-      flex: 1;
-      width: 100%;
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 1rem 1rem 0;
-      display: flex;
-      flex-direction: column;
+      flex: 1; width: 100%; max-width: 560px;
+      margin: 0 auto; padding: 0 1.25rem;
+      display: flex; flex-direction: column;
     }
 
-    /* Practice panel */
-    .practice {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      align-items: center;
+    .view { display: none; }
+    .view.active { display: block; }
+    #view-chat.active { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+
+    /* ===== HOME ===== */
+    .home-hero { text-align: center; padding: 0.4rem 0.25rem 0.25rem; }
+    .home-hero .float { display: inline-block; animation: floaty 5s ease-in-out infinite; }
+    .home-hero img { width: 86px; height: 86px; object-fit: contain; }
+    .home-hero h1 {
+      font: 600 1.65rem/1.18 'Fraunces', serif;
+      letter-spacing: -0.01em;
+      margin: 0.85rem 0.5rem 0;
+      color: var(--ink);
+    }
+    .home-hero p { font: 400 0.88rem/1.6 'Space Grotesk'; color: var(--muted); margin: 0.75rem 0.75rem 0; }
+
+    .cta-stack { display: flex; flex-direction: column; gap: 10px; margin: 1.35rem 0 0.5rem; }
+    .cta-primary {
+      width: 100%; padding: 0.95rem; border: 0; border-radius: var(--radius);
+      background: var(--primary); color: var(--on-primary);
+      font: 600 0.95rem 'Space Grotesk'; cursor: pointer;
+      box-shadow: 0 8px 18px -6px rgba(11, 57, 168, 0.5);
+    }
+    [data-theme="dark"] .cta-primary { box-shadow: 0 8px 20px -6px rgba(244, 193, 67, 0.35); }
+    .cta-primary:disabled { opacity: 0.55; cursor: wait; }
+    .cta-ghost {
+      width: 100%; padding: 0.85rem; border: 1.5px solid #D8CFB8; border-radius: var(--radius);
+      background: transparent; color: var(--ink);
+      font: 600 0.88rem 'Space Grotesk'; cursor: pointer;
+    }
+    [data-theme="dark"] .cta-ghost { border-color: #3A3327; }
+
+    .steps-card {
+      margin-top: 1.6rem; padding: 1.1rem;
+      background: var(--card); border: 1px solid var(--card-border); border-radius: 18px;
+    }
+    .steps-card .kicker {
+      font: 600 0.75rem 'Space Grotesk'; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--primary); margin-bottom: 0.85rem;
+    }
+    .step { display: flex; gap: 12px; align-items: flex-start; margin-top: 0.85rem; }
+    .step:first-of-type { margin-top: 0; }
+    .step .n {
+      width: 26px; height: 26px; border-radius: 50%; flex: none;
+      background: var(--blue); color: var(--on-primary);
+      font: 600 0.75rem 'Space Grotesk';
+      display: flex; align-items: center; justify-content: center;
+    }
+    [data-theme="dark"] .step .n { background: #3A3327; color: #EFE9DA; }
+    .step.gold .n { background: var(--gold); color: #15181E; }
+    [data-theme="dark"] .step.gold .n { background: #F4C143; color: #211D16; }
+    .step p { font: 400 0.82rem/1.5 'Space Grotesk'; color: var(--body); }
+
+    .row-head {
+      display: flex; justify-content: space-between; align-items: center;
+      margin: 1.5rem 0 0.75rem;
+    }
+    .row-head b { font: 600 0.88rem 'Space Grotesk'; color: var(--ink); }
+    .row-head span { font: 400 0.75rem 'Space Grotesk'; color: var(--faint); }
+
+    .chips-row { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tchip {
+      padding: 0.56rem 0.9rem;
+      border: 1px solid var(--line); border-radius: 11px;
       background: var(--card);
-      border: 2px solid var(--border);
-      border-radius: var(--radius);
-      padding: 0.65rem 0.85rem;
-      margin-bottom: 1rem;
-      font-size: 0.85rem;
-    }
-
-    .practice label { font-weight: 800; color: var(--muted); }
-
-    .practice select {
-      font: inherit;
-      font-size: 0.85rem;
-      font-weight: 700;
-      padding: 0.4rem 0.6rem;
-      border: 2px solid var(--input-border);
-      border-radius: 999px;
-      background: var(--card);
-      color: var(--text);
-    }
-
-    .practice button {
-      background: var(--gold);
-      color: #1b2340;
-      border: none;
-      border-radius: 999px;
-      padding: 0.5rem 1rem;
-      font-family: 'Baloo 2', 'Nunito', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 700;
+      font: 500 0.82rem 'Space Grotesk'; color: var(--ink);
       cursor: pointer;
-      box-shadow: 0 3px 0 var(--gold-deep);
     }
-    .practice button:hover:not(:disabled) { filter: brightness(0.97); }
-    .practice button:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 1px 0 var(--gold-deep); }
-    .practice button:disabled { opacity: 0.5; cursor: wait; }
+    .tchip:hover { border-color: var(--primary); }
+    .tchip:disabled { opacity: 0.5; cursor: wait; }
 
-    /* Past papers drawer */
-    .papers {
-      background: var(--card);
-      border: 2px solid var(--border);
-      border-radius: var(--radius);
-      margin-bottom: 1rem;
-      font-size: 0.85rem;
+    .seg-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .seg {
+      text-align: center; padding: 0.7rem 0.3rem; border-radius: 12px;
+      background: var(--wash); color: var(--muted);
+      border: 1px solid transparent;
+      font: 500 0.8rem 'Space Grotesk'; cursor: pointer;
     }
+    [data-theme="dark"] .seg { background: var(--card); border-color: var(--line); }
+    .seg.on { background: var(--primary); color: var(--on-primary); font-weight: 600; border-color: var(--primary); }
 
-    .papers summary {
-      cursor: pointer;
-      padding: 0.65rem 0.9rem;
-      font-weight: 800;
-      color: var(--blue);
-      list-style: none;
+    .home-foot {
+      margin-top: 1.75rem; text-align: center;
+      font: 400 0.7rem/1.6 'Space Grotesk'; color: var(--faint);
+      border-top: 1px solid var(--line); padding: 1.1rem 0 1.4rem;
     }
-    .papers summary::-webkit-details-marker { display: none; }
+    .home-foot a { color: var(--primary); }
 
-    .papers-tip {
-      padding: 0 0.9rem 0.6rem;
-      color: var(--muted);
-      font-size: 0.8rem;
+    /* ===== Practice hidden selects ===== */
+    .practice[hidden] { display: none; }
+
+    /* ===== Exam bar (global, while running) ===== */
+    .exam-bar {
+      display: none;
+      position: sticky; top: 0; z-index: 10;
+      align-items: center; gap: 0.8rem;
+      background: var(--primary); color: var(--on-primary);
+      border-radius: 999px;
+      padding: 0.55rem 1.1rem; margin: 0.5rem 0 1rem;
+      font: 600 0.85rem 'Space Grotesk';
     }
-
-    .papers-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      gap: 0.4rem;
-      padding: 0 0.9rem 0.9rem;
+    .exam-bar.active { display: flex; }
+    .exam-bar .time { font: 600 1.05rem 'Fraunces', serif; font-variant-numeric: tabular-nums; color: var(--gold-soft); }
+    [data-theme="dark"] .exam-bar .time { color: #211D16; }
+    .exam-bar .spacer { flex: 1; }
+    .exam-bar button {
+      background: var(--card); color: var(--ink);
+      border: 0; border-radius: 999px; padding: 0.35rem 0.85rem;
+      font: 600 0.75rem 'Space Grotesk'; cursor: pointer;
     }
+    .exam-bar.warning { background: #8b2a1a; color: #fff; }
+    .exam-bar.warning .time { color: #F4C143; }
 
-    .papers-grid a {
-      display: block;
-      padding: 0.4rem 0.65rem;
+    /* ===== EXAM view ===== */
+    .page-h2 { font: 600 1.35rem 'Fraunces', serif; margin: 0.5rem 0 0.25rem; color: var(--ink); }
+    .page-sub { font: 400 0.82rem/1.5 'Space Grotesk'; color: var(--muted); margin: 0 0 1.25rem; }
+
+    .duration-rows { display: flex; flex-direction: column; gap: 9px; margin-bottom: 1.1rem; }
+    .duration-rows button {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0.85rem 1rem;
+      border: 1.5px solid var(--line); border-radius: 13px;
+      background: none; cursor: pointer;
+      font: 500 0.88rem 'Space Grotesk'; color: var(--ink);
+    }
+    .duration-rows button span { color: var(--faint); font-weight: 400; }
+    .duration-rows button.on {
+      border: 2px solid var(--primary);
+      background: rgba(11, 57, 168, 0.05);
+      color: var(--primary); font-weight: 600;
+    }
+    [data-theme="dark"] .duration-rows button.on { background: rgba(244, 193, 67, 0.08); }
+    .duration-rows button.on span { color: var(--primary); }
+
+    .papers-card {
+      display: block; width: 100%; text-align: center;
+      padding: 1.25rem; margin-top: 1.35rem;
+      border: 1px dashed var(--bead-off); border-radius: 16px;
+      background: none; cursor: pointer;
+    }
+    .papers-card .kicker {
+      font: 600 0.68rem 'Space Grotesk'; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--faint); margin-bottom: 0.5rem;
+    }
+    .papers-card .t { font: 600 0.95rem 'Fraunces', serif; color: var(--ink); }
+    .papers-card .d { font: 400 0.75rem/1.5 'Space Grotesk'; color: var(--muted); margin-top: 0.4rem; }
+
+    /* ===== Papers bottom sheet ===== */
+    .sheet {
+      position: fixed; inset: 0; z-index: 50;
+      background: rgba(20, 16, 8, 0.42);
+      display: flex; align-items: flex-end;
+    }
+    .sheet[hidden] { display: none; }
+    .sheet-card {
+      width: 100%; max-width: 560px; margin: 0 auto;
       background: var(--bg);
-      border: 2px solid var(--border);
-      border-radius: 999px;
-      color: var(--text);
+      border-radius: 22px 22px 0 0;
+      padding: 1rem 1.25rem 1.6rem;
+      max-height: 78vh; overflow-y: auto;
+    }
+    .sheet-grab { width: 40px; height: 4px; border-radius: 2px; background: var(--bead-off); margin: 0 auto 1rem; }
+    .sheet-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; }
+    .sheet-head h3 { font: 600 1.2rem 'Fraunces', serif; color: var(--ink); }
+    .sheet-head button {
+      background: none; border: 0; cursor: pointer;
+      font: 600 0.82rem 'Space Grotesk'; color: var(--primary);
+    }
+    .sheet-tip { font: 400 0.75rem/1.5 'Space Grotesk'; color: var(--faint); margin: 0 0 1rem; }
+    .papers-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+    }
+    .papers-grid a {
+      display: block; text-align: center; padding: 0.8rem 0.25rem;
+      background: var(--card); border: 1px solid var(--line); border-radius: 11px;
+      font: 600 0.78rem 'Space Grotesk'; color: var(--ink);
       text-decoration: none;
-      font-size: 0.78rem;
-      font-weight: 700;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
+    .papers-grid a:hover { border-color: var(--primary); color: var(--primary); }
+    .papers-credit { font: 400 0.7rem 'Space Grotesk'; color: var(--faint); text-align: center; margin-top: 1rem; }
+    .papers-credit a { color: var(--primary); }
 
-    .papers-grid a:hover {
-      border-color: var(--blue);
-      color: var(--blue);
+    /* ===== STRING view ===== */
+    .string-stat {
+      background: var(--blue); border-radius: 20px;
+      padding: 1.35rem 1.25rem; color: #fff; margin-bottom: 1.1rem;
     }
+    [data-theme="dark"] .string-stat { background: var(--card); border: 1px solid var(--line); color: var(--ink); }
+    .string-stat .top { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1rem; }
+    .string-stat .big { font: 600 2.5rem/1 'Fraunces', serif; color: #F4C143; }
+    .string-stat .lbl { font: 400 0.75rem 'Space Grotesk'; opacity: 0.8; margin-top: 4px; }
+    [data-theme="dark"] .string-stat .lbl { color: var(--muted); opacity: 1; }
+    .string-stat .streak { font: 600 1.35rem/1 'Space Grotesk'; text-align: right; }
+    .string-beads { display: flex; flex-wrap: wrap; gap: 7px; }
+    .string-beads span { width: 11px; height: 11px; border-radius: 50%; background: #F4C143; }
+    .string-beads span.empty { background: rgba(255, 255, 255, 0.28); }
+    [data-theme="dark"] .string-beads span.empty { background: #4a4234; }
 
-    .papers-credit {
-      padding: 0 0.9rem 0.8rem;
-      font-size: 0.72rem;
-      color: var(--muted);
+    .topic-status { display: flex; flex-direction: column; gap: 10px; }
+    .trow {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0.85rem 1rem;
+      background: var(--card); border: 1px solid var(--card-border); border-radius: 14px;
     }
-    .papers-credit a { color: var(--blue); }
+    .trow span { font: 500 0.82rem 'Space Grotesk'; color: var(--ink); }
+    .trow b { font: 600 0.75rem 'Space Grotesk'; }
+    .trow .s-done { color: var(--primary); }
+    .trow .s-mid { color: var(--gold); }
+    [data-theme="dark"] .trow .s-mid { color: #D8A94E; }
+    .trow .s-new { color: var(--faint); }
+    .mastery { display: block; font: 400 0.75rem 'Space Grotesk'; color: var(--muted); margin: 0.75rem 0 0; }
+    .mastery b { color: var(--ink); }
+
+    /* ===== CHAT (Tutor) ===== */
+    .chat-top {
+      display: flex; align-items: center; gap: 10px;
+      padding: 0.4rem 0 0.85rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .chat-top img { width: 26px; height: 26px; object-fit: contain; }
+    .chat-top .t { flex: 1; }
+    .chat-top .t b { display: block; font: 600 1.05rem 'Fraunces', serif; color: var(--ink); }
+    .chat-top .t span { font: 400 0.7rem 'Space Grotesk'; color: var(--faint); }
 
     #chat {
       flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-      padding-bottom: 1rem;
+      display: flex; flex-direction: column; gap: 12px;
+      padding: 1.1rem 0 0.6rem;
       overflow-y: auto;
     }
 
     .msg {
-      max-width: 85%;
-      padding: 0.85rem 1.05rem;
-      border-radius: 20px;
-      line-height: 1.55;
-      font-size: 0.95rem;
+      max-width: 84%;
+      padding: 0.78rem 0.9rem;
+      border-radius: 16px;
+      font: 400 0.86rem/1.55 'Space Grotesk';
       white-space: pre-wrap;
       overflow-wrap: break-word;
+      position: relative;
     }
-
     .msg.user {
       align-self: flex-end;
-      background: var(--blue);
-      color: white;
-      border-bottom-right-radius: 8px;
-      box-shadow: 0 3px 0 var(--blue-deep);
+      background: var(--primary); color: var(--on-primary);
+      border-radius: 16px 16px 5px 16px;
     }
-
     .msg.tutor {
       align-self: flex-start;
       background: var(--tutor-bubble);
-      border: 2px solid var(--tutor-border);
-      border-bottom-left-radius: 8px;
+      border: 1px solid var(--tutor-border);
+      border-radius: 16px 16px 16px 5px;
+      color: var(--body);
     }
-
     .msg.thinking { color: var(--muted); font-style: italic; }
     .msg.thinking::after {
-      content: "";
-      display: inline-block;
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--gold);
-      margin-left: 6px;
-      animation: bead-pulse 1s ease-in-out infinite;
+      content: ""; display: inline-block;
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--gold); margin-left: 6px;
+      animation: floaty 1s ease-in-out infinite;
       vertical-align: 1px;
     }
-    @keyframes bead-pulse { 50% { opacity: 0.3; transform: translateY(-3px); } }
+    .msg.error { background: rgba(180, 70, 46, 0.08); border: 1px solid var(--danger-line); color: var(--danger); }
+    .msg.notice { align-self: center; background: var(--wash); border: 1px solid var(--line); color: var(--muted); font-size: 0.78rem; }
 
-    .msg.error { background: #fdf1f1; border: 2px solid #f0c9c9; color: #b91c1c; }
-    .msg.notice { align-self: center; background: var(--blue-soft); border: 2px solid var(--border); color: var(--blue); font-size: 0.85rem; font-weight: 700; }
-
-    /* Rendered-markdown tutor bubbles */
     .msg.rich { white-space: normal; }
     .msg.rich p { margin: 0 0 0.55em; }
     .msg.rich p:last-child { margin-bottom: 0; }
     .msg.rich ul, .msg.rich ol { margin: 0.35em 0 0.55em 1.25em; padding: 0; }
     .msg.rich li { margin: 0.2em 0; }
-    .msg.rich h1, .msg.rich h2, .msg.rich h3, .msg.rich h4 { font-size: 1.02em; margin: 0.6em 0 0.3em; }
+    .msg.rich h1, .msg.rich h2, .msg.rich h3, .msg.rich h4 { font-size: 1.02em; margin: 0.6em 0 0.3em; font-family: 'Space Grotesk'; }
     .msg.rich code { background: rgba(0, 0, 0, 0.07); padding: 0.1em 0.35em; border-radius: 4px; font-size: 0.9em; }
-    .msg.rich pre { background: rgba(0, 0, 0, 0.06); padding: 0.6em 0.8em; border-radius: 10px; overflow-x: auto; }
+    [data-theme="dark"] .msg.rich code { background: rgba(255, 255, 255, 0.1); }
+    .msg.rich pre { background: rgba(0, 0, 0, 0.06); padding: 0.6em 0.8em; border-radius: 8px; overflow-x: auto; }
+    [data-theme="dark"] .msg.rich pre { background: rgba(255, 255, 255, 0.08); }
     .msg.rich blockquote { border-left: 3px solid var(--gold); margin: 0.4em 0; padding-left: 0.7em; color: var(--muted); }
     .msg.rich .katex-display { overflow-x: auto; overflow-y: hidden; padding: 0.2em 0; }
+    .msg.rich b, .msg.rich strong { color: var(--ink); }
+    [data-theme="dark"] .msg.rich b, [data-theme="dark"] .msg.rich strong { color: var(--gold); }
 
-    .msg img.attached {
-      display: block;
-      max-width: 100%;
-      max-height: 220px;
-      border-radius: 12px;
-      margin-bottom: 0.5rem;
-    }
+    .msg img.attached { display: block; max-width: 100%; max-height: 220px; border-radius: 10px; margin-bottom: 0.5rem; }
 
-    /* Composer */
-    form {
-      position: sticky;
-      bottom: 0;
-      background: var(--bg);
-      padding: 0.6rem 0 1.1rem;
-    }
-
-    .attachment-preview {
-      display: none;
-      align-items: center;
-      gap: 0.6rem;
-      background: var(--card);
-      border: 2px solid var(--border);
-      border-radius: 14px;
-      padding: 0.4rem 0.6rem;
-      margin-bottom: 0.5rem;
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-    .attachment-preview.active { display: flex; }
-    .attachment-preview img { height: 44px; border-radius: 8px; }
-    .attachment-preview button {
-      margin-left: auto;
-      background: none; border: none;
-      color: #b91c1c; font-weight: 800; cursor: pointer; font-size: 0.95rem;
-    }
-
-    .composer-row { display: flex; gap: 0.5rem; }
-
-    .photo-btn {
-      align-self: flex-end;
-      background: var(--card);
-      border: 2px solid var(--input-border);
-      border-radius: 50%;
-      width: 48px;
-      height: 48px;
-      padding: 0;
-      font-size: 1.1rem;
-      cursor: pointer;
-      line-height: 1;
-      color: var(--blue);
-      flex-shrink: 0;
-    }
-    .photo-btn:hover { border-color: var(--blue); }
-
-    textarea {
-      flex: 1;
-      resize: none;
-      border: 2px solid var(--input-border);
-      border-radius: 24px;
-      padding: 0.75rem 1.05rem;
-      font: inherit;
-      font-size: 0.95rem;
-      background: var(--card);
-      color: var(--text);
-      outline: none;
-      min-height: 48px;
-      max-height: 160px;
-    }
-
-    textarea:focus { border-color: var(--blue); }
-
-    .send-btn {
-      align-self: flex-end;
-      background: var(--blue);
-      color: white;
-      border: none;
-      border-radius: 999px;
-      padding: 0.8rem 1.4rem;
-      font-family: 'Baloo 2', 'Nunito', sans-serif;
-      font-weight: 700;
-      font-size: 0.95rem;
-      cursor: pointer;
-      box-shadow: 0 3px 0 var(--blue-deep);
-    }
-
-    .send-btn:hover:not(:disabled) { filter: brightness(1.06); }
-    .send-btn:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 1px 0 var(--blue-deep); }
-    .send-btn:disabled { opacity: 0.5; cursor: wait; }
-
-    footer {
-      text-align: center;
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--muted);
-      padding: 0 1rem 1rem;
-    }
-
-    footer a { color: var(--blue); }
-    footer .bead { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--blue); vertical-align: 1px; margin: 0 2px; }
-    footer .bead.gold { background: var(--gold); }
-
-    /* Inline SVG icons (inherit text color) */
-    .icon {
-      width: 1.05em; height: 1.05em;
-      vertical-align: -0.18em;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      flex-shrink: 0;
-    }
-    .photo-btn .icon { width: 1.2em; height: 1.2em; vertical-align: -0.25em; }
-
-    /* Mic recording state */
-    .photo-btn.rec { color: #dc2626; border-color: #dc2626; animation: rec-pulse 1.2s ease-in-out infinite; }
-    @keyframes rec-pulse { 50% { opacity: 0.55; } }
-
-    /* Progress strip (streak + topic mastery) */
-    .mastery { width: 100%; font-size: 0.78rem; color: var(--muted); }
-    .mastery b { color: var(--text); }
-    .mastery::before {
-      content: "";
-      display: inline-block;
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: var(--gold);
-      margin-right: 6px;
-      vertical-align: 0;
-    }
-
-    /* Math symbol toolbar — round bead keys */
-    .mathbar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.3rem;
-      padding: 0 0 0.5rem 0.15rem;
-    }
-    .mathbar .mathbar-label {
-      font-size: 0.72rem;
-      font-weight: 800;
-      color: var(--muted);
-      margin-right: 0.3rem;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-    .mathbar button {
-      background: var(--card);
-      border: 2px solid var(--border);
-      color: var(--blue);
-      border-radius: 50%;
-      width: 36px;
-      height: 36px;
-      padding: 0;
-      font: inherit;
-      font-size: 0.88rem;
-      font-weight: 700;
-      cursor: pointer;
-      line-height: 1;
-    }
-    .mathbar button:hover {
-      border-color: var(--blue);
-      background: var(--blue-soft);
-    }
-
-    /* Copy-reply button on tutor bubbles */
-    .msg { position: relative; }
     .msg .copy-btn {
-      position: absolute;
-      top: 0.3rem; right: 0.35rem;
+      position: absolute; top: 0.25rem; right: 0.3rem;
       background: none; border: none;
-      font-size: 0.78rem;
-      color: inherit;
-      cursor: pointer;
-      opacity: 0.35;
-      padding: 0.15rem;
+      font-size: 0.75rem; color: inherit;
+      cursor: pointer; opacity: 0.35; padding: 0.15rem;
     }
     .msg .copy-btn:hover { opacity: 1; }
 
     /* Quick-reply chips */
-    .chips { display: flex; flex-wrap: wrap; gap: 0.45rem; padding-bottom: 0.5rem; }
-    .chips[hidden] { display: none; } /* display:flex would otherwise defeat the hidden attribute */
+    .chips { display: flex; flex-wrap: wrap; gap: 0.45rem; padding: 0 0 0.55rem; }
+    .chips[hidden] { display: none; }
     .chips button {
-      background: var(--card);
-      border: 2px solid var(--border);
-      color: var(--blue);
-      border-radius: 999px;
-      padding: 0.42rem 0.9rem;
-      font: inherit;
-      font-size: 0.82rem;
-      font-weight: 800;
-      cursor: pointer;
+      background: var(--card); border: 1px solid var(--line);
+      color: var(--ink); border-radius: 999px;
+      padding: 0.42rem 0.85rem;
+      font: 500 0.78rem 'Space Grotesk'; cursor: pointer;
     }
-    .chips button:hover { border-color: var(--blue); background: var(--blue-soft); }
+    .chips button:hover { border-color: var(--primary); color: var(--primary); }
 
-    /* Handwriting canvas modal */
+    /* ===== Composer strip ===== */
+    form {
+      position: sticky; bottom: 76px;
+      background: var(--strip);
+      border-top: 1px solid var(--line);
+      margin: 0 -1.25rem;
+      padding: 0.55rem 0.8rem 0.7rem;
+    }
+
+    .mathbar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: none; }
+    .mathbar::-webkit-scrollbar { display: none; }
+    .mathbar .mathbar-label { display: none; }
+    .mathbar button {
+      flex: none; min-width: 38px; text-align: center;
+      padding: 0.5rem 0;
+      background: var(--card); border: 1px solid var(--line); border-radius: 9px;
+      font: 500 0.9rem 'Newsreader', serif; color: var(--ink);
+      cursor: pointer; line-height: 1.2;
+    }
+    .mathbar button:hover { border-color: var(--primary); color: var(--primary); }
+
+    .attachment-preview {
+      display: none; align-items: center; gap: 0.6rem;
+      background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+      padding: 0.4rem 0.6rem; margin-bottom: 0.5rem;
+      font: 400 0.75rem 'Space Grotesk'; color: var(--muted);
+    }
+    .attachment-preview.active { display: flex; }
+    .attachment-preview img { height: 44px; border-radius: 6px; }
+    .attachment-preview button {
+      margin-left: auto; background: none; border: none;
+      color: var(--danger); font-weight: 700; cursor: pointer; font-size: 0.95rem;
+    }
+
+    .composer-row { display: flex; gap: 9px; align-items: flex-end; }
+    .photo-btn {
+      width: 40px; height: 44px; flex: none;
+      border-radius: 12px;
+      background: var(--card); border: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; color: var(--primary);
+      cursor: pointer; line-height: 1;
+    }
+    .photo-btn:hover { border-color: var(--primary); }
+    .photo-btn.rec { color: #dc2626; border-color: #dc2626; animation: rec-pulse 1.2s ease-in-out infinite; }
+    @keyframes rec-pulse { 50% { opacity: 0.55; } }
+
+    textarea {
+      flex: 1; resize: none;
+      min-height: 44px; max-height: 160px;
+      border: 1px solid var(--line); border-radius: 12px;
+      padding: 0.65rem 0.9rem;
+      font: 400 0.86rem 'Space Grotesk';
+      background: var(--card); color: var(--ink);
+      outline: none;
+    }
+    textarea::placeholder { color: var(--faint); }
+    textarea:focus { border-color: var(--primary); }
+
+    .send-btn {
+      width: 44px; height: 44px; flex: none;
+      border: 0; border-radius: 12px;
+      background: var(--primary); color: var(--on-primary);
+      font-size: 1.05rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .send-btn:disabled { opacity: 0.5; cursor: wait; }
+    .send-btn .icon { width: 1.15em; height: 1.15em; }
+
+    /* ===== Bottom nav ===== */
+    .appnav {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 30;
+      background: var(--card);
+      border-top: 1px solid var(--line);
+      display: flex;
+      padding: 0.45rem 0.5rem calc(0.6rem + env(safe-area-inset-bottom));
+    }
+    .appnav .inner { display: flex; width: 100%; max-width: 560px; margin: 0 auto; }
+    .appnav button {
+      flex: 1; background: none; border: 0; cursor: pointer;
+      display: flex; flex-direction: column; align-items: center; gap: 3px;
+      font: 600 0.64rem 'Space Grotesk'; color: var(--faint);
+      padding: 0.1rem 0;
+    }
+    .appnav button .bar { width: 22px; height: 3px; border-radius: 2px; background: transparent; }
+    .appnav button .icon { width: 18px; height: 18px; }
+    .appnav button.on { color: var(--primary); }
+    .appnav button.on .bar { background: var(--primary); }
+
+    /* ===== Icons / helpers ===== */
+    .icon {
+      width: 1.05em; height: 1.05em;
+      vertical-align: -0.18em;
+      fill: none; stroke: currentColor;
+      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    .sr-only {
+      position: absolute; width: 1px; height: 1px;
+      padding: 0; margin: -1px; overflow: hidden;
+      clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+    }
+
+    /* ===== Sketch modal ===== */
     .sketch-modal {
       position: fixed; inset: 0;
-      background: rgba(16, 22, 43, 0.55);
+      background: rgba(20, 16, 8, 0.55);
       display: flex; align-items: center; justify-content: center;
-      z-index: 50; padding: 1rem;
+      z-index: 60; padding: 1rem;
     }
     .sketch-modal[hidden] { display: none; }
     .sketch-card {
-      background: var(--card);
-      border-radius: var(--radius);
-      padding: 0.7rem;
+      background: var(--bg); border-radius: 18px; padding: 0.7rem;
       display: flex; flex-direction: column; gap: 0.6rem;
       max-width: 720px; width: 100%;
     }
     .sketch-tools { display: flex; gap: 0.4rem; flex-wrap: wrap; align-items: center; }
     .sketch-tools .spacer { flex: 1; }
     .sketch-tools button {
-      font: inherit; font-size: 0.82rem; font-weight: 700;
-      padding: 0.42rem 0.8rem;
-      border-radius: 999px;
-      border: 2px solid var(--input-border);
-      background: var(--card); color: var(--text);
-      cursor: pointer;
+      font: 500 0.8rem 'Space Grotesk';
+      padding: 0.45rem 0.75rem; border-radius: 10px;
+      border: 1px solid var(--line);
+      background: var(--card); color: var(--ink); cursor: pointer;
     }
-    .sketch-tools button.on { border-color: var(--blue); color: var(--blue); font-weight: 800; }
-    .sketch-tools button.primary { background: var(--blue); border-color: var(--blue); color: white; font-weight: 800; box-shadow: 0 2px 0 var(--blue-deep); }
+    .sketch-tools button.on { border-color: var(--primary); color: var(--primary); font-weight: 600; }
+    .sketch-tools button.primary { background: var(--primary); border-color: var(--primary); color: var(--on-primary); font-weight: 600; }
     #sk-canvas {
       width: 100%; height: 52vh;
       background: #fff;
-      border: 2px solid var(--input-border);
-      border-radius: 12px;
-      touch-action: none;
-      cursor: crosshair;
+      border: 1px solid var(--line); border-radius: 10px;
+      touch-action: none; cursor: crosshair;
     }
 
-    /* Visually-hidden helper for screen-reader announcements */
-    .sr-only {
-      position: absolute;
-      width: 1px; height: 1px;
-      padding: 0; margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
+    @media (max-width: 380px) {
+      .home-hero h1 { font-size: 1.45rem; }
+      .seg { font-size: 0.72rem; }
     }
-
-    /* ---- Phones (<=600px) ---- */
-    @media (max-width: 600px) {
-      /* Header: wrap so the two buttons drop to their own full-width row
-         instead of crushing the title. */
-      header {
-        flex-wrap: wrap;
-        row-gap: 0.5rem;
-        gap: 0.5rem;
-        padding: 0.6rem 0.9rem;
-      }
-      header h1 { font-size: 1.15rem; }
-      header p { font-size: 0.7rem; line-height: 1.3; }
-      .logo-img { width: 40px; height: 40px; }
-      .header-spacer { flex-basis: 100%; height: 0; }
-      .speak-btn, .recap-btn {
-        flex: 1;
-        padding: 0.55rem 0.5rem;
-        font-size: 0.8rem;
-        text-align: center;
-      }
-
-      main { padding: 0.7rem 0.7rem 0; }
-
-      /* Practice/exam controls: full-width, tappable, no cramped inline row.
-         Labels span the row; selects pair up (and a lone one fills the row);
-         action buttons go full width. */
-      .practice { gap: 0.5rem; padding: 0.7rem; }
-      .practice label { width: 100%; margin-bottom: -0.15rem; }
-      .practice select { flex: 1 1 40%; min-width: 0; padding: 0.55rem 0.6rem; }
-      .practice button { flex: 1 1 100%; padding: 0.7rem; font-size: 0.9rem; }
-      .practice > span { display: none; } /* hide the "|" divider */
-
-      /* Exam bar */
-      .exam-bar { padding: 0.55rem 0.8rem; font-size: 0.85rem; }
-
-      /* Past-papers grid: smaller min so 2 fit comfortably */
-      .papers-grid { grid-template-columns: repeat(auto-fill, minmax(115px, 1fr)); }
-
-      /* Chat bubbles a touch wider on a narrow screen */
-      .msg { max-width: 92%; font-size: 0.92rem; }
-
-      /* Composer: keep one row but make the icon buttons and send compact
-         so the textarea keeps usable width. */
-      .composer-row { gap: 0.4rem; }
-      .photo-btn { width: 44px; height: 44px; }
-      textarea { padding: 0.7rem 0.85rem; min-height: 48px; }
-      .send-btn { padding: 0.8rem 0.95rem; }
-      footer { font-size: 0.7rem; }
-    }
-
-    /* ===== SumDeTing home: hero, bead strings, topic cards ===== */
-    .beads { display: flex; gap: 6px; align-items: center; }
-    .beads i {
-      width: 12px; height: 12px; border-radius: 50%;
-      background: var(--blue); flex-shrink: 0;
-    }
-    .beads i.gold { background: var(--gold); }
-    .beads i.empty { background: transparent; border: 2px solid var(--input-border); width: 11px; height: 11px; }
-
-    .hero {
-      background: var(--blue);
-      border-radius: var(--radius);
-      color: #fff;
-      padding: 1.4rem 1.3rem;
-      display: flex; align-items: center; gap: 1.1rem;
-      position: relative; overflow: hidden;
-      margin-bottom: 1rem;
-    }
-    .hero::before, .hero::after { content: ""; position: absolute; border-radius: 50%; }
-    .hero::before { width: 120px; height: 120px; background: rgba(255,255,255,.06); right: -34px; top: -40px; }
-    .hero::after { width: 68px; height: 68px; background: rgba(255,182,39,.18); right: 46px; bottom: -26px; }
-    .hero img { width: 92px; height: 92px; object-fit: contain; flex-shrink: 0; filter: drop-shadow(0 4px 10px rgba(0,0,0,.25)); }
-    .hero h2 { font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: 1.45rem; line-height: 1.12; }
-    .hero h2 span { color: var(--gold); }
-    .hero p { font-size: .85rem; opacity: .87; margin-top: .35rem; font-weight: 600; max-width: 34ch; color: #fff; }
-    .hero-cta {
-      margin-top: .8rem; display: inline-block; position: relative; z-index: 1;
-      background: var(--gold); color: #1b2340;
-      font-family: 'Baloo 2', 'Nunito', sans-serif; font-weight: 700; font-size: .9rem;
-      padding: .55rem 1.25rem; border-radius: 999px; border: none; cursor: pointer;
-      box-shadow: 0 3px 0 var(--gold-deep);
-    }
-    .hero-cta:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 1px 0 var(--gold-deep); }
-    .hero-cta:disabled { opacity: .55; cursor: wait; }
-
-    .goal {
-      background: var(--card); border: 2px solid var(--border);
-      border-radius: var(--radius); padding: .9rem 1.15rem;
-      margin-bottom: .5rem;
-      display: flex; align-items: center; gap: 1rem;
-    }
-    .goal .txt h3 { font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: .95rem; color: var(--blue); }
-    .goal .txt p { font-size: .76rem; color: var(--muted); font-weight: 700; margin-top: .1rem; }
-    .goal .beads { margin-left: auto; }
-    .goal .mastery::before { display: none; }
-
-    .section-title {
-      font-family: 'Baloo 2', 'Nunito', sans-serif;
-      font-size: .74rem; font-weight: 700;
-      color: var(--muted); text-transform: uppercase; letter-spacing: .12em;
-      margin: 1rem 0 .6rem;
-      display: flex; align-items: center; gap: .7rem;
-    }
-    .section-title::after {
-      content: ""; flex: 1; height: 4px;
-      background-image: radial-gradient(circle, var(--input-border) 2px, transparent 2.5px);
-      background-size: 14px 4px; background-repeat: repeat-x; background-position: left center;
-    }
-
-    .level-tabs { display: flex; gap: .5rem; overflow-x: auto; padding-bottom: 2px; }
-    .ltab {
-      white-space: nowrap;
-      border: 2px solid var(--border); background: var(--card);
-      padding: .48rem 1.05rem; border-radius: 999px;
-      font: inherit; font-size: .8rem; font-weight: 800; cursor: pointer;
-      color: var(--muted);
-    }
-    .ltab.on { background: var(--blue); border-color: var(--blue); color: #fff; }
-
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
-    @media (min-width: 640px) { .grid { grid-template-columns: repeat(4, 1fr); } }
-    .topic {
-      background: var(--card); border: 2px solid var(--border);
-      border-radius: var(--radius); padding: .9rem .85rem .85rem;
-      cursor: pointer; text-align: left;
-      font: inherit; color: var(--text);
-      transition: transform .1s, border-color .15s;
-    }
-    .topic:hover { border-color: var(--blue); }
-    .topic:active { transform: scale(.97); }
-    .topic:disabled { opacity: .55; cursor: wait; }
-    .topic .t-ic {
-      width: 40px; height: 40px; border-radius: 50%;
-      background: var(--blue-soft); color: var(--blue);
-      display: grid; place-items: center; margin-bottom: .5rem;
-    }
-    .topic .t-ic .icon { width: 20px; height: 20px; }
-    .topic h4 { font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: .85rem; line-height: 1.15; color: var(--blue); }
-    .topic .t-sub { font-size: .68rem; color: var(--muted); margin-top: .2rem; font-weight: 700; display: block; }
-    .topic .beads { margin-top: .55rem; }
-    .topic .beads i { width: 8px; height: 8px; }
-    .topic .beads i.empty { width: 7px; height: 7px; }
-
-    .exam-strip {
-      margin-top: 1rem; margin-bottom: 1.25rem;
-      background: var(--card);
-      border: 2px solid var(--blue);
-      border-radius: var(--radius); padding: .85rem 1.05rem;
-      display: flex; align-items: center; gap: .8rem; flex-wrap: wrap;
-    }
-    .exam-strip .badge {
-      width: 44px; height: 44px; border-radius: 50%;
-      background: var(--blue); color: var(--gold);
-      display: grid; place-items: center; flex-shrink: 0;
-    }
-    .exam-strip .badge .icon { width: 20px; height: 20px; }
-    .exam-strip .es-txt { flex: 1; min-width: 140px; }
-    .exam-strip h4 { font-family: 'Baloo 2', 'Nunito', sans-serif; font-size: .95rem; color: var(--blue); }
-    .exam-strip p { font-size: .74rem; color: var(--muted); font-weight: 700; margin-top: .05rem; }
-    .exam-strip select {
-      font: inherit; font-size: .82rem; font-weight: 700;
-      padding: .42rem .6rem;
-      border: 2px solid var(--input-border);
-      border-radius: 999px;
-      background: var(--card); color: var(--text);
-    }
-    .exam-strip button {
-      background: var(--blue); color: #fff;
-      border: none; border-radius: 999px; padding: .5rem 1.1rem;
-      font-family: 'Baloo 2', 'Nunito', sans-serif; font-weight: 700; font-size: .82rem; cursor: pointer;
-      box-shadow: 0 3px 0 var(--blue-deep);
-    }
-    .exam-strip button:active:not(:disabled) { transform: translateY(2px); box-shadow: none; }
-    .exam-strip button:disabled { opacity: .5; cursor: default; }
-
-    .practice[hidden] { display: none; }
-
-    @media (max-width: 600px) {
-      .hero { padding: 1.1rem 1rem; gap: .8rem; }
-      .hero img { width: 72px; height: 72px; }
-      .hero h2 { font-size: 1.2rem; }
-      .goal { flex-wrap: wrap; }
-    }
-
-
-    /* ===== Views + bottom app nav ===== */
-    .view { display: none; }
-    .view.active { display: flex; flex-direction: column; flex: 1; min-height: 0; }
-    #view-home.active, #view-practice.active { display: block; flex: none; }
-
-    body { padding-bottom: 72px; }
-
-    .appnav {
-      position: fixed; bottom: 0; left: 0; right: 0; z-index: 30;
-      background: var(--card);
-      border-top: 2px solid var(--border);
-      display: flex; justify-content: space-around;
-      padding: 0.45rem 0 calc(0.45rem + env(safe-area-inset-bottom));
-    }
-    .appnav button {
-      background: none; border: none; cursor: pointer;
-      font: inherit; font-size: 0.66rem; font-weight: 800;
-      color: var(--muted);
-      display: flex; flex-direction: column; align-items: center; gap: 0.2rem;
-      padding: 0.25rem 1.6rem; position: relative; border-radius: 12px;
-    }
-    .appnav button .icon { width: 22px; height: 22px; }
-    .appnav button.on { color: var(--blue); }
-    .appnav button.on::after {
-      content: ""; width: 6px; height: 6px; border-radius: 50%;
-      background: var(--gold); position: absolute; bottom: -2px;
-    }
-
-    /* The composer sticks above the nav, not behind it */
-    form { bottom: 72px; }
-
-    #exam-link { cursor: pointer; }
-    #exam-link:hover { border-color: var(--gold); }
-
-    /* Night studying: deep navy, true blues, gold beads.
-       Applied via data-theme (toggle in the header; defaults to the OS setting). */
-    :root[data-theme="dark"] {
-      --blue: #7fa3f0;        /* text/icon blue — reads blue, not purple */
-      --blue-deep: #24448f;
-      --blue-soft: #202b4d;
-      --gold: #ffb627;
-      --gold-deep: #c98f10;
-      --gold-soft: #3a3220;
-      --bg: #0f1526;
-      --card: #192138;
-      --text: #edf1fb;
-      --muted: #97a3c2;
-      --tutor-bubble: #192138;
-      --tutor-border: #2a3453;
-      --border: #2a3453;
-      --input-border: #39456b;
-    }
-    /* Solid-blue surfaces keep a deep royal blue so white text stays readable */
-    [data-theme="dark"] .msg.user, [data-theme="dark"] .send-btn, [data-theme="dark"] .exam-bar,
-    [data-theme="dark"] .ltab.on, [data-theme="dark"] .exam-strip button,
-    [data-theme="dark"] .exam-strip .badge, [data-theme="dark"] .sketch-tools button.primary {
-      background: #2f54c0;
-    }
-    [data-theme="dark"] .hero { background: #22337a; }
-    [data-theme="dark"] .recap-btn:hover:not(:disabled), [data-theme="dark"] .speak-btn:hover,
-    [data-theme="dark"] .speak-btn.on { background: #2f54c0; border-color: #2f54c0; }
-    [data-theme="dark"] .ltab.on { border-color: #2f54c0; color: #fff; }
-    [data-theme="dark"] .msg.error { background: #3a1616; border-color: #7a2e2e; color: #ffb4b4; }
-    [data-theme="dark"] .msg.notice { background: #1d2540; border-color: #39466f; color: #b3c0ff; }
-    [data-theme="dark"] .msg.rich code { background: rgba(255, 255, 255, 0.1); }
-    [data-theme="dark"] .msg.rich pre { background: rgba(255, 255, 255, 0.08); }
-    [data-theme="dark"] .exam-bar button, [data-theme="dark"] .practice button,
-    [data-theme="dark"] .hero-cta { color: #1b2340; }
-    [data-theme="dark"] .appnav { background: #141b30; }
-    [data-theme="dark"] .logo-light { display: none; }
-    [data-theme="dark"] .logo-dark { display: block; }
   </style>
 </head>
 <body>
@@ -841,6 +628,8 @@
     <symbol id="i-book" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></symbol>
     <symbol id="i-clipboard" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-beads" viewBox="0 0 24 24"><circle cx="5" cy="12" r="2.2"/><circle cx="12" cy="12" r="2.2"/><circle cx="19" cy="12" r="2.2"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></symbol>
     <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></symbol>
     <symbol id="i-chat" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
     <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
@@ -856,75 +645,25 @@
   </svg>
 
   <header>
-    <img class="logo-img logo-light" src="sumdeting-icon-blue.png" alt="SumDeTing — Barbados traced in counting beads" />
-    <img class="logo-img logo-dark" src="sumdeting-icon-cream.png" alt="" aria-hidden="true" />
-    <div>
-      <h1>SumDeTing<span class="dot">.</span></h1>
-      <p>Your Socratic study buddy, from Common Entrance to CXC. I guide you to the answer — I never hand it over.</p>
+    <div class="brand">
+      <span class="mark2x2" role="img" aria-label="SumDeTing">
+        <span class="op plus">+</span><span class="op">−</span>
+        <span class="op">×</span><span class="op">÷</span>
+      </span>
+      <span class="wordmark"><b>Sum</b>DeTing</span>
     </div>
-    <div class="header-spacer"></div>
-    <button id="theme" class="speak-btn" type="button" title="Switch to dark mode" aria-label="Toggle light or dark mode"><svg class="icon"><use href="#i-moon"/></svg></button>
-    <button id="speak" class="speak-btn" type="button" title="Read the tutor's replies aloud" aria-pressed="false"><svg class="icon"><use href="#i-speaker"/></svg> <span id="speak-label">Read aloud</span></button>
-    <button id="recap" class="recap-btn" type="button" disabled title="Work through at least one problem first">Session recap</button>
-    <button id="new-session" class="recap-btn" type="button" title="Clear this conversation and start fresh">New session</button>
+    <div class="menu-wrap">
+      <button id="menu-btn" type="button" aria-label="Menu" aria-haspopup="true">☰</button>
+      <div id="menu" hidden>
+        <button id="speak" class="speak-btn" type="button" title="Read the tutor's replies aloud" aria-pressed="false"><svg class="icon"><use href="#i-speaker"/></svg> <span id="speak-label">Read aloud</span></button>
+        <button id="recap" type="button" disabled title="Work through at least one problem first"><svg class="icon"><use href="#i-file"/></svg> Session recap</button>
+        <button id="new-session" type="button" title="Clear this conversation and start fresh"><svg class="icon"><use href="#i-refresh"/></svg> New session</button>
+        <button id="theme" type="button" title="Switch theme"><svg class="icon"><use href="#i-moon"/></svg> <span id="theme-label">Dark mode</span></button>
+      </div>
+    </div>
   </header>
 
   <main>
-    <section id="view-home" class="view active" aria-label="Home">
-    <div class="hero">
-      <img src="sumdeting-icon-cream.png" alt="" aria-hidden="true" />
-      <div>
-        <h2>Every problem, <span>bead by bead</span></h2>
-        <p>I guide you to the answer step by step — I never just hand it over.</p>
-        <button id="practice-btn" type="button" class="hero-cta">Give me a problem</button>
-      </div>
-    </div>
-
-    <div class="goal">
-      <div class="txt">
-        <h3>Your string</h3>
-        <p id="goal-sub">Solve a problem today to start your string</p>
-        <span id="mastery" class="mastery" hidden></span>
-      </div>
-      <div id="goal-beads" class="beads" aria-hidden="true"></div>
-    </div>
-
-    <!-- Hidden selects: single source of truth for level/topic (kept for JS + saved prefs) -->
-    <div class="practice" aria-label="Practice mode" hidden>
-      <select id="level" aria-label="Level">
-        <option>Common Entrance</option>
-        <option selected>CSEC</option>
-        <option>Additional Maths</option>
-        <option>CAPE</option>
-      </select>
-      <select id="topic" aria-label="Topic">
-        <option>Fractions & Decimals</option>
-        <option>Percentages & Money</option>
-        <option selected>Algebra</option>
-        <option>Geometry & Mensuration</option>
-        <option>Ratio & Proportion</option>
-        <option>Statistics & Probability</option>
-        <option>Functions & Graphs</option>
-        <option>Trigonometry</option>
-      </select>
-    </div>
-
-    <div class="section-title">Your level</div>
-    <div id="level-tabs" class="level-tabs" role="group" aria-label="Choose your level"></div>
-
-    <div class="section-title">Topics — tap one for a problem</div>
-    <div id="topic-grid" class="grid" role="group" aria-label="Choose a topic"></div>
-
-    <div class="exam-strip" id="exam-link" role="button" tabindex="0" aria-label="Open Exam Mode">
-      <div class="badge"><svg class="icon"><use href="#i-clock"/></svg></div>
-      <div class="es-txt">
-        <h4>Exam Mode</h4>
-        <p>Timed practice, real CSEC conditions — plus past papers</p>
-      </div>
-      <button type="button" tabindex="-1">Open</button>
-    </div>
-    </section><!-- /view-home -->
-
     <div id="exam-bar" class="exam-bar" role="timer">
       <span><svg class="icon"><use href="#i-clock"/></svg> Exam in progress</span>
       <span id="exam-time" class="time">60:00</span>
@@ -932,66 +671,155 @@
       <button id="exam-end" type="button">End exam</button>
     </div>
 
-    <section id="view-practice" class="view" aria-label="Exam practice">
-    <div class="exam-strip">
-      <div class="badge"><svg class="icon"><use href="#i-clock"/></svg></div>
-      <div class="es-txt">
-        <h4>Exam Mode</h4>
-        <p>No hints while the clock runs — just like the real thing</p>
+    <!-- ============ HOME ============ -->
+    <section id="view-home" class="view active" aria-label="Home">
+      <div class="home-hero">
+        <span class="float">
+          <img class="logo-light" src="sumdeting-icon-blue.png" alt="" aria-hidden="true" />
+          <img class="logo-dark" src="sumdeting-icon-cream.png" alt="" aria-hidden="true" />
+        </span>
+        <h1>Your Socratic study buddy, from Common Entrance to CXC.</h1>
+        <p>I guide you to the answer, bead by bead — I never hand it over.</p>
       </div>
-      <select id="exam-duration" aria-label="Exam length">
-        <option value="30">30 min</option>
-        <option value="60" selected>60 min</option>
-        <option value="90">90 min</option>
-        <option value="160">2h 40m (P2)</option>
-      </select>
-      <button id="exam-btn" type="button">Start</button>
-    </div>
 
-    <details class="papers" open>
-      <summary><svg class="icon"><use href="#i-book"/></svg> CSEC Past Papers (2004–2025)</summary>
-      <p class="papers-tip">Open a paper, screenshot a question, then send it to me with the camera button and we'll work it together.</p>
-      <div id="papers-grid" class="papers-grid"></div>
-      <p class="papers-credit">Papers hosted by <a href="https://www.csecmathtutor.com/past-papers.html" rel="noopener" target="_blank">CSEC Math Tutor</a>.</p>
-    </details>
-    </section><!-- /view-practice -->
+      <div class="cta-stack">
+        <button id="practice-btn" type="button" class="cta-primary">Give me a problem</button>
+        <button id="snap-btn" type="button" class="cta-ghost">Snap a photo of a question</button>
+      </div>
 
+      <div class="steps-card">
+        <div class="kicker">Every problem, bead by bead</div>
+        <div class="step"><span class="n">1</span><p>Bring a problem — type it, snap it, or grab a past paper.</p></div>
+        <div class="step"><span class="n">2</span><p>I ask the next question — you place the next bead.</p></div>
+        <div class="step gold"><span class="n">3</span><p>The string grows. You get there yourself.</p></div>
+      </div>
+
+      <div class="row-head"><b>Topics</b><span>tap one for a problem</span></div>
+      <div id="topic-grid" class="chips-row" role="group" aria-label="Choose a topic"></div>
+
+      <div class="row-head"><b>Your level</b></div>
+      <div id="level-tabs" class="seg-row" role="group" aria-label="Choose your level"></div>
+
+      <!-- Hidden selects: single source of truth for level/topic (kept for JS + saved prefs) -->
+      <div class="practice" aria-label="Practice mode" hidden>
+        <select id="level" aria-label="Level">
+          <option>Common Entrance</option>
+          <option selected>CSEC</option>
+          <option>Additional Maths</option>
+          <option>CAPE</option>
+        </select>
+        <select id="topic" aria-label="Topic">
+          <option>Fractions & Decimals</option>
+          <option>Percentages & Money</option>
+          <option selected>Algebra</option>
+          <option>Geometry & Mensuration</option>
+          <option>Ratio & Proportion</option>
+          <option>Statistics & Probability</option>
+          <option>Functions & Graphs</option>
+          <option>Trigonometry</option>
+        </select>
+        <select id="exam-duration" aria-label="Exam length">
+          <option value="30">30 min</option>
+          <option value="60" selected>60 min</option>
+          <option value="90">90 min</option>
+          <option value="160">2h 40m (P2)</option>
+        </select>
+      </div>
+
+      <div class="home-foot">
+        Made in Barbados · Built with Claude on Amazon Bedrock · <a href="https://github.com/christophercorbin/math-mentor" rel="noopener">Source on GitHub</a>
+      </div>
+    </section>
+
+    <!-- ============ STRING ============ -->
+    <section id="view-string" class="view" aria-label="Your string">
+      <h2 class="page-h2">Your string</h2>
+      <p class="page-sub">Every solved step is a bead. Keep it growing, little by little.</p>
+      <div class="string-stat">
+        <div class="top">
+          <div><div id="string-count" class="big">0</div><div class="lbl">beads this week</div></div>
+          <div><div class="streak"><span id="string-streak">0</span> 🔥</div><div class="lbl">day streak</div></div>
+        </div>
+        <div id="string-beads" class="string-beads"></div>
+      </div>
+      <div id="string-topics" class="topic-status"></div>
+      <span id="mastery" class="mastery" hidden></span>
+    </section>
+
+    <!-- ============ EXAM ============ -->
+    <section id="view-practice" class="view" aria-label="Exam practice">
+      <h2 class="page-h2">Exam Mode</h2>
+      <p class="page-sub">Timed practice under real CSEC conditions. No hints while the clock runs — just like the real thing.</p>
+      <div id="duration-rows" class="duration-rows" role="group" aria-label="Exam length">
+        <button type="button" data-min="30">30 min<span>short set</span></button>
+        <button type="button" data-min="60">60 min<span>standard</span></button>
+        <button type="button" data-min="90">90 min<span>extended</span></button>
+        <button type="button" data-min="160">2h 40m<span>Paper 2</span></button>
+      </div>
+      <button id="exam-btn" type="button" class="cta-primary">Start exam</button>
+      <button id="papers-open" type="button" class="papers-card">
+        <div class="kicker">Or work a real paper</div>
+        <div class="t">CSEC Past Papers 2004–2025</div>
+        <div class="d">Screenshot a question, send it to me, and we'll work it together.</div>
+      </button>
+    </section>
+
+    <!-- ============ TUTOR ============ -->
     <div id="sr-live" class="sr-only" aria-live="polite" role="status"></div>
     <section id="view-chat" class="view" aria-label="Tutor chat">
-    <div id="chat">
-      <div class="msg tutor">Hi! I'm SumDeTing. Whether it's Common Entrance practice or CSEC Maths, type your problem, snap a photo of it with the camera button, grab a past paper from the drawer above, or hit "Give me a problem", and we'll work through it together, bead by bead.</div>
-    </div>
+      <div class="chat-top">
+        <img class="logo-light" src="sumdeting-icon-blue.png" alt="" aria-hidden="true" />
+        <img class="logo-dark" src="sumdeting-icon-cream.png" alt="" aria-hidden="true" />
+        <div class="t"><b>SumDeTing</b><span id="chat-context">Socratic tutor · I never hand the answer over</span></div>
+      </div>
+      <div id="chat">
+        <div class="msg tutor">Hi! I'm SumDeTing. Whether it's Common Entrance practice or CSEC Maths, type your problem, snap a photo of it with the camera button, grab a past paper from the Exam page, or hit "Give me a problem", and we'll work through it together, bead by bead.</div>
+      </div>
 
-    <form id="composer">
-      <div id="chips" class="chips" hidden></div>
-      <div id="mathbar" class="mathbar" aria-label="Insert a math symbol">
-        <span class="mathbar-label" aria-hidden="true">Symbols</span>
-        <button type="button" data-ins="²" title="Squared">x²</button>
-        <button type="button" data-ins="³" title="Cubed">x³</button>
-        <button type="button" data-ins="√" title="Square root">√</button>
-        <button type="button" data-ins="÷" title="Divided by">÷</button>
-        <button type="button" data-ins="×" title="Times">×</button>
-        <button type="button" data-ins="π" title="Pi">π</button>
-        <button type="button" data-ins="°" title="Degrees">°</button>
-        <button type="button" data-ins="≤" title="Less than or equal">≤</button>
-        <button type="button" data-ins="≥" title="Greater than or equal">≥</button>
-      </div>
-      <div id="attachment" class="attachment-preview">
-        <img id="attachment-img" alt="Attached problem photo" />
-        <span>Photo attached</span>
-        <button id="attachment-remove" type="button" aria-label="Remove photo">✕</button>
-      </div>
-      <div class="composer-row">
-        <input id="file" type="file" accept="image/*" hidden />
-        <button id="photo" class="photo-btn" type="button" aria-label="Attach a photo of your problem" title="Attach a photo"><svg class="icon"><use href="#i-camera"/></svg></button>
-        <button id="sketch" class="photo-btn" type="button" aria-label="Draw your working by hand" title="Draw your working"><svg class="icon"><use href="#i-pencil"/></svg></button>
-        <button id="mic" class="photo-btn" type="button" aria-label="Speak your problem" title="Speak your problem"><svg class="icon"><use href="#i-mic"/></svg></button>
-        <textarea id="input" aria-label="Type your maths problem" placeholder="e.g. Solve 2x + 6 = 18. I tried subtracting 2 but got stuck..."></textarea>
-        <button id="send" class="send-btn" type="submit">Send</button>
-      </div>
-    </form>
-    </section><!-- /view-chat -->
+      <form id="composer">
+        <div id="chips" class="chips" hidden></div>
+        <div id="mathbar" class="mathbar" aria-label="Insert a math symbol">
+          <span class="mathbar-label" aria-hidden="true">Symbols</span>
+          <button type="button" data-ins="²" title="Squared">x²</button>
+          <button type="button" data-ins="³" title="Cubed">x³</button>
+          <button type="button" data-ins="√" title="Square root">√</button>
+          <button type="button" data-ins="÷" title="Divided by">÷</button>
+          <button type="button" data-ins="×" title="Times">×</button>
+          <button type="button" data-ins="π" title="Pi">π</button>
+          <button type="button" data-ins="°" title="Degrees">°</button>
+          <button type="button" data-ins="≤" title="Less than or equal">≤</button>
+          <button type="button" data-ins="≥" title="Greater than or equal">≥</button>
+        </div>
+        <div id="attachment" class="attachment-preview">
+          <img id="attachment-img" alt="Attached problem photo" />
+          <span>Photo attached</span>
+          <button id="attachment-remove" type="button" aria-label="Remove photo">✕</button>
+        </div>
+        <div class="composer-row">
+          <input id="file" type="file" accept="image/*" hidden />
+          <button id="photo" class="photo-btn" type="button" aria-label="Attach a photo of your problem" title="Attach a photo"><svg class="icon"><use href="#i-camera"/></svg></button>
+          <button id="sketch" class="photo-btn" type="button" aria-label="Draw your working by hand" title="Draw your working"><svg class="icon"><use href="#i-pencil"/></svg></button>
+          <button id="mic" class="photo-btn" type="button" aria-label="Speak your problem" title="Speak your problem"><svg class="icon"><use href="#i-mic"/></svg></button>
+          <textarea id="input" aria-label="Type your maths problem" placeholder="Type your working…"></textarea>
+          <button id="send" class="send-btn" type="submit" aria-label="Send"><svg class="icon"><use href="#i-send"/></svg></button>
+        </div>
+      </form>
+    </section>
   </main>
+
+  <!-- Past papers bottom sheet -->
+  <div id="papers-sheet" class="sheet" hidden role="dialog" aria-modal="true" aria-label="CSEC past papers">
+    <div class="sheet-card">
+      <div class="sheet-grab"></div>
+      <div class="sheet-head">
+        <h3>CSEC Past Papers</h3>
+        <button id="papers-close" type="button">Close</button>
+      </div>
+      <p class="sheet-tip">Open a paper, screenshot a question, then send it to me with the camera button and we'll work it together.</p>
+      <div id="papers-grid" class="papers-grid"></div>
+      <p class="papers-credit">Papers hosted by <a href="https://www.csecmathtutor.com/past-papers.html" rel="noopener" target="_blank">CSEC Math Tutor</a>.</p>
+    </div>
+  </div>
 
   <div id="sketch-modal" class="sketch-modal" hidden role="dialog" aria-modal="true" aria-label="Draw your working">
     <div class="sketch-card">
@@ -1008,14 +836,14 @@
   </div>
 
   <nav class="appnav" aria-label="Main navigation">
-    <button id="nav-home" class="on" type="button"><svg class="icon"><use href="#i-home"/></svg><span>Home</span></button>
-    <button id="nav-practice" type="button"><svg class="icon"><use href="#i-clock"/></svg><span>Exam</span></button>
-    <button id="nav-chat" type="button"><svg class="icon"><use href="#i-chat"/></svg><span>Tutor</span></button>
+    <div class="inner">
+      <button id="nav-home" class="on" type="button"><span class="bar"></span><svg class="icon"><use href="#i-home"/></svg><span>Home</span></button>
+      <button id="nav-chat" type="button"><span class="bar"></span><svg class="icon"><use href="#i-pencil"/></svg><span>Tutor</span></button>
+      <button id="nav-string" type="button"><span class="bar"></span><svg class="icon"><use href="#i-beads"/></svg><span>String</span></button>
+      <button id="nav-practice" type="button"><span class="bar"></span><svg class="icon"><use href="#i-clock"/></svg><span>Exam</span></button>
+    </div>
   </nav>
 
-  <footer>
-    <span class="bead"></span><span class="bead gold"></span><span class="bead"></span> Made in Barbados · Built with Claude on Amazon Bedrock · AWS Lambda · <a href="https://github.com/christophercorbin/math-mentor" rel="noopener">Source on GitHub</a> <span class="bead"></span><span class="bead gold"></span><span class="bead"></span>
-  </footer>
 
   <script>
     // Set at deploy time: the Lambda Function URL from the OpenTofu output.
@@ -1477,6 +1305,11 @@
         else t.attempted += 1;
       }
       bumpStreak(m);
+      if (topic && solved) {
+        m.days ??= {};
+        const today = new Date().toISOString().slice(0, 10);
+        m.days[today] = (m.days[today] || 0) + 1;
+      }
       saveMastery(m);
       renderMastery();
     }
@@ -1914,109 +1747,16 @@
     });
 
 
-    // ---- SumDeTing home: level tabs, topic cards, bead strings ----
+    // ---- Views (Home / Tutor / String / Exam) ----
 
-    const LEVELS = ["Common Entrance", "CSEC", "Additional Maths", "CAPE"];
-    const TOPIC_ICONS = {
-      "Fractions & Decimals": "i-pie",
-      "Percentages & Money": "i-coins",
-      "Algebra": "i-calcpad",
-      "Geometry & Mensuration": "i-ruler",
-      "Ratio & Proportion": "i-scale",
-      "Statistics & Probability": "i-chart",
-      "Functions & Graphs": "i-trend",
-      "Trigonometry": "i-triangle",
-    };
-    const levelTabs = document.getElementById("level-tabs");
-    const topicGrid = document.getElementById("topic-grid");
-    const goalBeads = document.getElementById("goal-beads");
-    const goalSub = document.getElementById("goal-sub");
-
-    function beadString(el, filled, total) {
-      el.textContent = "";
-      for (let i = 0; i < total; i++) {
-        const dot = document.createElement("i");
-        if (i >= filled) dot.className = "empty";
-        else if (i === filled - 1) dot.className = "gold";
-        el.appendChild(dot);
-      }
-    }
-
-    for (const lv of LEVELS) {
-      const b = document.createElement("button");
-      b.type = "button";
-      b.className = "ltab" + (levelSel.value === lv ? " on" : "");
-      b.textContent = lv;
-      b.addEventListener("click", () => {
-        levelSel.value = lv;
-        levelSel.dispatchEvent(new Event("change")); // persists prefs
-        levelTabs.querySelectorAll(".ltab").forEach((x) => x.classList.toggle("on", x === b));
-      });
-      levelTabs.appendChild(b);
-    }
-
-    function renderTopics() {
-      const m = loadMastery();
-      topicGrid.textContent = "";
-      for (const opt of topicSel.options) {
-        const topic = opt.value;
-        const t = m.topics[topic];
-        const card = document.createElement("button");
-        card.type = "button";
-        card.className = "topic";
-        card.disabled = busy;
-        const ic = document.createElement("span");
-        ic.className = "t-ic";
-        ic.appendChild(iconSvg(TOPIC_ICONS[topic] || "i-calcpad"));
-        const h = document.createElement("h4");
-        h.textContent = topic;
-        const sub = document.createElement("span");
-        sub.className = "t-sub";
-        sub.textContent = t?.solved ? `${t.solved} solved` : t?.attempted ? "in progress" : "not started";
-        const beads = document.createElement("span");
-        beads.className = "beads";
-        beadString(beads, Math.min(t?.solved ?? 0, 5), 5);
-        card.append(ic, h, sub, beads);
-        card.addEventListener("click", () => {
-          topicSel.value = topic;
-          topicSel.dispatchEvent(new Event("change")); // persists prefs
-          practiceBtn.click();
-        });
-        topicGrid.appendChild(card);
-      }
-    }
-
-    function renderGoal() {
-      const m = loadMastery();
-      const n = m.streak.count;
-      beadString(goalBeads, Math.min(n, 7), 7);
-      goalSub.textContent =
-        n > 1 ? `${n}-day streak — keep the string going` :
-        n === 1 ? "Day 1 — come back tomorrow to grow the string" :
-        "Solve a problem today to start your string";
-    }
-
-    // Re-render the bead strings whenever mastery updates.
-    const baseRenderMastery = renderMastery;
-    renderMastery = function () {
-      baseRenderMastery();
-      renderGoal();
-      renderTopics();
-    };
-
-    renderGoal();
-    renderTopics();
-
-
-
-    // ---- Views (Home / Exam / Tutor) ----
-
-    const VIEWS = ["home", "practice", "chat"];
+    const VIEWS = ["home", "chat", "string", "practice"];
     function goView(v) {
       for (const name of VIEWS) {
         document.getElementById("view-" + name).classList.toggle("active", name === v);
         document.getElementById("nav-" + name).classList.toggle("on", name === v);
       }
+      if (typeof menuEl !== "undefined") menuEl.hidden = true;
+      if (v === "string") renderString();
       if (v === "chat") scrollToBottom(false);
       else window.scrollTo({ top: 0 });
     }
@@ -2024,14 +1764,19 @@
       document.getElementById("nav-" + name).addEventListener("click", () => goView(name));
     }
 
-    // Home's Exam Mode card opens the Exam view.
-    const examLink = document.getElementById("exam-link");
-    examLink.addEventListener("click", () => goView("practice"));
-    examLink.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); goView("practice"); }
+    // ---- Header menu ----
+
+    const menuEl = document.getElementById("menu");
+    const menuBtn = document.getElementById("menu-btn");
+    menuBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      menuEl.hidden = !menuEl.hidden;
+    });
+    document.addEventListener("click", (e) => {
+      if (!menuEl.hidden && !menuEl.contains(e.target)) menuEl.hidden = true;
     });
 
-    // ---- Theme toggle (light / dark, remembered on this device) ----
+    // ---- Theme toggle (chalk light / espresso dark, remembered) ----
 
     const THEME_KEY = "sumdeting.theme";
     const themeBtn = document.getElementById("theme");
@@ -2040,15 +1785,14 @@
     function applyTheme(t) {
       document.documentElement.dataset.theme = t;
       themeBtn.querySelector("use").setAttribute("href", t === "dark" ? "#i-sun" : "#i-moon");
-      themeBtn.title = t === "dark" ? "Switch to light mode" : "Switch to dark mode";
-      document.getElementById("meta-theme")?.setAttribute("content", t === "dark" ? "#0f1526" : "#f8f4ea");
+      document.getElementById("theme-label").textContent = t === "dark" ? "Light mode" : "Dark mode";
+      document.getElementById("meta-theme")?.setAttribute("content", t === "dark" ? "#211D16" : "#F4EEE0");
     }
 
     let storedTheme = null;
     try { storedTheme = localStorage.getItem(THEME_KEY); } catch { /* ignore */ }
     applyTheme(storedTheme || (themeMedia.matches ? "dark" : "light"));
 
-    // Follow the OS if the student hasn't chosen explicitly.
     themeMedia.addEventListener("change", (e) => {
       let s = null;
       try { s = localStorage.getItem(THEME_KEY); } catch { /* ignore */ }
@@ -2060,6 +1804,125 @@
       try { localStorage.setItem(THEME_KEY, next); } catch { /* ignore */ }
       applyTheme(next);
     });
+
+    // ---- Home: "Snap a photo" shortcut ----
+
+    document.getElementById("snap-btn").addEventListener("click", () => {
+      goView("chat");
+      fileInput.click();
+    });
+
+    // ---- Level segments ----
+
+    const LEVELS = ["Common Entrance", "CSEC", "Additional Maths", "CAPE"];
+    const levelTabs = document.getElementById("level-tabs");
+    for (const lv of LEVELS) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "seg" + (levelSel.value === lv ? " on" : "");
+      b.textContent = lv === "CSEC" ? "CSEC / CXC" : lv;
+      b.addEventListener("click", () => {
+        levelSel.value = lv;
+        levelSel.dispatchEvent(new Event("change")); // persists prefs
+        levelTabs.querySelectorAll(".seg").forEach((x) => x.classList.toggle("on", x === b));
+      });
+      levelTabs.appendChild(b);
+    }
+
+    // ---- Topic chips ----
+
+    const TOPIC_SHORT = {
+      "Fractions & Decimals": "Fractions",
+      "Percentages & Money": "Percentages",
+      "Algebra": "Algebra",
+      "Geometry & Mensuration": "Geometry",
+      "Ratio & Proportion": "Ratios",
+      "Statistics & Probability": "Statistics",
+      "Functions & Graphs": "Graphs",
+      "Trigonometry": "Trigonometry",
+    };
+    const topicGrid = document.getElementById("topic-grid");
+    const chatContext = document.getElementById("chat-context");
+    for (const opt of topicSel.options) {
+      const topic = opt.value;
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "tchip";
+      b.textContent = TOPIC_SHORT[topic] || topic;
+      b.addEventListener("click", () => {
+        topicSel.value = topic;
+        topicSel.dispatchEvent(new Event("change")); // persists prefs
+        chatContext.textContent = `${TOPIC_SHORT[topic] || topic} · ${levelSel.value}`;
+        practiceBtn.click();
+      });
+      topicGrid.appendChild(b);
+    }
+
+    // ---- Exam duration rows ----
+
+    const durationRows = document.getElementById("duration-rows");
+    for (const row of durationRows.querySelectorAll("button")) {
+      if (row.dataset.min === durationSel.value) row.classList.add("on");
+      row.addEventListener("click", () => {
+        durationSel.value = row.dataset.min;
+        durationSel.dispatchEvent(new Event("change")); // persists prefs
+        durationRows.querySelectorAll("button").forEach((x) => x.classList.toggle("on", x === row));
+      });
+    }
+
+    // ---- Past papers bottom sheet ----
+
+    const papersSheet = document.getElementById("papers-sheet");
+    document.getElementById("papers-open").addEventListener("click", () => { papersSheet.hidden = false; });
+    document.getElementById("papers-close").addEventListener("click", () => { papersSheet.hidden = true; });
+    papersSheet.addEventListener("click", (e) => {
+      if (e.target === papersSheet) papersSheet.hidden = true;
+    });
+
+    // ---- Your string ----
+
+    function beadsThisWeek(m) {
+      let n = 0;
+      for (let i = 0; i < 7; i++) {
+        const d = new Date(Date.now() - i * 864e5).toISOString().slice(0, 10);
+        n += m.days?.[d] || 0;
+      }
+      return n;
+    }
+
+    function renderString() {
+      const m = loadMastery();
+      const weekly = beadsThisWeek(m);
+      document.getElementById("string-count").textContent = weekly;
+      document.getElementById("string-streak").textContent = m.streak.count;
+      const grid = document.getElementById("string-beads");
+      grid.textContent = "";
+      const slots = Math.min(Math.max(weekly, 21), 42);
+      for (let i = 0; i < slots; i++) {
+        const s = document.createElement("span");
+        if (i >= weekly) s.className = "empty";
+        grid.appendChild(s);
+      }
+      const list = document.getElementById("string-topics");
+      list.textContent = "";
+      for (const opt of topicSel.options) {
+        const t = m.topics[opt.value];
+        const row = document.createElement("div");
+        row.className = "trow";
+        const name = document.createElement("span");
+        name.textContent = opt.value;
+        const status = document.createElement("b");
+        if ((t?.solved ?? 0) >= 5) { status.textContent = "mastered"; status.className = "s-done"; }
+        else if (t?.solved || t?.attempted) { status.textContent = "in progress"; status.className = "s-mid"; }
+        else { status.textContent = "not started"; status.className = "s-new"; }
+        row.append(name, status);
+        list.appendChild(row);
+      }
+    }
+
+    renderString();
+
+
 
     // Restore any saved session once the deferred libraries (marked, DOMPurify,
     // KaTeX) have executed, so restored replies render with full formatting.
