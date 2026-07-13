@@ -31,7 +31,7 @@ variable "monthly_budget_usd" {
 variable "domain_name" {
   description = "Custom domain for the site. Empty string disables the custom-domain resources entirely."
   type        = string
-  default     = "mathmentor.christophercorbin.cloud"
+  default     = "sumdeting.246labs.cloud"
 }
 
 variable "dns_role_arn" {
@@ -41,9 +41,9 @@ variable "dns_role_arn" {
 }
 
 variable "dns_zone_id" {
-  description = "Hosted zone id for christophercorbin.cloud (authoritative, mgmt account)."
+  description = "Hosted zone id for 246labs.cloud (authoritative, mgmt account)."
   type        = string
-  default     = "Z08882413R82BOPJVWS7Z"
+  default     = "Z02305342HXRSXC7R8OX5"
 }
 
 variable "dns_external_id" {

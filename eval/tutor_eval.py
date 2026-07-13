@@ -26,7 +26,7 @@ import json
 import os
 import urllib.request
 
-BASE_URL = os.environ.get("BASE_URL", "https://mathmentor.christophercorbin.cloud")
+BASE_URL = os.environ.get("BASE_URL", "https://sumdeting.246labs.cloud")
 API = BASE_URL.rstrip("/") + "/api"
 
 PROBLEM = "Solve for x: 3(x-2)+5 = 2x+9. Show your working."   # correct answer: x = 10

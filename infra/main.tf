@@ -17,7 +17,7 @@ provider "aws" {
 }
 
 # Cross-account provider: assumes Route53RecordWriter in the DNS management
-# account (438465156498) to write records in christophercorbin.cloud.
+# account (438465156498) to write records in 246labs.cloud.
 provider "aws" {
   alias  = "dns"
   region = "us-east-1"
